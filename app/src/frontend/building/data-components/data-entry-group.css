@@ -1,0 +1,19 @@
+.data-entry-group-header {
+    cursor: pointer;
+    position: relative;
+    font-size: 1.1rem;
+    font-weight: 410;
+}
+.data-entry-group-header .data-entry-group-title {
+    padding-left: 0.6rem;
+}
+
+.data-entry-group-count {
+    font-size: 0.8em;
+    color: gray;
+}
+
+.data-entry-group-body {
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+}
