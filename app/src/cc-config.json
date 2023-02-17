@@ -1,9 +1,9 @@
 {
-    "cityName": "Cities",
-    "projectBlurb": "Colouring Cities is part of the Colouring Cities Research Programme (CCRP)",
-    "githubURL": "https://github.com/colouring-cities/colouring-core",
-    "privacyStatement": "Colouring Cities stores your data... [PRIVACY DATA GOES HERE].",
+    "cityName": "Dresden",
+    "projectBlurb": "Colouring Dresden ist Teil des internationalen Forschungsnetzwerkes Colouring Cities Research Programme (CCRP)",
+    "githubURL": "https://github.com/colouring-cities/colouring-dresden",
+    "privacyStatement": "Colouring Dresden speichert alle Daten auf einem Server in Deutschland.",
 
-    "initialMapPosition": [ 51.5245255, -0.1338422 ],
+    "initialMapPosition": [ 51.049259, 13.73836 ],
     "initialZoomLevel": 16
 }
