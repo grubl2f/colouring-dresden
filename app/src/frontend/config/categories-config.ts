@@ -66,7 +66,7 @@ export const categoriesConfig: {[key in Category]: CategoryDefinition} = {
     },
     [Category.Construction]: {
         slug: 'construction',
-        name: 'Baukonstruktion',
+        name: 'Konstruktion',
         aboutUrl: 'https://pages.colouring.london/construction',
         intro: 'Wie sind die Gebäude gebaut?',
     },
