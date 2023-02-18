@@ -24,7 +24,7 @@ export function CityBaseMapLayer({ theme }: { theme: MapTheme }) {
     const theme_class = theme === 'light' ? "light-theme" : "night-theme";
 
     const baseUrl = `http://a.tile.openstreetmap.org/{z}/{x}/{y}.png`;
-    const attribution = `Building attribute data is © Colouring Cities contributors. Maps contain OS data © Crown copyright: OS Maps baselayers and building outlines. <a href=/ordnance-survey-licence.html>OS licence</a>`;
+    const attribution = `Gebäudemerkmale von © Colouring Dresden Mitwirkenden. Basiskarte: © <a href=https://www.openstreetmap.org/copyright>OpenStreetMap</a> Mitwirkende`;
 
     return <TileLayer
         url={baseUrl}
