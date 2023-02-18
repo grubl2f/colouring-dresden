@@ -50,7 +50,7 @@ export const categoriesConfig: {[key in Category]: CategoryDefinition} = {
         slug: 'age',
         name: 'Alter & Geschichte',
         aboutUrl: 'https://pages.colouring.london/age',
-        intro: 'Daten zum Gebäudealter können Energieanalysea unterstützen und helfen, langfristige Veränderungen vorherzusagen.',
+        intro: 'Daten zum Gebäudealter können vielfältige Analysen unterstützen und helfen, langfristige Veränderungen vorherzusagen.',
     },
     [Category.Size]: {
         slug: 'size',
