@@ -23,8 +23,8 @@ export function CityBaseMapLayer({ theme }: { theme: MapTheme }) {
     // In either theme case, we will use OS's light theme, but add our own filter
     const theme_class = theme === 'light' ? "light-theme" : "night-theme";
 
-    const baseUrl = `https://api.os.uk/maps/raster/v1/zxy/${layer}/{z}/{x}/{y}.png?key=${apiKey}`;
-    const attribution = `Gebäudemerkmale von © Colouring Dresden Mitwirkenden. Basiskarte: © <a href=https://www.openstreetmap.org/copyright>OpenStreetMap</a> Mitwirkende`;
+    const baseUrl = `http://a.tile.openstreetmap.org/{z}/{x}/{y}.png`;
+    const attribution = `Gebäudemerkmale von © <a href=https://colouring.dresden.ioer.info>Colouring Dresden</a> Mitwirkenden. Basiskarte: © <a href=https://www.openstreetmap.org/copyright>OpenStreetMap</a> Mitwirkende`;
 
     return <TileLayer
         url={baseUrl}
