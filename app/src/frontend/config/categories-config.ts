@@ -90,7 +90,7 @@ export const categoriesConfig: {[key in Category]: CategoryDefinition} = {
     },
     [Category.Sustainability]: {
         slug: 'sustainability',
-        name: 'Energieeffizienz',
+        name: 'Energie',
         aboutUrl: 'https://pages.colouring.london/sustainability',
         intro: 'Sind Gebäude energieeffizient?',
     },
