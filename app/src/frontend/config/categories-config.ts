@@ -48,7 +48,7 @@ interface CategoryDefinition {
 export const categoriesConfig: {[key in Category]: CategoryDefinition} = {
     [Category.Age]: {
         slug: 'age',
-        name: 'Alter & Baugeschichte',
+        name: 'Alter & Geschichte',
         aboutUrl: 'https://pages.colouring.london/age',
         intro: 'Daten zum Gebäudealter können Energieanalysea unterstützen und helfen, langfristige Veränderungen vorherzusagen.',
     },
