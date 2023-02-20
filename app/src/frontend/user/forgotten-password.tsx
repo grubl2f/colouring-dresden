@@ -49,10 +49,10 @@ export default class ForgottenPassword extends React.Component<{}, ForgottenPass
             } else if (data.success === true) {
                 this.setState({ success: true, emailUsed: emailSent});
             } else {
-                this.setState({ error: 'Unexpected result.' });
+                this.setState({ error: 'Etwas schlug fehl.' });
             }
         } catch (err) {
-            this.setState({ error: 'Something went wrong.' });
+            this.setState({ error: 'Etwas schlug fehl.' });
         }
     }
 
@@ -65,7 +65,7 @@ export default class ForgottenPassword extends React.Component<{}, ForgottenPass
                     <ErrorBox msg={this.state.error} />
                     <InfoBox msg="">
                         {this.state.success ?
-                            `If the email address is registered on Colouring ${config.cityName}, a password reset link will be sent to ${this.state.emailUsed}. Please check your inbox.` :
+                            `Wenn diese E-Mail Adresse schon bei Colouring ${config.cityName} registriert ist, wird ein Passwort zum Zurücksetzen an folgende E-Mail Adresse verschickt:  ${this.state.emailUsed}. Bitte prüfe deinen Posteingang.` :
                             null
                         }
                     </InfoBox>
@@ -73,12 +73,12 @@ export default class ForgottenPassword extends React.Component<{}, ForgottenPass
                         <label htmlFor="email">E-mail</label>
                         <input name="email" id="email"
                             className="form-control" type="email"
-                            placeholder="Your e-mail address" required
+                            placeholder="Deine E-Mail Adresse" required
                             onChange={e => this.handleChange(e)}
                         />
 
                         <div className="buttons-container">
-                            <input type="submit" value="Request password reset" className="btn btn-primary" />
+                            <input type="submit" value="E-Mail zum Zurücksetzen anfordern" className="btn btn-primary" />
                         </div>
                     </form>
                 </section>
