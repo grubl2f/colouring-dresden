@@ -60,8 +60,8 @@ export default class ForgottenPassword extends React.Component<{}, ForgottenPass
         return (
             <article>
                 <section className="main-col">
-                    <h1 className="h2">Forgotten password</h1>
-                    <p>Please provide the e-mail address associated with your account. A password reset link will be sent to your mailbox.</p>
+                    <h1 className="h2">Passwort zurücksetzen</h1>
+                    <p>Bitte gib die für den Account genutzte E-Mail Adresse an. Ein Link zum Zurücksetzen des Passworts wird an diese E-Mail Adresse verschickt.</p>
                     <ErrorBox msg={this.state.error} />
                     <InfoBox msg="">
                         {this.state.success ?
