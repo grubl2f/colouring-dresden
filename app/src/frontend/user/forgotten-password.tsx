@@ -65,7 +65,7 @@ export default class ForgottenPassword extends React.Component<{}, ForgottenPass
                     <ErrorBox msg={this.state.error} />
                     <InfoBox msg="">
                         {this.state.success ?
-                            `Wenn diese E-Mail Adresse schon bei Colouring ${config.cityName} registriert ist, wird ein Passwort zum Zurücksetzen an folgende E-Mail Adresse verschickt:  ${this.state.emailUsed}. Bitte prüfe deinen Posteingang.` :
+                            `Wenn diese E-Mail Adresse schon bei Colouring ${config.cityName} registriert ist, wird ein Passwort zum Zurücksetzen an folgende E-Mail Adresse verschickt:  ${this.state.emailUsed}. Bitte prüfen Sie Ihren Posteingang.` :
                             null
                         }
                     </InfoBox>
