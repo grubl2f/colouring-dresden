@@ -26,28 +26,27 @@ export const Login: React.FC = () => {
         login({ username, password }, setError);
     }, [username, password]);
 
-    const msgText = `Welcome to Colouring ${config.cityName}. You're one of the first people to use the site!`;
+    const msgText = `Willkommen bei Colouring ${config.cityName}. Sie gehören zu den ersten Besucher*innen auf der Plattform!`;
 
     return (
         <article>
             <section className="main-col">
                 <h1 className="h2">Log in</h1>
                 <InfoBox msg={msgText}>
-                    <br/>Please <a href="https://discuss.colouring.london/">discuss
-                    suggestions for improvements</a> and <a
-                        href="https://github.com/colouring-cities/colouring-core/issues">
-                    report issues or problems</a>.
+                    <br/>Feedback, Hinweise oder Fragen bitte per E-Mail an colouringdresden@ioer.de . Oder direkt <a
+                        href="https://github.com/colouring-cities/colouring-dresden/issues">
+                    hier</a> berichten.
                 </InfoBox>
                 <ErrorBox msg={error} />
                 <form onSubmit={onSubmit}>
-                    <label htmlFor="username">Username*</label>
+                    <label htmlFor="username">Benutzername*</label>
                     <input name="username" id="username"
                         className="form-control" type="text"
                         value={username} onChange={e => setUsername(e.target.value)}
-                        placeholder="please note the user name you choose will be public" required
+                        placeholder="Bitte beachten: der gewählte Benutzername ist öffentlich" required
                     />
 
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Passwort</label>
                     <input name="password" id="password"
                         className="form-control"
                         type={showPassword ? 'text' : 'password'}
@@ -61,20 +60,20 @@ export const Login: React.FC = () => {
                             checked={showPassword}
                             onChange={e => setShowPassword(e.target.checked)}
                         />
-                        <label htmlFor="show_password" className="form-check-label">Show password?</label>
+                        <label htmlFor="show_password" className="form-check-label">Passwort zeigen?</label>
                     </div>
 
-                    <Link to="/forgotten-password.html">Forgotten password?</Link>
+                    <Link to="/forgotten-password.html">Passwort vergessen?</Link>
 
                     <div className="buttons-container with-space">
                         <input type="submit" disabled={isLoading} value="Log In" className="btn btn-primary" />
                         {isLoading && <span><SpinnerIcon />Logging in...</span>}
                     </div>
 
-                    Would you like to create an account instead?
+                    Möchten Sie stattdessen einen neuen Benutzeraccount anlegen?
 
                     <div className="buttons-container with-space">
-                        <Link to="sign-up.html" className="btn btn-outline-dark">Sign Up</Link>
+                        <Link to="sign-up.html" className="btn btn-outline-dark">Registrieren</Link>
                     </div>
                 </form>
             </section>
