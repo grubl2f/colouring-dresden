@@ -29,49 +29,48 @@ export const SignUp: React.FC = () => {
         [username, email, confirmEmail, password, confirmConditions, signup]
     );
 
-    const msgName = `Welcome to Colouring ${config.cityName}. You're one of the first people to sign up!`
+    const msgName = `Willkommen bei Colouring ${config.cityName}. Sie gehören zu den ersten Besucher*innen auf der Plattform!`
 
     return (
         <article>
             <section className="main-col">
-                <h1 className="h2">Sign up</h1>
+                <h1 className="h2">Registrieren</h1>
                 <InfoBox msg={msgName}>
-                    <br/>Please <a href="https://discuss.colouring.london/">discuss
-                    suggestions for improvements</a> and <a
-                        href="https://github.com/colouring-cities/colouring-core/issues">
-                    report issues or problems</a>.
+                    <br/>Feedback, Hinweise oder Fragen bitte per E-Mail an colouringdresden@ioer.de . Oder direkt <a
+                            href="https://github.com/colouring-cities/colouring-dresden/issues">
+                        hier</a> berichten.
                 </InfoBox>
                 <p>
-                    Create an account to start colouring in.
+                    Einen neuen Account anlegen. Let´s colour ${config.cityName}!
                 </p>
                 <ErrorBox msg={error} />
                 <form onSubmit={onSubmit}>
-                    <label htmlFor="username">Username*</label>
+                    <label htmlFor="username">Benutzername*</label>
                     <input name="username" id="username"
                         className="form-control" type="text"
                         value={username} onChange={e => setUsername(e.target.value)}
-                        placeholder="not-your-real-name" required
+                        placeholder="Bitte beachten: der gewählte Benutzername ist öffentlich" required
                         minLength={4}
                         maxLength={29}
                         pattern="\w+"
-                        title="Usernames can contain only letters, numbers and the underscore"
+                        title="Der Benutzername darf nur Buchstaben, Zahlen sowie Unterstrich enthalten."
                     />
 
-                    <label htmlFor="email">Email (optional)</label>
+                    <label htmlFor="email">E-Mail (optional)</label>
                     <input name="email" id="email"
                         className="form-control" type="email"
                         value={email} onChange={e => setEmail(e.target.value)}
-                        placeholder="someone@example.com"
+                        placeholder="person@beispiel.de"
                     />
-                    <InfoBox msg="Our policy is to avoid collecting personal data wherever possible. An email address is only necessary if you wish to be able to recover your account should you forget your password." />
+                    <InfoBox msg="Die Registrierung eines neuen Accounts soll möglichst wenig Daten erfordern. Eine E-Mail Adresse wird nur zum Zurücksetzen des Passworts (bei Passwort vergessen) benötigt und ist daher optional." />
                     
-                    <label htmlFor="confirm_email">Confirm email (optional)</label>
+                    <label htmlFor="confirm_email">E-Mail bestätigen (optional)</label>
                     <input name="confirm_email" id="confirm_email"
                         className="form-control" type="email"
                         value={confirmEmail} onChange={e => setConfirmEmail(e.target.value)}
                     />
 
-                    <label htmlFor="password">Password (at least 8 characters)</label>
+                    <label htmlFor="password">Passwort (mindestens 8 Zeichen)</label>
                     <input name="password" id="password"
                         className="form-control"
                         type={(showPassword)? 'text': 'password'}
@@ -88,7 +87,7 @@ export const SignUp: React.FC = () => {
                             onChange={e => setShowPassword(e.target.checked)}
                         />
                         <label className="form-check-label" htmlFor="show_password">
-                            Show password?
+                            Passwort zeigen?
                         </label>
                     </div>
 
@@ -107,14 +106,14 @@ export const SignUp: React.FC = () => {
                     </div>
 
                     <div className="buttons-container with-space">
-                        <input type="submit" disabled={isLoading} value="Sign Up" className="btn btn-primary" />
-                        {isLoading && <span><SpinnerIcon/>Sending sign up data...</span>}
+                        <input type="submit" disabled={isLoading} value="Registrieren" className="btn btn-primary" />
+                        {isLoading && <span><SpinnerIcon/>Sende Daten für die Registrierung...</span>}
                     </div>
                     <InfoBox msg="">
-                        Please also read our <a href="https://www.pages.colouring.london/data-ethics">data ethics policy</a> before using or sharing our data
+                        Lesen Sie bitte auch unsere <a href="https://www.pages.colouring.london/data-ethics">Grundsätze zur Datenethik</a> bevor Sie unsere Daten nutzen oder verbreiten.
                     </InfoBox>
 
-                    Do you already have an account?
+                    Haben Sie bereits einen Account?
 
                     <div className="buttons-container with-space">
                         <Link to="login.html" className="btn btn-outline-dark">Log in</Link>
