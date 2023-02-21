@@ -61,7 +61,7 @@ export default class ForgottenPassword extends React.Component<{}, ForgottenPass
             <article>
                 <section className="main-col">
                     <h1 className="h2">Passwort zurücksetzen</h1>
-                    <p>Bitte gib die für den Account genutzte E-Mail Adresse an. Ein Link zum Zurücksetzen des Passworts wird an diese E-Mail Adresse verschickt.</p>
+                    <p>Bitte geben Sie die für den Account genutzte E-Mail Adresse an. Ein Link zum Zurücksetzen des Passworts wird an diese E-Mail Adresse verschickt.</p>
                     <ErrorBox msg={this.state.error} />
                     <InfoBox msg="">
                         {this.state.success ?
@@ -70,10 +70,10 @@ export default class ForgottenPassword extends React.Component<{}, ForgottenPass
                         }
                     </InfoBox>
                     <form onSubmit={e => this.handleSubmit(e)}>
-                        <label htmlFor="email">E-mail</label>
+                        <label htmlFor="email">E-Mail</label>
                         <input name="email" id="email"
                             className="form-control" type="email"
-                            placeholder="Deine E-Mail Adresse" required
+                            placeholder="Ihre E-Mail Adresse" required
                             onChange={e => this.handleChange(e)}
                         />
 
