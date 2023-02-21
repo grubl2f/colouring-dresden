@@ -37,7 +37,7 @@ function getCurrentMenuLinks(username: string): MenuLink[][] {
                         },
                         {
                             to: "/sign-up.html",
-                            text: "Sign up"
+                            text: "Registrieren"
                         }
                     ]
             )
@@ -45,40 +45,40 @@ function getCurrentMenuLinks(username: string): MenuLink[][] {
         [
             {
                 to: "/view/categories",
-                text: "View Maps"
+                text: "Karte anzeigen"
             },
             {
                 to: "/edit/categories",
-                text: "Edit Maps"
+                text: "Karte bearbeiten"
             },
             {
                 to: "/data-extracts.html",
-                text: "Download data"
+                text: "Download Daten"
             },
             {
                 to: "https://github.com/colouring-cities/manual/wiki",
-                text: "Open Manual - Wiki",
+                text: "Manual / Wiki CCRP öffnen",
                 external: true
             },
             {
                 to: config.githubURL,
-                text: "Open code",
+                text: "Programmcode öffnen",
                 external: true
             },
             {
-                to: "https://github.com/colouring-cities/manual/wiki",
-                text: "Colouring Cities Open Manual/Wiki",
+                to: "https://colouring.dresden.ioer.info",
+                text: "Projektwebseite ",
                 disabled: false,
                 external: true
             },
-            {
+/*             {
                 to: "/showcase.html",
                 text: "Case Study Showcase",
                 disabled: true,
-            },
+            }, */
         ],
         [
-            {
+/*             {
                 to: "https://pages.colouring.london",
                 text: "About",
                 external: true
@@ -92,10 +92,10 @@ function getCurrentMenuLinks(username: string): MenuLink[][] {
                 to: "https://pages.colouring.london/whoisinvolved",
                 text: "Who's Involved?",
                 external: true
-            },
+            }, */
             {
                 to: "https://pages.colouring.london/data-ethics",
-                text: "Data Ethics",
+                text: "Datenethik",
                 external: true
             },
             {
@@ -104,7 +104,7 @@ function getCurrentMenuLinks(username: string): MenuLink[][] {
                 external: true
             },
         ],
-        [
+/*         [
             {
                 to: "/leaderboard.html",
                 text: "Top Contributors"
@@ -119,7 +119,7 @@ function getCurrentMenuLinks(username: string): MenuLink[][] {
                 text: "Blog",
                 external: true
             },
-        ],
+        ], */
         [
             {
                 to: "/privacy-policy.html",
@@ -145,7 +145,7 @@ function getCurrentMenuLinks(username: string): MenuLink[][] {
         [
             {
                 to: "/contact.html",
-                text: "Contact"
+                text: "Kontakt"
             },
         ],
     ];
@@ -211,7 +211,7 @@ export const Header: React.FC<{
             </NavLink>
             <button className="navbar-toggler" type="button"
                 onClick={toggleCollapse} aria-expanded={!collapseMenu} aria-label="Toggle navigation">
-                Menu&nbsp;
+                Menü&nbsp;
                 {
                     collapseMenu ?
                         <span className="navbar-toggler-icon"></span>
