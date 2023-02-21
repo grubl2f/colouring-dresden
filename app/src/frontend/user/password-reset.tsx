@@ -14,7 +14,7 @@ interface PasswordResetState {
 
 export default class PasswordReset extends React.Component<RouteComponentProps, PasswordResetState> {
 
-    static tokenMissingMessage = 'Password reset token is missing. Make sure to follow the link from a password reset email!';
+    static tokenMissingMessage = 'Token zum Passwort zurücksetzen fehlt. Bitte klicken Sie den Link aus der E-Mail zum Passwort zurücksetzen an!';
 
     constructor(props) {
         super(props);
@@ -55,7 +55,7 @@ export default class PasswordReset extends React.Component<RouteComponentProps, 
             return;
         }
         if(this.state.password !== this.state.confirmPassword) {
-            this.setState({ error: 'Passwords do not match' });
+            this.setState({ error: 'Passwörter stimmen nicht überein!' });
             return;
         }
 
@@ -79,7 +79,7 @@ export default class PasswordReset extends React.Component<RouteComponentProps, 
         } else if (data.success === true) {
             this.setState({ success: true });
         } else {
-            this.setState({ error: 'Unexpected result.' });
+            this.setState({ error: 'Unerwartetes Ergebnis.' });
         }
     }
 
@@ -91,28 +91,28 @@ export default class PasswordReset extends React.Component<RouteComponentProps, 
 
             <article>
                 <section className="main-col">
-                    <h1 className="h2">Forgotten password</h1>
-                    <p>Please input the new password you want to set for your account. If your password reset token does not work, go back to the <Link to="/forgotten-password.html">forgotten password page</Link> to request a new link.</p>
+                    <h1 className="h2">Passwort vergessen</h1>
+                    <p>Bitte geben Sie ein neues Passwort für Ihren Account ein. Sollte ihr Token zum Zurücksetzen des Passworts nicht funktionieren, gehen Sie bitte zurück zur <Link to="/forgotten-password.html">Passwort vergessen Seite</Link>, um einen neuen Link anzufordern.</p>
                     <ErrorBox msg={this.state.error} />
                     <form onSubmit={e => this.handleSubmit(e)}>
-                        <label htmlFor="email">New password</label>
+                        <label htmlFor="email">Neues Passwort</label>
                         <input name="password"
                             className="form-control" type="password"
-                            placeholder="New password" required
+                            placeholder="Neues Passwort" required
                             onChange={e => this.handleChange(e)}
                         />
 
-                        <label htmlFor="email">Confirm new password</label>
+                        <label htmlFor="email">Neues Passwort bestätigen</label>
                         <input name="confirmPassword"
                             className="form-control" type="password"
-                            placeholder="Confirm new password" required
+                            placeholder="Neues Passwort bestätigen" required
                             onChange={e => this.handleChange(e)}
                         />
 
                         <input name="token" id="token" type="hidden" value={this.state.token} />
 
                         <div className="buttons-container">
-                            <input type="submit" value="Change password" className="btn btn-primary" />
+                            <input type="submit" value="Passwort ändern" className="btn btn-primary" />
                         </div>
                     </form>
                 </section>
