@@ -41,7 +41,7 @@ export const SignUp: React.FC = () => {
                         hier</a> berichten.
                 </InfoBox>
                 <p>
-                    Einen neuen Account anlegen. Let´s colour ${config.cityName}!
+                    Einen neuen Account anlegen. Let´s colour {config.cityName}!
                 </p>
                 <ErrorBox msg={error} />
                 <form onSubmit={onSubmit}>
