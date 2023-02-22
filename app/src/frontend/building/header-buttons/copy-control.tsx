@@ -14,19 +14,19 @@ const CopyControl: React.FC<CopyControlProps> = props => (
             <NavLink
                 to={`/multi-edit/${props.cat}?data=${props.data_string}`}
                 className="icon-button copy">
-                Copy selected
+                Kopie ausgewählt
             </NavLink>
             <a
                 className="icon-button copy"
                 onClick={props.toggleCopying}>
-                Cancel
+                Abbruch
             </a>
         </>
         :
         <a
             className="icon-button copy"
             onClick={props.toggleCopying}>
-            Copy
+            Kopie
         </a>
 );
 
