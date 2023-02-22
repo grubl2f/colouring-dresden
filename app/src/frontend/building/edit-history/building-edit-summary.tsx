@@ -32,7 +32,7 @@ function enrichHistoryEntries(forwardPatch: object, reversePatch: object) {
         .entries(forwardPatch)
         .map(([key, value]) => {
             const {
-                title = `Unknown field (${key})`,
+                title = `Unbekanntes Feld (${key})`,
                 category = undefined
             } = dataFields[key] as DataFieldDefinition ?? {};
             
@@ -59,12 +59,12 @@ const BuildingEditSummary: React.FunctionComponent<BuildingEditSummaryProps> = (
 
     return (
         <div className="edit-history-entry">
-            <h2 className="edit-history-timestamp">Edited on {formatDate(parseDate(historyEntry.revision_timestamp))}</h2>
-            <h3 className="edit-history-username">By {historyEntry.username}</h3>
+            <h2 className="edit-history-timestamp">Bearbeitet am {formatDate(parseDate(historyEntry.revision_timestamp))}</h2>
+            <h3 className="edit-history-username">Von {historyEntry.username}</h3>
             {
                 showBuildingId && historyEntry.building_id != undefined &&
                 <h3 className="edit-history-building-id">
-                    Building <Link to={`/edit/categories/${historyEntry.building_id}`}>{historyEntry.building_id}</Link>
+                    Gebäude <Link to={`/edit/categories/${historyEntry.building_id}`}>{historyEntry.building_id}</Link>
                 </h3>
             }
             {
