@@ -10,9 +10,9 @@ interface BuildingNotFoundProps {
 
 const BuildingNotFound: React.FunctionComponent<BuildingNotFoundProps> = (props) => (
   <Fragment>
-    <InfoBox msg="We can't find that one anywhere - try the map again?" />
+    <InfoBox msg="Das Gebäude kann nicht gefunden werden - vielleicht probieren Sie es erneut?" />
     <div className="buttons-container ml-3 mr-3">
-        <Link to={`/${props.mode}/categories`} className="btn btn-secondary">Back to categories</Link>
+        <Link to={`/${props.mode}/categories`} className="btn btn-secondary">Zurück zu Kategorien</Link>
     </div>
   </Fragment>
 );
