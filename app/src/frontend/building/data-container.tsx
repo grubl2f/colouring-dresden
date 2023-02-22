@@ -217,12 +217,12 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
         async handleSaveAdd(slug: string, newItem: any) {
             if(this.props.building[slug] != undefined && !Array.isArray(this.props.building[slug])) {
                 this.setState({error: 'Unexpected error'});
-                console.error(`Trying to add a new item to a field (${slug}) which is not an array`);
+                console.error(`Sie versuchen ein neues Element dem Feld (${slug}) hinzuzufügen, welches keine Liste ist.`);
                 return;
             }
             
             if(this.isEdited()) {
-                this.setState({error: 'Cannot save a new record when there are unsaved edits to existing records'});
+                this.setState({error: 'Neuer Eintrag kann nicht gespeichert werden, da noch ungespeicherte Änderungen existieren.'});
                 return;
             }
             
@@ -235,7 +235,7 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
 
         async handleSaveChange(slug: string, value: any) {
             if(this.isEdited()) {
-                this.setState({ error: 'Cannot change this value when there are other unsaved edits. Save or discard the other edits first.'});
+                this.setState({ error: 'Wert kann nicht geändert werden, solange es ungesicherte Änderungen gibt. Speichern oder verwerfen Sie die Änderungen zuerst.'});
                 return;
             }
 
@@ -319,7 +319,7 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                     this.props.help && !copy.copying?
                         <a
                             className="icon-button help"
-                            title="Find out more"
+                            title="Mehr erfahren"
                             href={this.props.help}>
                             Info
                         </a>
@@ -340,7 +340,7 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                                     <NavLink
                                         className="icon-button history"
                                         to={`/${this.props.mode}/${this.props.cat}/${this.props.building.building_id}/history`}
-                                    >Edit History</NavLink>
+                                    >Historie</NavLink>
                                     <ViewEditControl
                                         cat={this.props.cat}
                                         mode={this.props.mode}
@@ -396,7 +396,7 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                                                             disabled={!edited}
                                                             aria-disabled={!edited}
                                                         >
-                                                            Save edits
+                                                            Änderungen speichern
                                                         </button>
                                                         {
                                                             edited ?
@@ -405,7 +405,7 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                                                                     className="btn btn-warning"
                                                                     onClick={this.handleReset}
                                                                     >
-                                                                    Discard edits
+                                                                    Änderungen verwerfen
                                                                 </button> :
                                                                 null
                                                         }
