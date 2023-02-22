@@ -32,7 +32,7 @@ function enrichHistoryEntries(forwardPatch: object, reversePatch: object) {
         .entries(forwardPatch)
         .map(([key, value]) => {
             const {
-                title = `Unknown field (${key})`,
+                title = `Unbekanntes Feld (${key})`,
                 category = undefined
             } = dataFields[key] as DataFieldDefinition ?? {};
             
@@ -58,7 +58,7 @@ const BuildingEditLatest: React.FunctionComponent<BuildingEditLatestProps> = ({
             undefined;
 
     return (
-        <h2 className="edit-history-timestamp">Building last edited on {formatDate(parseDate(historyEntry.revision_timestamp))}</h2>
+        <h2 className="edit-history-timestamp">Gebäude zuletzt bearbeitet {formatDate(parseDate(historyEntry.revision_timestamp))}</h2>
     );
 };
 
