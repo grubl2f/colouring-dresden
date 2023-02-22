@@ -20,7 +20,7 @@ interface CategoryEditSummaryProps {
 
 const CategoryEditSummary: React.FunctionComponent<CategoryEditSummaryProps> = props => {
     const { 
-        name: categoryName = 'Unknown category',
+        name: categoryName = 'Unbekannte Kategorie',
         slug: categorySlug = 'categories'
     } = categoriesConfig[props.category] ?? {};
 
