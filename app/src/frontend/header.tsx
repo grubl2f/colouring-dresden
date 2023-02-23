@@ -51,6 +51,11 @@ function getCurrentMenuLinks(username: string): MenuLink[][] {
                 to: "/edit/categories",
                 text: "Karte bearbeiten"
             },
+
+        ],
+        [
+
+
             {
                 to: "/data-extracts.html",
                 text: "Download Daten"
