@@ -9,25 +9,25 @@ import Verification from '../data-components/verification';
 import { CategoryViewProps } from './category-view-props';
 
 const ConstructionMaterialsOptions = [
-    'Wood',
-    'Stone',
-    'Brick',
-    'Steel',
-    'Reinforced Concrete',
-    'Other Metal',
-    'Other Natural Material',
-    'Other Man-Made Material'
+    'Holz',
+    'Stein',
+    'Ziegel',
+    'Stahl',
+    'Stahlbeton',
+    'anderes Metall',
+    'anderes natürliches Material',
+    'anderes künstliches Material'
 ];
 
 const RoofCoveringOptions = [
-    'Slate',
-    'Clay Tile',
-    'Wood',
+    'Schiefer',
+    'Lehmziegel',
+    'Holz',
     'Asphalt',
-    'Iron or Steel',
-    'Other Metal',
-    'Other Natural Material',
-    'Other Man-Made Material'
+    'Eisen oder Stahl',
+    'anderes Metall',
+    'anderes natürliches Material',
+    'anderes künstliches Material'
 ];
 
 /**
@@ -83,12 +83,12 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 user_verified_as={props.user_verified.construction_roof_covering}
                 verified_count={props.building.verified.construction_roof_covering}
                 />
-            <DataEntry
+{/*             <DataEntry
                 title="Construction system type"
                 slug=""
                 value=""
                 mode='view'
-            />
+            /> */}
         </Fragment>
     );
 };
