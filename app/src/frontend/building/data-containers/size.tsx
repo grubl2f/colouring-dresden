@@ -168,12 +168,12 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
             verified_count={props.building.verified.size_width_frontage}
             />
 
-        <DataEntry
+{/*         <DataEntry
             title="Total opening area"
             slug=""
             value=""
             mode='view'
-        />
+        /> */}
     </Fragment>
 );
 const SizeContainer = withCopyEdit(SizeView);
