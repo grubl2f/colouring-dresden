@@ -13,7 +13,9 @@ import { CategoryViewProps } from './category-view-props';
 */
 const StreetscapeView: React.FunctionComponent<CategoryViewProps> = (props) => (
     <Fragment>
-        <InfoBox type='warning' msg="This is what we're planning to collect on the building's context" />
+        <InfoBox type='warning' msg="Dieser Abschnitt ist noch in der Entwicklung." />
+
+{/*         <InfoBox type='warning' msg="This is what we're planning to collect on the building's context" />        
         <ul className="data-list">
             <li>Gardens</li>
             <li>Trees</li>
@@ -83,7 +85,7 @@ const StreetscapeView: React.FunctionComponent<CategoryViewProps> = (props) => (
             slug=""
             value=""
             mode='view'
-        />
+        /> */}
     </Fragment>
 );
 const StreetscapeContainer = withCopyEdit(StreetscapeView);
