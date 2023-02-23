@@ -46,14 +46,14 @@ class Verification extends Component<VerificationProps, any> {
             {
                 props.user_verified?
                     <Fragment>
-                        Verified as
+                        Verifiziert als
                         "<span>{user_verified_as}</span>"
                         <button
                             className="btn btn-danger"
                             title="Remove my verification"
                             disabled={!props.allow_verify}
                             onClick={this.handleClick(false)}>
-                            Remove
+                            Zurücknehmen
                         </button>
                     </Fragment>
                 :
@@ -63,7 +63,7 @@ class Verification extends Component<VerificationProps, any> {
                             title="Confirm that the current value is correct"
                             disabled={!props.allow_verify}
                             onClick={this.handleClick(true)}>
-                            Verify
+                            Verifizieren
                         </button>
                     </Fragment>
             }
