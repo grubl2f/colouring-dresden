@@ -10,10 +10,10 @@ import withCopyEdit from '../data-container';
 import { CategoryViewProps } from './category-view-props';
 
 const AttachmentFormOptions = [
-    "Detached",
-    "Semi-Detached",
-    "End-Terrace",
-    "Mid-Terrace"
+    "freistehend",
+    "Doppelhaushälfte",
+    "Häuserreihe (Ende)",
+    "Häuserreihe (innerhalb)"
 ];
 
 /**
@@ -77,7 +77,7 @@ const TypeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 verified_count={props.building.verified.building_attachment_form}
                 />
 
-            <DataEntry
+{/*             <DataEntry
                 title="Local typology mutations"
                 slug=""
                 value=""
@@ -94,7 +94,7 @@ const TypeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 slug=""
                 value=""
                 mode='view'
-            />
+            /> */}
             {/* <NumericDataEntry
                 title={dataFields.date_change_building_use.title}
                 slug="date_change_building_use"
