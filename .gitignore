@@ -31,6 +31,11 @@ postgresdata
 app/tilecache/**/*.png
 app/tilecache/**/*.mbtiles
 
+# Cache
+# to avoid undefined cached tiles will be pushed to remote repository after tile rendering problems
+app/undefined/**/*.png
+app/undefined/**/*.mbtiles
+
 # Notes
 TODO
 
