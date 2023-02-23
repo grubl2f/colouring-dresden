@@ -28,7 +28,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                   title={dataFields.is_domestic.title}
                   slug="is_domestic"
                   value={props.building.is_domestic}
-                  options={["yes", "no", "mixed domestic/non-domestic"]}
+                  options={["Ja", "Nein", "gemischt"]}
                   mode={props.mode}
                   copy={props.copy}
                   onChange={props.onChange}
@@ -42,11 +42,17 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                   user_verified_as={props.user_verified.is_domestic}
                   verified_count={props.building.verified.is_domestic}
               />
-              Work from home does not count as office and does not make building non-domestic.
-              <button className={`map-switcher-inline ${props.mapColourScale == "is_domestic" ? "enabled-state" : "disabled-state"} btn btn-outline btn-outline-dark ${darkLightTheme}`} onClick={switchToIsDomesticMapStyle}>
+              Arbeit von zuhause aus ("Home Office") zählt nicht als Büronutzung und macht das Gebäude nicht zu einem Nichtwohngebäude.
+
+{/*               <button className={`map-switcher-inline ${props.mapColourScale == "is_domestic" ? "enabled-state" : "disabled-state"} btn btn-outline btn-outline-dark ${darkLightTheme}`} onClick={switchToIsDomesticMapStyle}>
                     {(props.mapColourScale == "is_domestic")? 'Showing domestic status for specific buildings' : 'Click to see domestic status for specific buildings mapped'}
-                </button>
+                </button> */}
+
+
+{/* 
               <InfoBox msg="93% of properties in UK are dwellings so we have set this as the default colour. Can you help us colour-in all non-residential and mixed use buildings, and verify residential buildings too?"></InfoBox>
+
+ */}              
               <MultiDataEntry
                   title={dataFields.current_landuse_group.title}
                   slug="current_landuse_group"
@@ -56,7 +62,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                   onChange={props.onChange}
                   confirmOnEnter={true}
                   tooltip={dataFields.current_landuse_group.tooltip}
-                  placeholder="Type new land use group here"
+                  placeholder="Hier aktuelle Gebäudenutzung (Gruppe) angeben"
                   copyable={true}
                   autofill={true}
                   showAllOptionsOnEmpty={true}
@@ -69,10 +75,10 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                   user_verified_as={props.user_verified.current_landuse_group && props.user_verified.current_landuse_group.join(", ")}
                   verified_count={props.building.verified.current_landuse_group}
                   />
-              {
+{/*               {
                   props.mode != 'view' &&
                   <InfoBox msg="Land use order, shown below, is automatically derived from the land use groups"></InfoBox>
-              }
+              } */}
               <DataEntry
                   title={dataFields.current_landuse_order.title}
                   tooltip={dataFields.current_landuse_order.tooltip}
