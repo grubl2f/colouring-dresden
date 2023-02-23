@@ -12,12 +12,12 @@ import { CategoryViewProps } from './category-view-props';
 
 const EnergyCategoryOptions = ["A", "B", "C", "D", "E", "F", "G"];
 const BreeamRatingOptions = [
-    'Outstanding',
-    'Excellent',
-    'Very good',
-    'Good',
-    'Pass',
-    'Unclassified'
+    'Herausragend',
+    'Exzellent',
+    'Sehr gut',
+    'Gut',
+    'Ausreichend',
+    'nicht klassifiziert'
 ];
 /**
 * Sustainability view/edit section
@@ -96,7 +96,7 @@ const SustainabilityView: React.FunctionComponent<CategoryViewProps> = (props) =
                 verified_count={props.building.verified.sust_retrofit_date}
                 />
             <InfoBox>
-                This section is under development.
+            Dieser Abschnitt ist noch in der Entwicklung.
             </InfoBox>
             <DataEntry
                 title="Date of Significant Retrofits"
