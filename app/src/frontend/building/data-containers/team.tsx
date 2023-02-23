@@ -21,7 +21,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
     const currentBuildingConstructionYear = building.date_year || undefined;
       return (
        <form>
-          <InfoBox msg="Can you help us capture information on who built the current building?"></InfoBox>
+          <InfoBox msg="Wer war am Bau des Gebäudes beteiligt?"></InfoBox>
           <MultiDataEntry
               title={dataFields.landowner.title}
               slug="landowner"
