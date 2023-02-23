@@ -151,7 +151,7 @@ const CommunityView: React.FunctionComponent<CategoryViewProps> = (props) => {
 
         </div>
         </DataEntryGroup>
-        <DataEntryGroup name="Building use for community activities" collapsed={false} >
+        <DataEntryGroup name="Gebäudenutzung für Gemeinschaftsaktivitäten" collapsed={false} >
         <InfoBox>
             Hier erfassen wir Informationen über den Standort von Gebäuden, die für Gemeinschaftsaktivitäten genutzt werden, damit wir den Verlust bzw. die Erweiterung von Gemeinschaftsräumen im Laufe der Zeit verfolgen können.
         </InfoBox>
