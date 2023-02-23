@@ -188,7 +188,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             step={0.00001}
             min={-180}
             max={180}
-            placeholder="geogr. Ländengrad, z.B. 13.73836"
+            placeholder="geogr. Längengrad, z.B. 13.73836"
             onChange={props.onChange}
             />
         <Verification
