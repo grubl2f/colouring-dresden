@@ -36,7 +36,7 @@ export const MyAccountPage: React.FC = () => {
         return (
             <article>
                 <section className="main-col">
-                    <SpinnerIcon spin={true} /> Loading user info... 
+                    <SpinnerIcon spin={true} /> Lade Account Infos... 
                 </section>
             </article>
         );
@@ -49,11 +49,11 @@ export const MyAccountPage: React.FC = () => {
             <section className="main-col">
                 { !isLoading && <ErrorBox msg={userError} /> }
                 {!userError && (<>
-                    <h1 className="h1">Welcome, {user.username}!</h1>
+                    <h1 className="h1">Willkommen, {user.username}!</h1>
                     <p>
-                        Colouring {config.cityName} is under active development. Please{' '}
-                        <a href="https://discuss.colouring.london/">discuss suggestions for improvements</a> and{' '}
-                        <a href={issuesURL}> report issues or problems</a>.
+                        Colouring {config.cityName} wird permanent weiterentwickelt. Bitte schreiben Sie uns Ihre Ideen unter colouringdresden@ioer.de 
+                        oder posten Ideen oder Probleme {' '}
+                        <a href={issuesURL}>direkt hier</a>.
                     </p>
                     <p>
                         For reference, here are the{' '}
@@ -64,36 +64,36 @@ export const MyAccountPage: React.FC = () => {
                     <ErrorBox msg={error} />
                     <form onSubmit={handleLogout}>
                         <div className="buttons-container">
-                            <Link to="/edit/age" className="btn btn-warning">Start colouring</Link>
-                            <input className="btn btn-secondary" type="submit" value="Log out"/>
+                            <Link to="/edit/age" className="btn btn-warning">Starten</Link>
+                            <input className="btn btn-secondary" type="submit" value="Ausloggen"/>
                         </div>
                     </form>
 
                     <hr/>
-                    <h2 className="h2">My Details</h2>
-                    <h3 className="h3">Username</h3>
-                    <p>{user.username}</p>
-                    <h3 className="h3">Email Address</h3>
-                    <p>{user.email || '-'}</p>
-                    <h3 className="h3">Registered</h3>
-                    <p>{user.registered.toString()}</p>
+                    <h2 className="h2">Meine Details</h2>
+                    <h3 className="h3">Benutzername</h3>
+                    <p><b>{user.username}</b></p>
+                    <h3 className="h3">E-Mail Adresse (optional)</h3>
+                    <p><b>{user.email || '-'}</b></p>
+                    <h3 className="h3">Registriert am </h3>
+                    <p><b>{user.registered.toString()}</b></p>
 
                     <hr/>
 
-                    <h2 className="h2">Technical details</h2>
-                    <p>Are you a software developer? If so, you might be interested in these.</p>
+                    <h2 className="h2">API</h2>
+                    <p>Sind Sie Softwareentwickler*in? Falls ja, könnte dies von Interesse für Sie sein:</p>
                     <h3 className="h3">API key</h3>
-                    <p>{user.api_key || '-'}</p>
+                    <p><b>{user.api_key || '-'}</b></p>
                     <form onSubmit={handleGenerateKey} className="form-group mb-3">
-                        <input className="btn btn-warning" type="submit" value="Generate API key"/>
+                        <input className="btn btn-warning" type="submit" value="Generiere API key"/>
                     </form>
 
                     <h3 className="h3">Open Source Code</h3>
-                    Colouring {config.cityName} site code is developed at <a href={config.githubURL}>colouring-cities</a> on Github
+                    Colouring {config.cityName} wird bei <a href={config.githubURL}>colouring-cities</a> auf Github weiterentwickelt.
 
                     <hr />
 
-                    <h2 className="h2">Account actions</h2>
+                    <h2 className="h2">Account</h2>
                     <form
                         onSubmit={e => {
                             e.preventDefault();
@@ -101,14 +101,14 @@ export const MyAccountPage: React.FC = () => {
                         }}
                         className="form-group mb-3"
                     >
-                        <input className="btn btn-danger" type="submit" value="Delete account" />
+                        <input className="btn btn-danger" type="submit" value="Account löschen" />
                     </form>
 
                     <ConfirmationModal
                         show={showDeleteConfirm}
-                        title="Confirm account deletion"
-                        description="Are you sure you want to delete your account? This cannot be undone."
-                        confirmButtonText="Delete account"
+                        title="Account löschen bestätigen"
+                        description="Sind Sie wirklich sicher, dass Sie Ihren Account löschen möchten? Dies kann nicht rückgängig gemacht werden!"
+                        confirmButtonText="Account wirklich löschen"
                         confirmButtonClass="btn-danger"
                         onConfirm={() => handleDeleteAccount()}
                         onCancel={() => setShowDeleteConfirm(false)}
