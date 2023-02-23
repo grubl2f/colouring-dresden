@@ -46,7 +46,7 @@ const AgeView: React.FunctionComponent<CategoryViewProps> = (props) => {
        ){
       return (
           <Fragment>
-            <DataEntryGroup name="Building Age" collapsed={true} >
+            <DataEntryGroup name="Gebäudealter" collapsed={true} >
                 <YearDataEntry
                     year={props.building.date_year}
                     upper={props.building.date_upper}
@@ -113,7 +113,7 @@ const AgeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     user_verified_as={props.user_verified.date_source}
                     verified_count={props.building.verified.date_source}
                     />
-                <InfoBox>
+{/*                 <InfoBox>
                     This section is under development.
                 </InfoBox>
                 <DataEntry
@@ -133,15 +133,15 @@ const AgeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     slug=""
                     value=""
                     mode='view'
-                />
+                /> */}
             </DataEntryGroup>
-            <DataEntryGroup name="Lifespan and Site History" collapsed={true} >
+            <DataEntryGroup name="Lebenszyklus und Standortgeschichte" collapsed={true} >
                 <button className={`map-switcher-inline ${historicData}-state btn btn-outline btn-outline-dark ${darkLightTheme}`} onClick={historicDataSwitchOnClick}> 
                     {(historicData === 'enabled')?'Click here to hide historical maps':'Click here to show historical maps'}
                 </button>
-                <DataEntryGroup collapsed={false} name="Constructions and demolitions on this site" showCount={false}>
+                <DataEntryGroup collapsed={false} name="Neubau und Abriss an diesem Standort" showCount={false}>
                     <DynamicsBuildingPane>
-                        <label>Current building (age data <Link to={ageLinkUrl}>editable here</Link>)</label>
+                        <label>Aktuelles Gebäude (Baualter <Link to={ageLinkUrl}>bitte hier bearbeiten</Link>)</label>
                         <FieldRow>
                             <div>
                                 <NumericDataEntry
@@ -165,7 +165,7 @@ const AgeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                             <div style={{flex: '0 1 27%'}}>
                                 <DataEntry
                                     slug=''
-                                    title='Lifespan to date'
+                                    title='Lebensspanne bis Datum'
                                     value={ (thisYear - currentBuildingConstructionYear) + ''}
                                     disabled={true}
                                     mode='view'
@@ -175,7 +175,7 @@ const AgeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     </DynamicsBuildingPane>
                     {
                         currentBuildingConstructionYear == undefined ?
-                            <InfoBox>To add historical records, fill in the <Link to={ageLinkUrl}>Age</Link> data first.</InfoBox> :
+                            <InfoBox>Um historische Baustände einzutragen, bitte zuerst <Link to={ageLinkUrl}>das Gebäudealter</Link> erfassen.</InfoBox> :
                             
                             <>
                                 <LogicalDataEntry
@@ -220,14 +220,14 @@ const AgeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                             </>
                     }
                 </DataEntryGroup>
-                <InfoBox>
+{/*                 <InfoBox>
                     This section is under development in collaboration with the historic environment sector.
                     Please let us know your suggestions on the <a href="https://discuss.colouring.london/t/dynamics-category-discussion/107">discussion forum</a>! (external link - save your edits first)
-                </InfoBox>
+                </InfoBox> */}
             </DataEntryGroup>
-            <DataEntryGroup name="Survival and Loss tracked using Historical Maps" collapsed={true} >
+            <DataEntryGroup name="Überdauern und Verlust nachzeichnen mit historischen Karten" collapsed={true} >
                 <InfoBox>
-                    This section is under development.
+                    Dieser Abschnitt ist noch in der Entwicklung.
                 </InfoBox>
                 <button className={`map-switcher-inline ${historicData}-state btn btn-outline btn-outline-dark ${darkLightTheme}`} onClick={historicDataSwitchOnClick}> 
                     {(historicData === 'enabled')?'Click here to hide historical maps':'Click here to show historical maps'}
@@ -242,19 +242,19 @@ const AgeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     copy={props.copy}
                     onChange={props.onChange}
                 />
-                <DataEntry
+{/*                 <DataEntry
                     title="Historical land use change"
                     slug=""
                     value=""
                     mode='view'
-                />
+                /> */}
             </DataEntryGroup>
           </Fragment>
         );
       };
     return (
         <Fragment>
-            <DataEntryGroup name="Building Age" collapsed={true} >
+            <DataEntryGroup name="Gebäudealter" collapsed={true} >
                 <YearDataEntry
                     year={props.building.date_year}
                     upper={props.building.date_upper}
