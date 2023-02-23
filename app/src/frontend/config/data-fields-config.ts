@@ -67,37 +67,37 @@ export const buildingUserFields = {
     community_like: {
         perUser: true,
         category: Category.Community,
-        title: "Do you like this building and think it contributes to the city?",
+        title: "Mögen Sie dieses Gebäude und denken Sie, dass es einen Beitrag zur Stadt leistet?",
         example: true,
     },
     community_type_worth_keeping: {
         perUser: true,
         category: Category.Community,
-        title: "Do you think this **type** of building is contributes to the city?",
+        title: "Glauben Sie, dass dieser **Gebäudetyp** einen Beitrag zur Stadt leistet?",
         example: true,
     },
     community_type_worth_keeping_reasons: {
         perUser: true,
         category: Category.Community,
-        title: 'Please tick one or more boxes below',
+        title: 'Bitte wählen Sie unter den folgenden Antworten aus (Mehrfachauswahl möglich)',
         fields: {
             external_design: {
-                title: "Because the external design contributes to the streetscape"
+                title: "Weil die äußere Gestaltung zum Straßenbild beiträgt"
             },
             internal_design: {
-                title: 'Because the internal layout works well'
+                title: 'Weil die innere Gestaltung des Gebäudes gut durchdacht ist'
             },
             adaptable: {
-                title: 'Because the building can be easily adapted and reused'
+                title: 'Weil das Gebäude leicht angepasst und wiederverwendet werden kann'
             },
             using_outside_space: {
-                title: 'Because the building incorporates outside space'
+                title: 'Weil das Gebäude einen Außenbereich umfasst'
             },
             durable: {
-                title: 'Because the construction method and materials are likely to be long-lasting'
+                title: 'Weil die Bauweise und die Materialien langlebig sein dürften'
             },
             other: {
-                title: 'other'
+                title: 'Andere Gründe'
             }
         },
         example: {
@@ -113,13 +113,13 @@ export const buildingUserFields = {
     community_local_significance: {
         perUser: true,
         category: Category.Community,
-        title: "Do you think this building should be recorded as being of special local interest?",
+        title: "Sind Sie der Meinung, dass dieses Gebäude als Gebäude von besonderem lokalen Interesse erfasst werden sollte?",
         example: true
     },
     community_expected_planning_application: {
         perUser: true,
         category: Category.Community,
-        title: "Do you think that this building may be subject to a planning application, involving demolition, over the next six months?",
+        title: "Glauben Sie, dass dieses Gebäude in den nächsten sechs Monaten Gegenstand eines Bauantrags sein könnte, der dessen Abriss beinhaltet?",
         example: true
     }
 };
@@ -128,38 +128,38 @@ export const buildingUserFields = {
 export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
     location_name: {
         category: Category.Location,
-        title: "Building Name (Information link)",
-        tooltip: "Link to a website with information on the building, not needed for most.",
-        example: "https://en.wikipedia.org/wiki/Palace_of_Westminster",
+        title: "Name des Gebäudes (Link zu weiteren Informationen)",
+        tooltip: "Link zu einer Website mit weiteren Informationen über das Gebäude (für die meisten Gebäude nicht erforderlich).",
+        example: "https://de.wikipedia.org/wiki/Neues_Rathaus_(Dresden)",
     },
     location_number: {
         category: Category.Location,
-        title: "Building number",
+        title: "Hausnummer",
         example: '12b',
-        tooltip: 'Numbers with an optional lowercase letter are accepted, e.g. 141 or 12b'
+        tooltip: 'Hausnummern mit optionalen Kleinbuchstaben sind zulässig, z.B. 141 oder 12b'
     },
     location_street: {
         category: Category.Location,
-        title: "Street",
-        example: "Gower Street",
-        //tooltip: ,
+        title: "Straße",
+        example: "Dr.-Külz-Ring",
+        tooltip: 'Name der Straße, in der sich das Gebäude befindet',
     },
     location_line_two: {
         category: Category.Location,
-        title: "Address line 2",
-        example: "Flat 21",
+        title: "weitere Adresszeile",
+        example: "",
         //tooltip: ,
     },
     location_town: {
         category: Category.Location,
-        title: "Town",
-        example: "London",
+        title: "Stadt",
+        example: "Dresden",
         //tooltip: ,
     },
     location_postcode: {
         category: Category.Location,
-        title: "Postcode",
-        example: "W1W 6TR",
+        title: "Postleitzahl",
+        example: "01067",
         //tooltip: ,
     },
     ref_toid: {
@@ -175,8 +175,8 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
      */
     uprns: {
         category: Category.Location,
-        title: "Unique Property Reference Number(s) (UPRN)",
-        tooltip: "Unique Property Reference Numbers (to be filled automatically)",
+        title: "Flurstückskennzeichen",
+        tooltip: "Flurstückskennzeichen (wird automatisiert abgeleitet)",
         example: [{uprn: "", parent_uprn: "" }, {uprn: "", parent_uprn: "" }],
     },
 
@@ -198,69 +198,69 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
     },
     location_latitude: {
         category: Category.Location,
-        title: "Latitude",
-        example: 12.4564,
+        title: "geogr. Breitengrad",
+        example: 51.049259,
     },
     location_longitude: {
         category: Category.Location,
-        title: "Longitude",
-        example: 0.12124,
+        title: "geogr. Längengrad",
+        example: 13.73836,
     },
 
     current_landuse_group: {
         category: Category.LandUse,
-        title: "Current Land Use (Group)",
+        title: "Aktuelle Gebäudenutzung (Group)",
         tooltip: "Land use Groups as classified by [NLUD](https://www.gov.uk/government/statistics/national-land-use-database-land-use-and-land-cover-classification)",
         example: ["", ""],
     },
     current_landuse_order: {
         category: Category.LandUse,
-        title: "Current Land Use (Order)",
+        title: "Aktuelle Gebäudenutzung (Order)",
         tooltip: "Land use Order as classified by [NLUD](https://www.gov.uk/government/statistics/national-land-use-database-land-use-and-land-cover-classification)",
         example: "",
     },
     current_landuse_source: {
         category: Category.LandUse,
-        title: "Source of information",
-        tooltip: "Source for the current land use",
+        title: "Datenquelle der Information",
+        tooltip: "Datenquelle für die aktuelle Gebäudenutzung",
         example: "",
         items: [
-            "Expert/personal knowledge of building",
-            "Online streetview image",
-            "Open planning authority dataset",
-            "Open property tax dataset",
-            "Open housing dataset",
-            "Open address dataset",
-            "Other"
+            "Expertenwissen/ individuelles Wissen zum Gebäude",
+            "Online Streetview Bilder",
+            "Offene Planungsdokumente",
+            "Offene Steuerdatensätze",
+            "Offene Gebäudedatensätze",
+            "Offene Adressdatensätze",
+            "Andere"
         ],
     },
     current_landuse_source_detail: {
         category: Category.LandUse,
-        title: "Source details",
-        tooltip: "References for current land use source (max 500 characters)",
+        title: "Details Datenquelle",
+        tooltip: "Referenzen zur Datenquelle für die Gebäudenutzung (maximal 500 Zeichen)",
         example: "",
     },
     current_landuse_link: {
         category: Category.LandUse,
-        title: "Source Links",
-        tooltip: "URL for current land use reference",
+        title: "Datenquelle Link",
+        tooltip: "Link zur aktuellen Gebäudenutzung",
         example: ["", "", ""],
     },
     current_landuse_verified: {
         category: Category.LandUse,
-        title: 'Has this land use been manually verified?',
+        title: 'Wurde die Gebäudenutzung manuell überprüft?',
         example: true,
     },
     building_attachment_form: {
         category: Category.Type,
-        title: "Adjacency/configuration",
-        tooltip: "We have prepopulated these based on their current attachment. A building can either be detached, semi-detached or part of a terrace (middle or end)",
+        title: "Morphologischer Bautyp/ Nachbarschaft",
+        tooltip: "Dieses Merkmal wurde automatisiert abgeleitet. Mögliche Werte: freistehend, Doppelhaushälfte, Gebäudereihe (Ende oder innerhalb)",
         example: "",
     },
     date_change_building_use: {
         category: Category.Type,
-        title:"When did use change?",
-        tooltip: "This is the date the building stopped being used for for the function it was built for. I.e. if it was Victorian warehouse which is now an office this would be when it became an office or if it was something before that, maybe a garage then the date that happened",
+        title:"Wann änderte sich die Gebäudenutzung?",
+        tooltip: "Dies ist das Datum, an dem das Gebäude nicht mehr für die Funktion genutzt wird, für die es gebaut wurde. Wenn es z. B. ein Lagerhaus war, das jetzt ein Büro ist, wäre dies das Datum, an dem es zu einem Bürohaus wurde.",
         example: 1920,
     },
     /**
@@ -269,121 +269,121 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
      */
     original_building_use: {
         category: Category.Type,
-        title: "Original building use",
-        tooltip: "What was the building originally used for when it was built? I.e. If it was Victorian warehouse which is now an office this would be warehouse",
+        title: "Originale Gebäudenutzung (bei Erbauung)",
+        tooltip: "Wofür wurde das Gebäude ursprünglich genutzt, als es gebaut wurde? Wenn es z. B. ein Lagerhaus war, das jetzt ein Büro ist, wäre hier das Lagerhaus gemeint.",
         example: "",
     },
 
     size_roof_shape: {
         category: Category.Type,
-        title: "Roof type",
+        title: "Dachform",
         example: "",
         //tooltip: ,
     },
 
     date_year: {
         category: Category.Age,
-        title: "Year built (best estimate)",
+        title: "Baujahr (ggf. beste Schätzung)",
         example: 1924,
     },
     date_lower : {
         category: Category.Age,
-        title: "Earliest possible start year",
-        tooltip: "This should be the earliest year in which building could have started.",
+        title: "Baujahr (frühest mögliches Jahr)",
+        tooltip: "Das früheste Jahr, in dem das Gebäude fertiggestellt worden sein könnte.",
         example: 1900,
     },
     date_upper: {
         category: Category.Age,
-        title: "Latest possible start year",
-        tooltip: "This should be the latest year in which building could have started.",
+        title: "Baujahr (spätest mögliches Jahr)",
+        tooltip: "Das späteste Jahr, in dem das Gebäude fertiggestellt worden sein könnte.",
         example: 2000,
     },
     facade_year: {
         category: Category.Age,
-        title: "Date of Front of Building",
-        tooltip: "Best estimate",
+        title: "Baujahr der Fassade",
+        tooltip: "Wann wurde die Fassade des Gebäudes erbaut? (ggf. beste Schätzung)",
         example: 1900,
     },
     date_source: {
         category: Category.Age,
-        title: "Source of information",
-        tooltip: "Source for the main start date",
+        title: "Datenquelle der Information",
+        tooltip: "Datenquelle für das Baujahr des Gebäudes",
         items: [
-            "Expert knowledge of building",
-            "Expert estimate from image",
-            "Survey of London",
-            "Pevsner Guides",
-            "Victoria County History",
-            "Local history publication",
-            "Other publication",
-            "National Heritage List for England",
-            "Other database or gazetteer",
-            "Historical map",
-            "Other archive document",
+            "Expertenwissen zum Gebäude",
+            "Experteneinschätzung basierend auf Foto",
+            "Kommunale Erhebung",
+/*             "Pevsner Guides",
+            "Victoria County History", */
+            "lokale historische Veröffentlichung",
+            "Andere Veröffentlichung",
+            "Datenbank zum Denkmalschutz",
+            "Andere Datenbank order Vezeichnis",
+            "Historische Karte",
+            "Anderes Archivdokument",
             "Film/Video",
-            "Other website",
-            "Other"
+            "Andere Webseite",
+            "Sonstige Datenquelle"
         ],
         example: "",
     },
     date_source_detail: {
         category: Category.Age,
-        title: "Source details",
-        tooltip: "References for date source (max 500 characters)",
+        title: "Details Datenquelle",
+        tooltip: "Referenzen zur Datenquelle für die Gebäudenutzung (maximal 500 Zeichen)",
         example: "",
     },
     date_link: {
         category: Category.Age,
-        title: "Text and Image Links",
-        tooltip: "URL for age and date reference",
+        title: "Link zu Text oder Foto",
+        tooltip: "URL als Referenz für das Baujahr",
         example: ["", "", ""],
     },
 
     size_storeys_core: {
         category: Category.Size,
-        title: "Core Number of Floors",
-        tooltip: "How many floors are there between the pavement and start of roof?",
+        title: "Anzahl Kernetagen",
+        tooltip: "Wie viele Etagen liegen zwischen dem Straßenniveau und dem Beginn des Daches (Traufenhöhe)?",
         example: 10,
     },
     size_storeys_attic: {
         category: Category.Size,
-        title: "Number of Floors within Roof Space",
-        tooltip: "How many floors above start of roof?",
+        title: "Anzahl Dachetagen",
+        tooltip: "Wie viele Etagen befinden sich im Dachbereich (zwischen Traufen- und Firsthöhe)?",
         example: 1,
     },
     size_storeys_basement: {
         category: Category.Size,
-        title: "Number of Floors beneath Ground Level",
-        tooltip: "How many floors below pavement level?",
+        title: "Anzahl Kelleretagen",
+        tooltip: "Wie viele Etagen befinden sich im Keller (unterhalb des Straßenniveaus)?",
         example: 1,
     },
     size_height_apex: {
         category: Category.Size,
-        title: "Height to apex (m)",
-        example: 100.5,
-        //tooltip: ,
+        title: "Firsthöhe (in Metern)",
+        example: 25.5,
+        tooltip: 'Höhe vom Straßenniveau bis zum Dachfirst',
     },
     size_height_eaves: {
         category: Category.Size,
-        title: "Height to eaves (m)",
-        example: 20.33,
-        //tooltip: ,
+        title: "Traufenhöhe (in Metern)",
+        example: 20.3,
+        tooltip: 'Höhe vom Straßenniveau bis zur Traufe (Beginn des Daches)',
     },
     size_floor_area_ground: {
         category: Category.Size,
-        title: "Ground floor area (m²)",
+        title: "Grundfläche (in Quadratmetern)",
         example: 1245.6,
         //tooltip: ,
     },
     size_floor_area_total: {
         category: Category.Size,
-        title: "Total floor area (m²)",
+        title: "Summe Geschossfläche (in Quadratmetern)",
         example: 2001.7,
         //tooltip: ,
     },
     size_width_frontage: {
         category: Category.Size,
-        title: "Frontage Width (m)",
+        title: "Breite der Fassade/ der Gebäudefront (in Metern)",
         example: 12.2,
         //tooltip: ,
     },
@@ -410,22 +410,22 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
 
     construction_core_material: {
         category: Category.Construction,
-        title: "Core Material",
-        tooltip:"The main structural material",
+        title: "Primärer Baustoff",
+        tooltip:"Das vorwiegend genutzte Baumaterial im Gebäude",
         example: "",
     },
 
     construction_secondary_materials: {
         category: Category.Construction,
-        title: "Main Secondary Construction Material/s",
-        tooltip:"Other construction materials",
+        title: "Sekundärer Baustoff",
+        tooltip:"Andere wichtige Baumaterialien",
         example: "",
     },
 
     construction_roof_covering: {
         category: Category.Construction,
-        title: "Main Roof Covering",
-        tooltip:'Main roof covering material',
+        title: "Vorherrschende Dachbedeckung",
+        tooltip:'Material des Daches',
         example: "",
     },
 
@@ -449,21 +449,21 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
     },
     sust_retrofit_date: {
         category: Category.Sustainability,
-        title: "Last significant retrofit",
-        tooltip: "Date of last major building refurbishment",
-        example: 1920,
+        title: "Letzter bedeutsamer Umbau",
+        tooltip: "Datum der letzten größeren Gebäuderenovierung",
+        example: 2002,
     },
     sust_life_expectancy: {
         category: Category.Sustainability,
-        title: "Expected lifespan for typology",
+        title: "Erwartete Lebensdauer (Typologie)",
         example: 123,
         //tooltip: ,
     },
 
     historical_status: {
         category: Category.Age,
-        title: "Historical Status",
-        tooltip: "Survival and Loss tracked using Historical Maps",
+        title: "Historischer Status",
+        tooltip: "Überdauern und Verlust des Gebäudes - nachverfolgt anhand historischer Karten",
     },
 
     edit_history: {
@@ -573,49 +573,49 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
 
     is_domestic: {
         category: Category.Team,
-        title: "Is the building a home/domestic building?",
+        title: "Handelt es sich um ein Wohngebäude?",
         tooltip: "",
-        example: "mixed domestic/non-domestic"
+        example: "gemischt (Wohn-/ Nichtwohngebäude)"
     },
     likes_total: {
         category: Category.Community,
-        title: "Total number of likes",
+        title: "Gesamtanzahl an Likes",
         example: 100,
-        tooltip: "People who like the building and think it contributes to the city.",
+        tooltip: "Menschen, die das Gebäude mögen und der Meinung sind, dass es zur Stadt beiträgt.",
     },
     community_type_worth_keeping_total: {
         category: Category.Community,
-        title: "People who think this type of building is contributes to the city.",
+        title: "Menschen, die der Meinung sind, dass diese Art von Gebäude zur Stadt beiträgt.",
         example: 100,
     },
     community_local_significance_total: {
         category: Category.Community,
-        title: "People who think the building should be recorded as one of local interest",
+        title: "Personen, die der Meinung sind, dass das Gebäude als Gebäude von lokalem Interesse erfasst werden sollte",
         example: 100,
     },
 
     community_expected_planning_application_total: {
         category: Category.Community,
-        title: "People who think the building will be affected by a planning application in the near future",
+        title: "Personen, die glauben, dass das Gebäude in naher Zukunft von einem Bauantrag betroffen sein wird",
         example: 100,
     },
 
     community_activities_current: {
         category: Category.Community,
-        title: "Are activities open to the community currently taking place in the building?",
-        tooltip: "E.g. youth club, place of worship, GP surgery, pub",
+        title: "Finden in dem Gebäude derzeit Aktivitäten statt, die der Gemeinschaft offenstehen?",
+        tooltip: "z. B. Jugendclub, Kirche, Arztpraxis, Kneipe",
         example: true
     },
     community_activities: {
         category: Category.Community,
-        title: "Has this ever been used for community activities in the past?",
-        tooltip: "E.g. youth club, place of worship, GP surgery, pub",
+        title: "Wurde dieser Ort in der Vergangenheit bereits für Gemeinschaftsaktivitäten genutzt?",
+        tooltip: "z. B. Jugendclub, Kirche, Arztpraxis, Kneipe",
         example: true
     },
     community_activities_always: {
         category: Category.Community,
-        title: "Has the building always been used for community activities?",
-        tooltip: "E.g. youth club, place of worship, GP surgery, pub",
+        title: "Wurde das Gebäude schon immer für Gemeinschaftsaktivitäten genutzt?",
+        tooltip: "z. B. Jugendclub, Kirche, Arztpraxis, Kneipe",
         example: true
     },
     // community_activities_dates: {
@@ -626,45 +626,45 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
 
     community_public_ownership: {
         category: Category.Community,
-        title: "Is the building in public/community ownership?",
-        example: "Not in public/community ownership"
+        title: "Ist das Gebäude in öffentlichem/kommunalem Besitz?",
+        example: "Nicht in öffentlichem/Gemeindeeigentum"
     },
 
     community_public_ownership_sources: {
         category: Category.Community,
-        title: "Community ownership source link",
+        title: "Link Quelle zu Eigentum der Gemeinschaft",
         example: ["https://example.com"]
     },
 
     dynamics_has_demolished_buildings: {
         category: Category.Resilience,
-        title: 'Were any other buildings ever built on this site?',
+        title: 'Wurden an dieser Stelle jemals weitere Gebäude errichtet?',
         example: true,
     },
 
     demolished_buildings: {
         category: Category.Resilience,
-        title: 'Past (demolished) buildings on this site',
+        title: 'Frühere (abgerissene) Gebäude an diesem Standort',
         items: {
             year_constructed: {
-                title: 'Construction year',
+                title: 'Baujahr',
                 example: { min: 1989, max: 1991 },
             },
             year_demolished: {
-                title: 'Demolition year',
+                title: 'Jahr des Abrisses',
                 example: { min: 1993, max: 1994 },
             },
             lifespan: {
-                title: 'Lifespan',
+                title: 'Lebensdauer',
                 example: "2-5",
             },
             overlap_present: {
-                title: 'Roughly what percentage of this building was inside the current site boundary?',
+                title: 'Wie viel Prozent dieses Gebäudes befand sich ungefähr innerhalb der derzeitigen Grundstücksgrenze?',
                 tooltip: '',
                 example: "25%"
             },
             links: {
-                title: 'Links / sources',
+                title: 'Links / Datenquellen',
                 example: ["", ""]
             }
         },
@@ -677,111 +677,111 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
     },
     has_extension: {
         category: Category.Team,
-        title: "Is there an extension?",
+        title: "Gibt es einen Anbau/ Erweiterung?",
         tooltip: "",
         example: false
     },
     extension_year: {
         category: Category.Team,
-        title: "Year extension built (best estimate)",
-        tooltip: "This field is the same as 'Year built (best estimate)' in the Age category'",
-        tooltip_extension: "This should be the year the extension was built, not the original building",
+        title: "Baujahr Anbau/ Erweiterung (ggf. beste Schätzung)",
+        tooltip: "Dieses Feld ist dasselbe wie Baujahr (Kategorie Alter)",
+        tooltip_extension: "Dies sollte das Jahr sein, in dem der Anbau errichtet wurde, nicht das ursprüngliche Gebäude",
         example: 2020
     },
     developer_type: {
         category: Category.Team,
-        title: "What type of developer built the building?",
+        title: "Art Auftraggeber/ Bauherr",
         example: "",
         items: [
-            "State",
-            "Charity",
-            "Community/Cooperative",
-            "Other non-profit body",
-            "Private (individual)",
-            "Commercial (company/estate)",
-            "Religious body",
-            "Other"
+            "Staat",
+            "Wohltätigkeitsorganisation",
+            "Gemeinschaft/Genossenschaft",
+            "Andere gemeinnützige Einrichtung",
+            "Privat (Einzelperson)",
+            "Kommerziell (Unternehmen/ Immobilienfirma)",
+            "Religiöse Einrichtung",
+            "Sonstige"
         ]
     },
     developer_name: {
         category: Category.Team,
-        title: "Who were the developer(s)?",
-        tooltip: "Free text. First name, space, then Last name",
+        title: "Wer waren die Auftraggeber (Personne)?",
+        tooltip: "Freies Textfeld, z.B. Vorname Leerzeichen Nachname",
         example: ["", "", ""],
     },
     developer_source_link: {
         category: Category.Team,
-        title: "Source links for developer(s)",
-        tooltip: "URL for source for developer(s)",
+        title: "Datenquelle Links zu Auftraggeber",
+        tooltip: "URL Datenquelle Links zu Auftraggeber",
         example: ["", "", ""],
     },
     landowner: {
         category: Category.Team,
-        title: "Landowner(s) at time of construction",
-        tooltip: "Free text. First name, space, then Last name",
+        title: "Eigentümer zur Zeit der Erbauung ",
+        tooltip: "Freies Textfeld, z.B. Vorname Leerzeichen Nachname",
         example: ["", "", ""],
     },
     landowner_source_link: {
         category: Category.Team,
-        title: "Source links for landowner(s)",
-        tooltip: "URL for source for landowner(s)",
+        title: "Datenquelle Links zu Eigentümer",
+        tooltip: "URL Datenquelle Links zu Eigentümer",
         example: ["", "", ""],
     },
     designers: {
         category: Category.Team,
-        title: "Who were the main designer(s)?",
-        tooltip: "Free text. First name, space, then Last name",
+        title: "Architekten",
+        tooltip: "Freies Textfeld, z.B. Vorname Leerzeichen Nachname",
         example: ["", "", ""],
     },
     designers_source_link: {
         category: Category.Team,
-        title: "Source links for designer(s)",
-        tooltip: "URL for source for designer(s)",
+        title: "Datenquelle Links zu Architekten",
+        tooltip: "URL Datenquelle Links zu Architekten",
         example: ["", "", ""],
     },
     lead_designer_type: {
         category: Category.Team,
-        title: "Which best describes the lead designer?",
+        title: "Was trifft auf den/ die leitende/-n Architekten/-in am besten zu?",
         example: "",
         items: [
-            "Landowner",
-            "Speculative builder",
-            "Government architecture department",
-            "Architect/ architectural firm",
-            "Engineer/ Engineering firm",
-            "Other"
+            "Eigentümer*in",
+            "Spekulant*in",
+            "Bauamt / Behörde",
+            "Architekt*in / Architekturbüro",
+            "Bauingenieur*in/ Ingenieurbüro",
+            "Sonstige"
         ]
     },
     designer_awards: {
         category: Category.Team,
-        title: "Did the design team win any awards for this building?",
+        title: "Hat das Planungsteam für dieses Gebäude irgendwelche Preise gewonnen?",
         tooltip: "",
         example: false
     },
     awards_source_link: {
         category: Category.Team,
-        title: "Source links for designer award(s)",
-        tooltip: "URL for source for designer award(s)",
+        title: "Datenquelle Link zu Architekturpreis",
+        tooltip: "URL Datenquelle Link zu Architekturpreis",
         example: ["", "", ""],
     },
     builder: {
         category: Category.Team,
-        title: "Name of builder/ construction team",
+        title: "Name der ausführenden Baufirma",
         example: ["", "", ""],
     },
     builder_source_link: {
         category: Category.Team,
-        title: "Source builder/ construction team",
+        title: "Datenquelle Name der ausführenden Baufirma",
         example: ["", "", ""],
     },
     other_team: {
         category: Category.Team,
-        title: "Other significant members of the team",
+        title: "weitere wichtige am Bau beteiligte Personen",
         example: ["", "", ""],
     },
     other_team_source_link: {
         category: Category.Team,
-        title: "Source other significant team members",
+        title: "Datenquelle weitere wichtige am Bau beteiligte Personen",
         example: ["", "", ""],
     },
 };
