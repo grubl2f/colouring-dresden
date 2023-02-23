@@ -10,22 +10,21 @@ import './welcome.css';
 const Welcome = () => (
     <div className="section-body welcome">
         <Categories mode="view"/>
-        <h1 className="h2">Welcome to Colouring {config.cityName}!</h1>
+        <h1 className="h2">Willkommen bei Colouring {config.cityName}!</h1>
         <p>
 
-            Colouring {config.cityName} is a free knowledge exchange platform designed to provide over fifty types
-            of open data on buildings in the city, to help make the city more sustainable.
+            Colouring {config.cityName} ist eine offene Wissensplattform, entwickelt um über 50 Merkmale zu Gebäuden in der Stadt zu erfassen und als offene Datenbereitzustellen.
+            Mit dem Ziel die Stadt nachhaltiger und resilienter zu gestalten.
 
         </p>
         <p>
-            {config.projectBlurb}&nbsp;
-            based at the Alan Turing Institute (the UK's national Institute for data science and artificial intelligence).
-            The programme works with local, regional, national and international partners to develop
-            open platform code also of relevance to other cities.
+            Colouring Dresden ist Teil des internationalen Forschungsnetzwerkes Colouring Cities Research Programme (CCRP), welches
+            am Alan Turing Institut angesiedelt ist (dem nationalen Institut des Vereinigten Königreichs für Data Science und künstliche Intelligenz). 
+            Das Forschungsnetzwerk arbeitet mit lokalen, regionalen, nationalen und internationalen Partnern an der Weiterentwicklung des offenen Programmcodes, 
+            und kann auf weitere Städte übertragen werden.
         </p>
         <p>
-            New datasets and features are added all the time. Any help you can give, colouring-in our building maps,
-            and enriching and verifying our open datasets is very much appreciated.
+            Neue Datensätze oder Funktionen werden kontinuierlich ergänzt. Über Ihre Mitwirkung bei der Erfassung oder Verifikation von Gebäudemerkmalen sind wir dankbar!
         </p>
         <p>
             All our <Link to="/data-extracts.html">data</Link> and <a href="https://github.com/colouring-cities/colouring-core">code</a> are 
@@ -36,7 +35,7 @@ const Welcome = () => (
         </p>
         <Link to="/view/categories"
             className="btn btn-outline-dark btn-lg btn-block">
-            Start Colouring Here!
+            Let´s colour {config.cityName}!
         </Link>
         <div className="image-row">
             <img className="cl-logo" src="images/logo-cc.jpg" alt="Colouring Cities Research Programme"></img>
