@@ -23,9 +23,9 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
 
     return (<>
         <InfoBox>
-            This section is under development.
+            Dieser Abschnitt ist noch in der Entwicklung.
         </InfoBox>
-        <DataEntry
+{/*         <DataEntry
             title="Building age"
             slug=""
             value=""
@@ -96,7 +96,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
             slug=""
             value=""
             mode='view'
-        />
+        /> */}
     </>)
 };
 
