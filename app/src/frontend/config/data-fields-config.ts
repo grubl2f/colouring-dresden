@@ -341,19 +341,19 @@ export const dataFields = { /* eslint-disable @typescript-eslint/camelcase */
 
     size_storeys_core: {
         category: Category.Size,
-        title: "Anzahl Kernetagen",
+        title: "Anzahl Hauptgeschosse",
         tooltip: "Wie viele Etagen liegen zwischen dem Straßenniveau und dem Beginn des Daches (Traufenhöhe)?",
         example: 10,
     },
     size_storeys_attic: {
         category: Category.Size,
-        title: "Anzahl Dachetagen",
+        title: "Anzahl Dachgeschosse",
         tooltip: "Wie viele Etagen befinden sich im Dachbereich (zwischen Traufen- und Firsthöhe)?",
         example: 1,
     },
     size_storeys_basement: {
         category: Category.Size,
-        title: "Anzahl Kelleretagen",
+        title: "Anzahl Kellergeschosse",
         tooltip: "Wie viele Etagen befinden sich im Keller (unterhalb des Straßenniveaus)?",
         example: 1,
     },
