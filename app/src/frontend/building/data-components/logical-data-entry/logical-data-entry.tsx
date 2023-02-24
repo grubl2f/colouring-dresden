@@ -50,7 +50,7 @@ const ClearButton = ({
 }) => {
     return <div className="btn-group btn-group-toggle">
         <label>
-        <button type="button" className="btn btn-outline-warning" onClick={onClick} disabled={disabled}>Clear</button>
+        <button type="button" className="btn btn-outline-warning" onClick={onClick} disabled={disabled}>Zurücksetzen</button>
         </label>
         </div>
 }
@@ -90,7 +90,7 @@ export const LogicalDataEntry: React.FC<LogicalDataEntryProps> = (props) => {
                     checkedClassName='btn-outline-dark active'
                     uncheckedClassName='btn-outline-dark'
                     onChange={handleValueChange}
-                >Yes</ToggleButton>
+                >Ja</ToggleButton>
                 <ToggleButton
                     value="false"
                     checked={props.value === false}
@@ -98,7 +98,7 @@ export const LogicalDataEntry: React.FC<LogicalDataEntryProps> = (props) => {
                     checkedClassName='btn-outline-dark active'
                     uncheckedClassName='btn-outline-dark'
                     onChange={handleValueChange}
-                >No</ToggleButton>
+                >Nein</ToggleButton>
             </div>
                 {
                     !isDisabled && props.value != null &&
@@ -136,7 +136,7 @@ export const LogicalDataEntryYesOnly: React.FC<LogicalDataEntryProps> = (props) 
                     checkedClassName='btn-outline-dark active'
                     uncheckedClassName='btn-outline-dark'
                     onChange={handleValueChange}
-                >Yes</ToggleButton>
+                >Ja</ToggleButton>
             </div>
                 {
                     !isDisabled && props.value != null &&
@@ -168,7 +168,7 @@ export const LogicalDataEntryYesOnlyWithExplanation: React.FC<LogicalDataEntryPr
                     checked={props.value === true}
                     disabled={isDisabled || props.disallowTrue}
                     onChange={handleValueChange}
-                /> Yes (tick to add or remove your edit)
+                /> Ja (für Bearbeiten das Häkchen Hinzufügen oder Entfernen)
             </label>
         </>
     );
