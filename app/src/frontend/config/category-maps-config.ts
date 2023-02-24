@@ -27,7 +27,7 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
     [Category.Age]: [{
         mapStyle: 'date_year',
         legend: {
-            title: 'Age',
+            title: 'Baujahr',
             elements: [
                 { color: '#fff9b8', text: '>2020' },
                 { color: '#fae269', text: '2000-2019' },
@@ -50,7 +50,7 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
     [Category.Size]: [{
         mapStyle: 'size_height',
         legend: {
-            title: 'Height to apex',
+            title: 'Firsthöhe (in Metern)',
             elements: [
                 { color: '#f7f4f9', text: '0-5.55'},
                 { color: '#e7e1ef', text: '5.55-7.73'},
@@ -67,7 +67,7 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
         mapStyle: 'team',
         legend: {
             title: 'Team',
-            description: '% data collected',
+            description: '% der Daten erfasst',
             elements: [
                 { color: '#994d00', text: '≥80%' },
                 { color: '#e67300', text: '60–80%' },
@@ -80,24 +80,24 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
     [Category.Construction]: [{
         mapStyle: 'construction_core_material',
         legend: {
-            title: 'Construction',
+            title: 'Primärer Baustoff',
             elements: [
-                { color: "#b5a859", text: "Wood" },
-                { color: "#ffffe3", text: "Stone" },
-                { color: "#f5d96b", text: "Brick" },
-                { color: "#beffe8", text: "Steel" },
-                { color: "#fca89d", text: "Reinforced Concrete" },
-                { color: "#5c8970", text: "Other Metal" },
-                { color: "#96613b", text: "Other Natural Material" },
-                { color: "#c48a85", text: "Other Man-Made Material" }
+                { color: "#b5a859", text: "Holz" },
+                { color: "#ffffe3", text: "Stein" },
+                { color: "#f5d96b", text: "Ziegel" },
+                { color: "#beffe8", text: "Stahl" },
+                { color: "#fca89d", text: "Stahlbeton" },
+                { color: "#5c8970", text: "anderes Metall" },
+                { color: "#96613b", text: "anderes natürliches Material" },
+                { color: "#c48a85", text: "anderes künstliches Material" }
             ]
         },
     }],
     [Category.Location]: [{
         mapStyle: 'location',
         legend: {
-            title: 'Location',
-            description: '% data collected',
+            title: 'Standort',
+            description: '% der Daten erfasst',
             elements: [
                 { color: '#084081', text: '≥80%' },
                 { color: '#0868ac', text: '60–80%' },
@@ -128,7 +128,7 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
         {
             mapStyle: 'typology_likes',
             legend: {
-                title: 'Liked typologies',
+                title: 'Likes für Gebäudetyp',
                 elements: [
                     { color: '#bd0026', text: '👍👍👍👍 100+' },
                     { color: '#e31a1c', text: '👍👍👍 50–99' },
@@ -143,8 +143,8 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
         {
             mapStyle: 'community_local_significance_total',
             legend: {
-                title: 'Local Interest',
-                description: 'People who think the building is of a local interest',
+                title: 'Lokales Interesse',
+                description: 'Anzahl Menschen die der Meinung sind, dass das Gebäude von lokalem Interesse ist',
                 elements: [
                     { color: '#bd0026', text: '100+' },
                     { color: '#e31a1c', text: '50–99' },
@@ -159,7 +159,7 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
         {
             mapStyle: 'community_expected_planning_application_total',
             legend: {
-                title: 'Expected planning applications',
+                title: 'Erwartete Bauanträge',
                 disclaimer: 'Sites identified by users as likely to be subject to planning application over the next six months',
                 elements: [
                     { color: '#bd0026', text: '100+' },
@@ -236,8 +236,8 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
         {
             mapStyle: 'community_expected_planning_application_total',
             legend: {
-                title: 'Expected planning applications (crowdsourced data)',
-                disclaimer: 'Sites identified by users as likely to be subject to planning application over the next six months',
+                title: 'Erwartete Bauanträge',
+                disclaimer: 'Von den Citizen Scientists identifizierte Standorte, für die in den nächsten sechs Monaten wahrscheinlich ein Bauantrag gestellt wird',
                 elements: [
                     { color: '#bd0026', text: '100+' },
                     { color: '#e31a1c', text: '50–99' },
@@ -270,28 +270,28 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
     [Category.Sustainability]: [{
         mapStyle: 'sust_dec',
         legend: {
-            title: 'Sustainability',
+            title: 'Energie',
             description: 'DEC Rating',
             elements: [
-                { color: "#007f3d", text: 'A' },
+/*                 { color: "#007f3d", text: 'A' },
                 { color: "#2c9f29", text: 'B' },
                 { color: "#9dcb3c", text: 'C' },
                 { color: "#fff200", text: 'D' },
                 { color: "#f7af1d", text: 'E' },
                 { color: "#ed6823", text: 'F' },
-                { color: "#e31d23", text: 'G' },
+                { color: "#e31d23", text: 'G' }, */
             ]
         },
     }],
     [Category.Type]: [{
         mapStyle: 'building_attachment_form',
         legend: {
-            title: 'Adjacency/Configuration',
+            title: 'Morphologischer Bautyp/ Nachbarschaft',
             elements: [
-                { color: "#f2a2b9", text: "Detached" },
-                { color: "#ab8fb0", text: "Semi-Detached" },
-                { color: "#3891d1", text: "End-Terrace" },
-                { color: "#226291", text: "Mid-Terrace" }
+                { color: "#f2a2b9", text: "freistehend" },
+                { color: "#ab8fb0", text: "Doppelhaushälfte" },
+                { color: "#3891d1", text: "Häuserreihe (Ende)" },
+                { color: "#226291", text: "Häuserreihe (innerhalb)" }
             ]
         },
     }],
@@ -299,11 +299,11 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
         {
             mapStyle: 'is_domestic',
             legend: {
-                title: 'Is domestic building?',
+                title: 'Wohngebäude?',
                 elements: [
-                    { color: '#f7ec25', text: 'Domestic' },
-                    { color: '#fc9b2a', text: 'Mixed' },
-                    { color: '#ff2121', text: 'Non-domestic' },
+                    { color: '#f7ec25', text: 'Wohngebäude' },
+                    { color: '#fc9b2a', text: 'gemischte Nutzung' },
+                    { color: '#ff2121', text: 'Nichtwohngebäude' },
                 ]
             }
         }, 
@@ -334,17 +334,17 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
     [Category.Streetscape]: [{
         mapStyle: undefined,
         legend: {
-            title: 'Street Context',
+            title: 'Straßenraum',
             elements: []
         },
     }],
     [Category.Resilience]: [{
         mapStyle: 'dynamics_demolished_count',
         legend: {
-            title: 'Resilience',
-            description: 'Demolished buildings on the same site',
+            title: 'Resilienz',
+/*             description: 'Demolished buildings on the same site', */
             elements: [
-                {
+/*                 {
                     text: '7+',
                     color: '#bd0026',
                 }, {
@@ -368,7 +368,7 @@ export const categoryMapsConfig: {[key in Category]: CategoryMapDefinition[]} = 
                 }, {
                     text: 'None',
                     color: '#0C7BDC'
-                }
+                } */
             ],
         },
     }]
