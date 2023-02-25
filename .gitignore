@@ -5,6 +5,9 @@ node_modules
 config.json
 *.log
 ecosystem.config.js
+ecosystem.config.js_cluster
+ecosystem.config.js_fork
+
 app/start.sh
 html/norton*.html
 .vscode
