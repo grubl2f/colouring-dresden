@@ -84,7 +84,8 @@ DELETE FROM public.building_user_attributes;
 DELETE FROM public.building_verification;
 DELETE FROM public.logs;
 DELETE FROM public.buildings;
-DELETE FROM public.geometries;
+-- #TODO:FIX:DISABLED: ERROR:  update or delete on table "geometries" violates foreign key constraint "external_data_borough_boundary_geometry_id_fkey" on table "external_data_borough_boundary"
+-- DELETE FROM public.geometries;
 
 
 
@@ -415,5 +416,3 @@ CREATE INDEX IF NOT EXISTS building_toid_idx ON buildings ( ref_toid );
 -- SELECT * FROM public.logs WHERE building_id=155876;
 
 -- CREATE TABLE public.mapping_table AS SELECT * FROM public.temp_bld_b_to_a;
-
-

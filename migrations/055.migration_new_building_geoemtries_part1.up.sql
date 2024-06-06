@@ -26,6 +26,20 @@ CREATE TABLE IF NOT EXISTS public.temp_bld_b_to_a (
 --AS SELECT geometry_id, source_id, ST_Transform(geometry_geom, 4326) AS geometry_geom 
 --FROM public.geometries;
 
+-- #TODO:FIX:ADDED:
+DROP TABLE IF EXISTS public.temp_geometries;
+-- CREATE TABLE IF NOT EXISTS public.temp_geometries
+-- AS SELECT geometry_id, source_id, geometry_geom AS geometry
+-- FROM public.geometries;
+CREATE TABLE IF NOT EXISTS public.temp_geometries (
+    -- internal unique id
+    geometry_id serial PRIMARY KEY,
+    -- cross-reference to data source id
+    source_id varchar(30),
+    -- geometry as EPSG:3857 avoiding reprojection for tiles
+    geometry geometry(GEOMETRY, 3857)
+);
+
 -- spatial index 
 DROP INDEX IF EXISTS temp_geometries_geom_idx;
 CREATE INDEX temp_geometries_geom_idx
@@ -66,3 +80,39 @@ DROP INDEX IF EXISTS temp_geometries_geom_idx;
 
 --DROP TABLE IF EXISTS public.temp_geometries_4326;
 --DROP TABLE IF EXISTS public.geometries_4326;
+
+
+-- #TODO:FIX:ADDED:
+DROP TABLE IF EXISTS public.temp_buildings;
+CREATE TABLE IF NOT EXISTS public.temp_buildings (
+    -- internal unique id
+    building_id serial PRIMARY KEY,
+    -- OS MasterMap topo id
+    ref_toid varchar,
+    -- OSM reference id
+    ref_osm_id bigint,
+    -- reference to geometry, aiming to decouple from geometry provider
+    geometry_id integer REFERENCES geometries
+);
+
+-- #TODO:FIX:ADDED:
+DROP TABLE IF EXISTS public.temp_building_properties;
+CREATE TABLE IF NOT EXISTS public.temp_building_properties (
+    -- internal primary key
+    building_property_id serial PRIMARY KEY,
+    -- UPRN
+    uprn bigint,
+    -- Parent should reference UPRN, but assume dataset may be (initially) incomplete
+    parent_uprn bigint,
+    -- Building ID may be null for failed matches
+    building_id integer REFERENCES buildings,
+    -- TOID match provided by AddressBase
+    toid varchar,
+    -- Geometry (for verification if loaded, not for public access)
+    uprn_geom geometry(POINT, 3857)
+);
+
+
+-- #TODO:FIX:ADDED:
+DROP TABLE IF EXISTS public.mapping_table;
+CREATE TABLE public.mapping_table AS SELECT * FROM public.temp_bld_b_to_a;
