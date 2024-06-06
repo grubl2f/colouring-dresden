@@ -1,0 +1,32 @@
+server {
+  listen ${HTTP_PORT} default_server;
+  server_name ${DOMAIN} ${WEB_DOMAIN};
+
+  return 301 https://${DOMAIN}$request_uri;
+  
+  #location / {
+  #  proxy_pass ${PROXY_API_DEST};
+  #  proxy_set_header X-Real-IP $remote_addr;
+  #
+  #  proxy_cookie_path / "/; HttpOnly";
+  #
+  #  # Debug-Only, disable in production!
+  #  proxy_set_header X-Forwarded-Proto https;
+  #  proxy_cookie_flags ~ nosecure;
+  #}
+}
+
+server {
+  listen ${HTTPS_PORT} default_server ssl;
+  ssl_certificate /etc/nginx/ssl/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/key.pem;
+  server_name ${DOMAIN} ${WEB_DOMAIN};
+
+  location / {
+    proxy_pass ${PROXY_API_DEST};
+    proxy_set_header X-Real-IP $remote_addr;
+
+    proxy_cookie_path / "/; HttpOnly";
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+}

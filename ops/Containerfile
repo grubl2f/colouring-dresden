@@ -1,0 +1,47 @@
+FROM node:16.13.2 AS builder
+
+RUN apt-get -y update && apt -y upgrade
+
+RUN mkdir /app
+RUN ls -la /app
+WORKDIR /app
+
+COPY --from=app . .
+
+# Install dependencies
+RUN npm install
+RUN npm install cors --save-dev
+ARG NODE_OPTIONS="--max-old-space-size=4096"
+RUN npm run build -- --noninteractive
+
+
+FROM builder AS colouring-dresden
+
+USER root
+# #TODO:FIX: review packages, remove non-prod
+RUN apt-get -y update && apt-get install -y \
+    build-essential git wget curl parallel rename \
+    libc6-dev \
+    gcc-8-base \
+    && \
+    rm -rf /var/lib/apt/lists/*
+
+ARG APP_DIR=/app
+COPY --from=builder ${APP_DIR} ${APP_DIR}
+WORKDIR ${APP_DIR}
+RUN chown -R node:node .
+
+# Run the app as a non-root user
+USER node
+
+# #TODO:FIX: bad defaults
+ENV PGDATABASE=colouringdresdendb
+ENV PGUSER=colouringdresdendb_user
+ENV PGPASSWORD=colouringdresdendb_user_pw
+ENV PGHOST=localhost
+ENV PGPORT=5432
+ENV APP_COOKIE_SECRET=123456
+
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
+CMD ["npm", "run", "start:prod"]
