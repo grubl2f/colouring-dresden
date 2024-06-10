@@ -1,37 +1,43 @@
-FROM node:16.13.2 AS builder
-
-RUN apt-get -y update && apt -y upgrade
-
-RUN mkdir /app
-RUN ls -la /app
-WORKDIR /app
-
-COPY --from=app . .
-
-# Install dependencies
-RUN npm install
-RUN npm install cors --save-dev
-ARG NODE_OPTIONS="--max-old-space-size=4096"
-RUN npm run build -- --noninteractive
-
-
-FROM builder AS colouring-dresden
-
-USER root
-# #TODO:FIX: review packages, remove non-prod
-RUN apt-get -y update && apt-get install -y \
-    build-essential git wget curl parallel rename \
-    libc6-dev \
-    gcc-8-base \
-    && \
-    rm -rf /var/lib/apt/lists/*
-
+ARG NODE_IMAGE_VERSION=${NODE_IMAGE_VERSION-20-slim}
 ARG APP_DIR=/app
-COPY --from=builder ${APP_DIR} ${APP_DIR}
-WORKDIR ${APP_DIR}
-RUN chown -R node:node .
 
-# Run the app as a non-root user
+###############################################################################
+FROM node:${NODE_IMAGE_VERSION} AS builder
+###############################################################################
+RUN apt-get -y update && apt-get -y upgrade
+
+ARG APP_DIR
+RUN mkdir -p ${APP_DIR} 
+WORKDIR ${APP_DIR}
+RUN chown node:node .
+COPY --chown=node:node --from=app . .
+USER node
+
+#ARG NODE_OPTIONS="--max-old-space-size=4096"
+# from node v17+ [node v17, OpenSSL 3.0](https://nodejs.org/en/blog/release/v17.0.0)
+ARG NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
+RUN npm cache clean --force
+RUN npm install
+RUN npm install cors --save-dev --legacy-peer-deps
+RUN npm run build -- --noninteractive
+###############################################################################
+
+
+###############################################################################
+FROM node:${NODE_IMAGE_VERSION} AS colouring-dresden
+###############################################################################
+RUN apt-get -y update && apt-get -y upgrade \
+    && apt-get -y clean \
+    && apt-get -y autoclean \
+    && apt-get -y autoremove \
+    && rm -rf /var/cache/apt/archives/*.deb \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG APP_DIR
+RUN mkdir -p ${APP_DIR} 
+WORKDIR ${APP_DIR}
+RUN chown node:node .
+COPY --chown=node:node --from=builder ${APP_DIR} .
 USER node
 
 # #TODO:FIX: bad defaults
@@ -42,6 +48,9 @@ ENV PGHOST=localhost
 ENV PGPORT=5432
 ENV APP_COOKIE_SECRET=123456
 
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+#ENV NODE_OPTIONS="--max-old-space-size=4096" # before node v18
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 
 CMD ["npm", "run", "start:prod"]
+#CMD ["npm", "run", "start"]
+###############################################################################

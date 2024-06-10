@@ -1,29 +1,16 @@
 ---
-version: '3.9'
-
-x-defaultnet: &defaultnet ${NETNAME-default}
-
 x-service-common: &service-common
-  pull_policy: ${IMAGE_PULL_POLICY-never}
-  replace: true
-  detach: true
-  enabled: true
   restart: always
-  networks:
-    default:
-      name: *defaultnet
-  # cap_drop:
-  #   - ALL
-  timezone: UTC
-  # pod: ${DOMAIN_NAME-cd}-pod
 
 services:
   web:
     <<: *service-common
-    container_name: ${WEB_DOMAIN_NAME-cd-web}
-    image: ${WEB_CONTAINER_IMAGE-nginx}
+    container_name: web.${COMPOSE_PROJECT_NAME-colouring-dresden}
+    image: docker.io/library/nginx:${NGINX_VERSION-1.25}
     volumes:
       #######################################################
+      - nginx-cert:/etc/nginx/ssl
+      - nginx-conf:/etc/nginx/conf.d
       # # generate new cert
       - ./data/web/00-https.sh:/docker-entrypoint.d/00-https.sh:Z
       # # otherwise provide own cert
@@ -32,49 +19,56 @@ services:
       #######################################################
       - ./data/web/nginx.conf.template:/etc/nginx/templates/default.conf.template:Z
     environment:
-      - DOMAIN=${DOMAIN_NAME-cd}
-      - WEB_DOMAIN=${WEB_DOMAIN_NAME-cd-web}
-      - HTTP_PORT=${PORT-80}
-      - HTTPS_PORT=${PORT-443}
-      # - ENABLE_INSECURE=false
-      # - PROXY_API_DEST=http://${APP_DOMAIN_NAME-cd-app}:${APP_DOMAIN_PORT-3000} # hardcoded in prod
-      - PROXY_API_DEST=http://${APP_DOMAIN_NAME-cd-app}:3000
+      - DOMAIN=${COMPOSE_PROJECT_NAME-colouring-dresden}
+      - WEB_DOMAIN=web.${COMPOSE_PROJECT_NAME-colouring-dresden}
+      - PROXY_API_DEST=http://app.${COMPOSE_PROJECT_NAME-colouring-dresden}:${APP_PORT-3000}
+      - PUB_HTTPS_PORT=${PUB_HTTPS_PORT-8443}
     security_opt:
       - label=type:container_t
     depends_on:
       app:
         condition: service_started
-    networks:
-      default:
-        name: *defaultnet
-        aliases:
-          - ${DOMAIN_NAME-cd}
+    ports:
+      - ${PUB_HTTP_PORT-8080}:80
+      - ${PUB_HTTPS_PORT-8443}:443
+      - 3000:3000
+      - 3001:3001
 
   app:
     <<: *service-common
-    container_name: ${APP_DOMAIN_NAME-cd-app}
-    image: ${APP_CONTAINER_IMAGE-colouring-dresden}
+    container_name: app.${COMPOSE_PROJECT_NAME-colouring-dresden}
+    image: ${APP_CONTAINER_IMAGE-localhost/colouring-dresden}:${NODE_IMAGE_VERSION-20-slim}
     build:
       context: .
+      additional_contexts:
+        app: ../app
       dockerfile: Containerfile
-      # target: colouring-dresden
+      target: colouring-dresden
+      no_cache: true
+      args:
+        - NODE_IMAGE_VERSION=${NODE_IMAGE_VERSION-20-slim}
     environment:
       - PGDATABASE=${POSTGRES_DBNAME-colouringdresdendb}
       - PGUSER=${POSTGRES_USER-colouringdresdendb_user}
       - PGPASSWORD=${POSTGRES_PASS-colouringdresdendb_user_pw}
-      - PGHOST=${DB_DOMAIN_NAME-cd-db}
-      - PGPORT=${DB_PORT-5432}
+      - PGHOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+      - PGPORT=5432
       - APP_COOKIE_SECRET=${APP_COOKIE_SECRET-123456}
-      - HOST=${APP_DOMAIN_NAME-cd-app}
-      # - PORT=${APP_DOMAIN_PORT-3000} # hardcoded in prod
+      - HOST=app.${COMPOSE_PROJECT_NAME-colouring-dresden}
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - ../app/razzle.config.js:/app/razzle.config.js:Z
+    #ports:
+    #  - 3000:3000
+    #  - 3001:3001
+    # command: ["npm", "run", "start"]
 
   db:
     <<: *service-common
-    container_name: ${DB_DOMAIN_NAME-cd-db}
-    image: postgis:${POSTGRES_MAJOR-13}
+    container_name: db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+    image: docker.io/kartoza/postgis:${POSTGRES_MAJOR-13}
     environment:
       - POSTGRES_DBNAME=${POSTGRES_DBNAME-colouringdresdendb}
       - POSTGRES_USER=${POSTGRES_USER-colouringdresdendb_user}
@@ -82,8 +76,8 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD-scram-sha-256}
       - POSTGRES_MULTIPLE_EXTENSIONS=${POSTGRES_MULTIPLE_EXTENSIONS-hstore,postgis,pgcrypto,pg_trgm}
       - PGDATA=/var/lib/postgresql/${POSTGRES_MAJOR-13}/main
-      - DB_PORT=${DB_PORT-5432}
-      - DB_HOST=${DB_DOMAIN_NAME-cd-db}
+      - DB_PORT=5432
+      - DB_HOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}
     volumes:
       - ./data/db/00-migrations.sh:/docker-entrypoint-initdb.d/00-migrations.sh:Z
       - ${MIGRATIONS_DIR_SRC-../migrations}/:/docker-entrypoint-initdb.d/migrations/:Z
@@ -97,9 +91,6 @@ services:
       - label=type:container_t
 
 volumes:
+  nginx-cert:
+  nginx-conf:
   db-data:
-
-networks:
-  default:
-    name: *defaultnet
-    external: true

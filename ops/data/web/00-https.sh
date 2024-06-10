@@ -1,8 +1,13 @@
 #!/bin/sh
 
-mkdir -p /etc/nginx/ssl/
-cd /etc/nginx/ssl/ || exit 1
-openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/C=/ST=/L=/O=/CN="
-cd - || exit 0
+CERT_DIR="/etc/nginx/ssl/${DOMAIN}"
+CERT="${CERT_DIR}/cert.pem"
+KEY="${CERT_DIR}/key.pem"
+CERT_DETAILS="/C=${CERT_C:-}/ST=${CERT_ST:-}/L=${CERT_L:-}/O=${CERT_O:-}/CN=${CERT_CN:-}"
+
+if [ ! -f "${CERT}" ] || [ ! -f "${KEY}" ]; then
+  mkdir -p "${CERT_DIR}" \
+  && openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -keyout "${KEY}" -out "${CERT}" -days 365 -nodes -subj "${CERT_DETAILS}"
+fi
 
 # nginx -s reload
