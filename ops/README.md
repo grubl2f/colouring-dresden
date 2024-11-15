@@ -139,3 +139,17 @@ tree -a
   - `Helm` chart
 - test, test, test!
 - local/offline mirror (or pre-cache) with the `apt-get`, `npm` and other packages to reduce the image build time and improve repeatability
+
+### UPDATE (DEV) 11.2024
+
+``` bash
+
+# UP
+env COMPOSE_PROJECT_NAME=02.cld podman-compose --file=./compose.yaml up -d -t 0 --always-recreate-deps --renew-anon-volumes app db
+
+# DOWN
+env COMPOSE_PROJECT_NAME=02.cld podman-compose --file=./compose.yaml down -d -t 0 app db
+
+# connect to a global reverse proxy nginx container
+podman network connect 02.cld-net nginx
+```

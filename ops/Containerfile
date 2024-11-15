@@ -1,5 +1,6 @@
-ARG NODE_IMAGE_VERSION=${NODE_IMAGE_VERSION-20-slim}
-ARG APP_DIR=/app
+# ARG NODE_IMAGE_VERSION=${NODE_IMAGE_VERSION:-20-slim}
+ARG NODE_IMAGE_VERSION="20-slim"
+ARG APP_DIR="/app"
 
 ###############################################################################
 FROM node:${NODE_IMAGE_VERSION} AS builder

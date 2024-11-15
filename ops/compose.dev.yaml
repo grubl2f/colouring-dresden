@@ -9,7 +9,7 @@ services:
   web:
     <<: *service-common
     enabled: false
-    container_name: web.${COMPOSE_PROJECT_NAME-colouring-dresden}
+    container_name: web.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
     image: docker.io/library/nginx:${NGINX_VERSION-1.25}
     volumes:
       #######################################################
@@ -21,9 +21,9 @@ services:
       #######################################################
       - ./data/web/nginx.conf.template:/etc/nginx/templates/default.conf.template:Z
     environment:
-      - DOMAIN=${COMPOSE_PROJECT_NAME-colouring-dresden}
-      - WEB_DOMAIN=web.${COMPOSE_PROJECT_NAME-colouring-dresden}
-      - PROXY_API_DEST=http://app.${COMPOSE_PROJECT_NAME-colouring-dresden}:${APP_PORT-3000}
+      - DOMAIN=${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
+      - WEB_DOMAIN=web.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
+      - PROXY_API_DEST=http://app.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}:${APP_PORT-3000}
       - PUB_HTTPS_PORT=${PUB_HTTPS_PORT-8443}
     security_opt:
       - label=type:container_t
@@ -36,8 +36,8 @@ services:
 
   app:
     <<: *service-common
-    container_name: app.${COMPOSE_PROJECT_NAME-colouring-dresden}
-    image: ${APP_CONTAINER_IMAGE-localhost/colouring-dresden}:${NODE_IMAGE_VERSION-20-slim}
+    container_name: app.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
+    image: ${APP_CONTAINER_IMAGE-localhost/colouring-dresden-dev}:${NODE_IMAGE_VERSION-20-slim}
     build:
       context: .
       additional_contexts:
@@ -51,22 +51,37 @@ services:
       - PGDATABASE=${POSTGRES_DBNAME-colouringdresdendb}
       - PGUSER=${POSTGRES_USER-colouringdresdendb_user}
       - PGPASSWORD=${POSTGRES_PASS-colouringdresdendb_user_pw}
-      - PGHOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+      - PGHOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
       - PGPORT=5432
       - APP_COOKIE_SECRET=${APP_COOKIE_SECRET-123456}
       - CLIENT_PUBLIC_PATH=${CLIENT_PUBLIC_PATH}
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      # - ../app/build:/app/build:ro
+      - app-build:/app/build:z
+
+      - ../app/map_styles:/app/map_styles:ro
+      - ../app/package.json:/app/package.json:ro
+      - ../app/package-lock.json:/app/package-lock.json:ro
+      - ../app/public:/app/public:ro
+      - ../app/razzle.config.js:/app/razzle.config.js:ro
+      - ../app/src:/app/src:ro
+      - ../app/tsconfig.json:/app/tsconfig.json:ro
     user: root
     networks:
       default:
         aliases:
           - "${COMPOSE_PROJECT_NAME}"
+    command: |
+      sh -c "\
+        npm run start;\
+      "
 
   db:
     <<: *service-common
-    container_name: db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+    container_name: db.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
     image: docker.io/kartoza/postgis:${POSTGRES_MAJOR-15}
     environment:
       - POSTGRES_DBNAME=${POSTGRES_DBNAME-colouringdresdendb}
@@ -77,7 +92,7 @@ services:
       - POSTGRES_MULTIPLE_EXTENSIONS=${POSTGRES_MULTIPLE_EXTENSIONS-hstore,postgis,pgcrypto,pg_trgm}
       - PGDATA=/var/lib/postgresql/${POSTGRES_MAJOR-15}/main
       - DB_PORT=5432
-      - DB_HOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+      - DB_HOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
     volumes:
       - ./data/db/00-migrations.sh:/docker-entrypoint-initdb.d/00-migrations.sh:Z
       - ${MIGRATIONS_DIR_SRC-../migrations}/:/docker-entrypoint-initdb.d/migrations/:Z
@@ -92,6 +107,8 @@ services:
 
 volumes:
   db-data:
+  app-build:
+
 networks:
   default:
     name: ${COMPOSE_PROJECT_NAME-colouring-dresden-dev}-net
