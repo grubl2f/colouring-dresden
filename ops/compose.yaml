@@ -6,37 +6,37 @@ x-service-common: &service-common
   timezone: UTC
 
 services:
-  web:
-    <<: *service-common
-    enabled: false
-    container_name: web.${COMPOSE_PROJECT_NAME-colouring-dresden}
-    image: docker.io/library/nginx:${NGINX_VERSION-1.25}
-    volumes:
-      #######################################################
-      # # generate new cert
-      - ./data/web/00-https.sh:/docker-entrypoint.d/00-https.sh:Z
-      # # otherwise provide own cert
-      # - ./data/web/ssl/cert.pem:/etc/nginx/ssl/cert.pem:Z
-      # - ./data/web/ssl/key.pem:/etc/nginx/ssl/key.pem:Z
-      #######################################################
-      - ./data/web/nginx.conf.template:/etc/nginx/templates/default.conf.template:Z
-    environment:
-      - DOMAIN=${COMPOSE_PROJECT_NAME-colouring-dresden}
-      - WEB_DOMAIN=web.${COMPOSE_PROJECT_NAME-colouring-dresden}
-      - PROXY_API_DEST=http://app.${COMPOSE_PROJECT_NAME-colouring-dresden}:${APP_PORT-3000}
-      - PUB_HTTPS_PORT=${PUB_HTTPS_PORT-8443}
-    security_opt:
-      - label=type:container_t
-    depends_on:
-      app:
-        condition: service_started
-    ports:
-      - ${PUB_HTTP_PORT-8080}:80
-      - ${PUB_HTTPS_PORT-8443}:443
+  # web:
+  #   <<: *service-common
+  #   enabled: false
+  #   container_name: web.${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
+  #   image: docker.io/library/nginx:${NGINX_VERSION-1.25}
+  #   volumes:
+  #     #######################################################
+  #     # # generate new cert
+  #     - ./data/web/00-https.sh:/docker-entrypoint.d/00-https.sh:Z
+  #     # # otherwise provide own cert
+  #     # - ./data/web/ssl/cert.pem:/etc/nginx/ssl/cert.pem:Z
+  #     # - ./data/web/ssl/key.pem:/etc/nginx/ssl/key.pem:Z
+  #     #######################################################
+  #     - ./data/web/nginx.conf.template:/etc/nginx/templates/default.conf.template:Z
+  #   environment:
+  #     - DOMAIN=${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
+  #     - WEB_DOMAIN=web.${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
+  #     - PROXY_API_DEST=http://app.${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}:${APP_PORT-3000}
+  #     - PUB_HTTPS_PORT=${PUB_HTTPS_PORT-8443}
+  #   security_opt:
+  #     - label=type:container_t
+  #   depends_on:
+  #     app:
+  #       condition: service_started
+  #   ports:
+  #     - ${PUB_HTTP_PORT-8080}:80
+  #     - ${PUB_HTTPS_PORT-8443}:443
 
   app:
     <<: *service-common
-    container_name: app.${COMPOSE_PROJECT_NAME-colouring-dresden}
+    container_name: app.${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
     image: ${APP_CONTAINER_IMAGE-localhost/colouring-dresden}:${NODE_IMAGE_VERSION-20-slim}
     build:
       context: .
@@ -51,7 +51,7 @@ services:
       - PGDATABASE=${POSTGRES_DBNAME-colouringdresdendb}
       - PGUSER=${POSTGRES_USER-colouringdresdendb_user}
       - PGPASSWORD=${POSTGRES_PASS-colouringdresdendb_user_pw}
-      - PGHOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+      - PGHOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
       - PGPORT=5432
       - APP_COOKIE_SECRET=${APP_COOKIE_SECRET-123456}
       - CLIENT_PUBLIC_PATH=${CLIENT_PUBLIC_PATH}
@@ -62,11 +62,11 @@ services:
     networks:
       default:
         aliases:
-          - "${COMPOSE_PROJECT_NAME}"
+          - "${COMPOSE_PROJECT_NAME}.${INTERNAL_ROOT_DOMAIN:-cld}"
 
   db:
     <<: *service-common
-    container_name: db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+    container_name: db.${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
     image: docker.io/kartoza/postgis:${POSTGRES_MAJOR-15}
     environment:
       - POSTGRES_DBNAME=${POSTGRES_DBNAME-colouringdresdendb}
@@ -77,11 +77,13 @@ services:
       - POSTGRES_MULTIPLE_EXTENSIONS=${POSTGRES_MULTIPLE_EXTENSIONS-hstore,postgis,pgcrypto,pg_trgm}
       - PGDATA=/var/lib/postgresql/${POSTGRES_MAJOR-15}/main
       - DB_PORT=5432
-      - DB_HOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}
+      - DB_HOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
     volumes:
-      - ./data/db/00-migrations.sh:/docker-entrypoint-initdb.d/00-migrations.sh:Z
-      - ${MIGRATIONS_DIR_SRC-../migrations}/:/docker-entrypoint-initdb.d/migrations/:Z
-      - db-data:/var/lib/postgresql/${POSTGRES_MAJOR-15}/main
+      - ./data/db/00-workaround_mapnik_libpq_pw_auth.sh:/docker-entrypoint-initdb.d/00-workaround_mapnik_libpq_pw_auth.sh
+      - ./data/db/10-migrations.sh:/docker-entrypoint-initdb.d/10-migrations.sh
+      # - ./data/db/99-stop_after_setup.sh:/docker-entrypoint-initdb.d/99-stop_after_setup.sh
+      - ${MIGRATIONS_DIR_SRC:-../migrations}/:/docker-entrypoint-initdb.d/migrations/
+      - db-data:/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main
     healthcheck:
       test: ["CMD", "su", "-", "postgres", "-c", "pg_isready"]
       interval: 10s
@@ -92,7 +94,8 @@ services:
 
 volumes:
   db-data:
+    name: "${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}-vol-db-data"
 networks:
   default:
-    name: ${COMPOSE_PROJECT_NAME-colouring-dresden-dev}-net
+    name: "${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}-vol-net"
     # external: true

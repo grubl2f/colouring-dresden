@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CERT_DIR="/etc/nginx/ssl/${DOMAIN}"
+CERT_DIR="/etc/nginx/ssl/${PUB_ROOT_DOMAIN}"
 CERT="${CERT_DIR}/cert.pem"
 KEY="${CERT_DIR}/key.pem"
 CERT_DETAILS="/C=${CERT_C:-}/ST=${CERT_ST:-}/L=${CERT_L:-}/O=${CERT_O:-}/CN=${CERT_CN:-}"

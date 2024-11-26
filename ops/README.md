@@ -143,13 +143,38 @@ tree -a
 ### UPDATE (DEV) 11.2024
 
 ``` bash
+# VARIABLES:
+#
+# subdomain:
+#   COMPOSE_PROJECT_NAME=colouring-dresden-test2
+#
+# "root" domain (for reverse proxy: see ./ops/data/web/nginx.conf.template):
+#   PUB_ROOT_DOMAIN=my-public-domain.de 
+#
+# full public domain name of the deployment
+#   echo "${COMPOSE_PROJECT_NAME}.${PUB_ROOT_DOMAIN}"
+#
+
+# ./compose.proxy.yaml:
+#   - local reverse proxy with certificates (either public or self-generated), if required (commented out)
+#   - the app itself runs over http (TODO)
 
 # UP
-env COMPOSE_PROJECT_NAME=02.cld podman-compose --file=./compose.yaml up -d -t 0 --always-recreate-deps --renew-anon-volumes app db
+#env COMPOSE_PROJECT_NAME=colouring-dresden-test2 PUB_ROOT_DOMAIN=my-public-domain.de podman-compose --file=./compose.proxy.yaml up -d -t 0 --always-recreate-deps --renew-anon-volumes
+env COMPOSE_PROJECT_NAME=colouring-dresden-test2 podman-compose --file=./compose.yaml up -d -t 0 --always-recreate-deps --renew-anon-volumes
+# connect to a global reverse proxy nginx container
+podman network connect colouring-dresden-test2.cld-net nginx
 
 # DOWN
-env COMPOSE_PROJECT_NAME=02.cld podman-compose --file=./compose.yaml down -d -t 0 app db
-
+#env COMPOSE_PROJECT_NAME=colouring-dresden-test2 PUB_ROOT_DOMAIN=my-public-domain.de podman-compose --file=./compose.proxy.yaml down -t 0
+env COMPOSE_PROJECT_NAME=colouring-dresden-test2 podman-compose --file=./compose.yaml down -d -t 0
 # connect to a global reverse proxy nginx container
-podman network connect 02.cld-net nginx
+podman network disconnect colouring-dresden-test2.cld-net nginx
+
+##################
+# DELETE DB VOLUME (TO REINIT DB ON NEW COMPOSE UP)
+podman volume rm colouring-dresden-test2.cld-vol-db-data
+
+# REMOVE DANGLING VOLUMES
+podman volume prune
 ```

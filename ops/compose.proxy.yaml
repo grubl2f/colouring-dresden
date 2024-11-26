@@ -1,0 +1,35 @@
+---
+x-service-common: &service-common
+  restart: always
+  timezone: UTC
+
+services:
+  web:
+    <<: *service-common
+    enabled: false
+    container_name: web.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld}
+    image: docker.io/library/nginx:${NGINX_VERSION:-1.25}
+    volumes:
+      #######################################################
+      # # generate new cert
+      - ./data/web/00-https.sh:/docker-entrypoint.d/00-https.sh:ro
+      # # otherwise provide own cert
+      # - ./data/web/ssl/${PUB_ROOT_DOMAIN}:/etc/nginx/ssl:ro
+      # - ./data/web/ssl/${PUB_ROOT_DOMAIN}:/etc/nginx/ssl/${PUB_ROOT_DOMAIN}:ro
+      # - ./data/web/ssl/${PUB_ROOT_DOMAIN}/cert.pem:/etc/nginx/ssl/${PUB_ROOT_DOMAIN}/cert.pem:ro
+      # - ./data/web/ssl/${PUB_ROOT_DOMAIN}/key.pem:/etc/nginx/ssl/${PUB_ROOT_DOMAIN}/key.pem:ro
+      #######################################################
+      - ./data/web/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+    environment:
+      - PUB_ROOT_DOMAIN=${PUB_ROOT_DOMAIN:-localhost}
+      - INTERNAL_ROOT_DOMAIN=${INTERNAL_ROOT_DOMAIN:-cld}
+      - PUB_HTTP_PORT=${PUB_HTTP_PORT:-8080}
+      - PUB_HTTPS_PORT=${PUB_HTTPS_PORT:-8443}
+    security_opt:
+      - label=type:container_t
+    depends_on:
+      app:
+        condition: service_started
+    ports:
+      - ${PUB_HTTP_PORT:-8080}:80
+      - ${PUB_HTTPS_PORT:-8443}:443

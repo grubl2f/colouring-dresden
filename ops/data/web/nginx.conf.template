@@ -3,64 +3,30 @@
 
 server {
   listen 80 default_server;
-  server_name ${DOMAIN} ${WEB_DOMAIN};
+  server_name ${PUB_ROOT_DOMAIN} *.${PUB_ROOT_DOMAIN};
 
-  return 301 https://$server_name:${PUB_HTTPS_PORT}$request_uri;
+  # return 301 https://$server_name:${PUB_HTTPS_PORT}$request_uri;
+  return 301 https://$server_name:443$request_uri;
 }
 
 server {
-  listen 443 default_server ssl;
-  ssl_certificate /etc/nginx/ssl/${DOMAIN}/cert.pem;
-  ssl_certificate_key /etc/nginx/ssl/${DOMAIN}/key.pem;
-  server_name ${DOMAIN} ${WEB_DOMAIN};
+  listen 443 default_server ssl http2;
+  server_name ${PUB_ROOT_DOMAIN} ~^(?<subdomain>.+).${PUB_ROOT_DOMAIN}$;
+  
+  ssl_certificate /etc/nginx/ssl/${PUB_ROOT_DOMAIN}/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/${PUB_ROOT_DOMAIN}/key.pem;
 
   location / {
-    proxy_pass http://app.${DOMAIN}:3000;
-    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://app.$subdomain.${INTERNAL_ROOT_DOMAIN}:3000;
+
     proxy_cookie_path / "/; HttpOnly";
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
 
-    # Websockets
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-  }
-}
-
-# # Detailed proxy logging
-# log_format  proxy_log  '[$time_local] $remote_addr - $remote_user "$host$request_uri" ' '$status $body_bytes_sent "$http_referer" ' '"$http_user_agent" "$http_x_forwarded_for"' ' Proxy: "$proxy_host" "$upstream_addr"';
-# access_log /dev/stdout proxy_log;
-# error_log /dev/stdout debug;
-
-server {
-  listen 3000 default_server;
-  # server_name ${APP_DOMAIN};
-
-  location / {
-    proxy_pass http://app.${DOMAIN}:3000;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_cookie_path / "/; HttpOnly";
-
-    # insecure, debugging purposes only
-    proxy_set_header X-Forwarded-Proto https;
-    proxy_cookie_flags ~ nosecure;
-
-    # Websockets
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-  }
-}
-server {
-  listen 3001 default_server ssl;
-  # server_name ${APP_DOMAIN};
-  ssl_certificate /etc/nginx/ssl/${DOMAIN}/cert.pem;
-  ssl_certificate_key /etc/nginx/ssl/${DOMAIN}/key.pem;
-
-  location / {
-    proxy_pass http://app.${DOMAIN}:3001;
-
-    # Websockets
+    # Backend Proxy Websockets
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
