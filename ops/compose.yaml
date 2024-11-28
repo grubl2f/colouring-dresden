@@ -81,6 +81,7 @@ services:
     volumes:
       - ./data/db/00-workaround_mapnik_libpq_pw_auth.sh:/docker-entrypoint-initdb.d/00-workaround_mapnik_libpq_pw_auth.sh
       - ./data/db/10-migrations.sh:/docker-entrypoint-initdb.d/10-migrations.sh
+      - ./data/db/00-workaround_mapnik_libpq_pw_auth.sh:/docker-entrypoint-initdb.d/98-workaround_mapnik_libpq_pw_auth.sh
       # - ./data/db/99-stop_after_setup.sh:/docker-entrypoint-initdb.d/99-stop_after_setup.sh
       - ${MIGRATIONS_DIR_SRC:-../migrations}/:/docker-entrypoint-initdb.d/migrations/
       - db-data:/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main
