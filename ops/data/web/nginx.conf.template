@@ -25,13 +25,13 @@ server {
     # #WORKAROUND: nginx can't resolve container when using variables (TODO!)
 
     # proxy_pass http://app.colouring-test2.${INTERNAL_ROOT_DOMAIN}:3000;
-    if ($cld_subdomain = "colouring-test2") {
+    if ($subdomain = "colouring-test2") {
       proxy_pass http://app.colouring-test2.${INTERNAL_ROOT_DOMAIN}:3000;
     }
-    #if ($cld_subdomain = "colouring-test3") {
+    #if ($subdomain = "colouring-test3") {
     #  proxy_pass http://app.colouring-test3.${INTERNAL_ROOT_DOMAIN}:3000;
     #}
-    #if ($cld_subdomain = "colouring-test4") {
+    #if ($subdomain = "colouring-test4") {
     #  proxy_pass http://app.colouring-test4.${INTERNAL_ROOT_DOMAIN}:3000;
     #}
 
