@@ -17,7 +17,19 @@ server {
   ssl_certificate_key /etc/nginx/ssl/${PUB_ROOT_DOMAIN}/key.pem;
 
   location / {
-    proxy_pass http://app.$subdomain.${INTERNAL_ROOT_DOMAIN}:3000;
+    # proxy_pass http://app.$subdomain.${INTERNAL_ROOT_DOMAIN}:3000;
+    # #WORKAROUND: nginx can't resolve container when using variables (TODO!)
+
+    # proxy_pass http://app.colouring-test2.${INTERNAL_ROOT_DOMAIN}:3000;
+    if ($cld_subdomain = "colouring-test2") {
+      proxy_pass http://app.colouring-test2.${INTERNAL_ROOT_DOMAIN}:3000;
+    }
+    #if ($cld_subdomain = "colouring-test3") {
+    #  proxy_pass http://app.colouring-test3.${INTERNAL_ROOT_DOMAIN}:3000;
+    #}
+    #if ($cld_subdomain = "colouring-test4") {
+    #  proxy_pass http://app.colouring-test4.${INTERNAL_ROOT_DOMAIN}:3000;
+    #}
 
     proxy_cookie_path / "/; HttpOnly";
 
