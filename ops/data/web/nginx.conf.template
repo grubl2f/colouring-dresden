@@ -13,7 +13,7 @@ server {
   # WORKAROUND: older nginx syntax: http2;
   # listen 443 default_server ssl http2;
   listen 443 default_server ssl;
-  http2;
+  # http2;
   
   server_name ${PUB_ROOT_DOMAIN} ~^(?<subdomain>.+).${PUB_ROOT_DOMAIN}$;
   
