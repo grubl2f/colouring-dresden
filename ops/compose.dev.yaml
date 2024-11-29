@@ -9,111 +9,331 @@ services:
   # web:
   #   <<: *service-common
   #   enabled: false
-  #   container_name: web.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}
-  #   image: docker.io/library/nginx:${NGINX_VERSION-1.25}
+  #   container_name: web.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+  #   image: docker.io/library/nginx:${NGINX_VERSION:-1.25}
   #   volumes:
   #     #######################################################
   #     # # generate new cert
-  #     - ./data/web/00-https.sh:/docker-entrypoint.d/00-https.sh:Z
+  #     - ./data/web/00-https.sh:/docker-entrypoint.d/00-https.sh:ro
   #     # # otherwise provide own cert
-  #     # - ./data/web/ssl/cert.pem:/etc/nginx/ssl/cert.pem:Z
-  #     # - ./data/web/ssl/key.pem:/etc/nginx/ssl/key.pem:Z
+  #     # - ./data/web/ssl/${PUB_ROOT_DOMAIN}:/etc/nginx/ssl:ro
+  #     # - ./data/web/ssl/${PUB_ROOT_DOMAIN}:/etc/nginx/ssl/${PUB_ROOT_DOMAIN}:ro
+  #     # - ./data/web/ssl/${PUB_ROOT_DOMAIN}/cert.pem:/etc/nginx/ssl/${PUB_ROOT_DOMAIN}/cert.pem:ro
+  #     # - ./data/web/ssl/${PUB_ROOT_DOMAIN}/key.pem:/etc/nginx/ssl/${PUB_ROOT_DOMAIN}/key.pem:ro
   #     #######################################################
-  #     - ./data/web/nginx.conf.template:/etc/nginx/templates/default.conf.template:Z
+  #     - ./data/web/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
   #   environment:
-  #     - DOMAIN=${COMPOSE_PROJECT_NAME-colouring-dresden-dev}
-  #     - WEB_DOMAIN=web.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}
-  #     - PROXY_API_DEST=http://app.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}:${APP_PORT-3000}
-  #     - PUB_HTTPS_PORT=${PUB_HTTPS_PORT-8443}
+  #     - PUB_ROOT_DOMAIN=${PUB_ROOT_DOMAIN:-localhost}
+  #     - INTERNAL_ROOT_DOMAIN=${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+  #     - PUB_HTTP_PORT=${PUB_HTTP_PORT:-8080}
+  #     - PUB_HTTPS_PORT=${PUB_HTTPS_PORT:-8443}
   #   security_opt:
   #     - label=type:container_t
   #   depends_on:
   #     app:
   #       condition: service_started
   #   ports:
-  #     - ${PUB_HTTP_PORT-8080}:80
-  #     - ${PUB_HTTPS_PORT-8443}:443
+  #     - ${PUB_HTTP_PORT:-8080}:80
+  #     - ${PUB_HTTPS_PORT:-8443}:443
 
   app:
     <<: *service-common
-    container_name: app.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}
-    image: ${APP_CONTAINER_IMAGE-localhost/colouring-dresden-dev}:${NODE_IMAGE_VERSION-20-slim}
+    #container_name: app.${CITY:-default}.${COMPOSE_PROJECT_NAME:-colouring-cities}
+    container_name: app.${COMPOSE_PROJECT_NAME:-colouring-cities}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+    #image: ${APP_CONTAINER_IMAGE:-localhost/colouring-cities}-${CITY:-default}:${NODE_IMAGE_VERSION:-20-slim}
+    image: ${APP_CONTAINER_IMAGE:-localhost/colouring-cities-dresden}:${NODE_IMAGE_VERSION:-20-slim}
     build:
       context: .
       additional_contexts:
         app: ../app
       dockerfile: Containerfile
-      target: colouring-dresden
+      target: colouring-cities
       # no_cache: true
       args:
-        - NODE_IMAGE_VERSION=${NODE_IMAGE_VERSION-20-slim}
+        - NODE_IMAGE_VERSION=${NODE_IMAGE_VERSION:-20-slim}
     environment:
-      - PGDATABASE=${POSTGRES_DBNAME-colouringdresdendb}
-      - PGUSER=${POSTGRES_USER-colouringdresdendb_user}
-      - PGPASSWORD=${POSTGRES_PASS-colouringdresdendb_user_pw}
-      - PGHOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}
-      - PGPORT=5432
-      - APP_COOKIE_SECRET=${APP_COOKIE_SECRET-123456}
+      - PGDATABASE=${POSTGRES_DB:-dresdendb}
+      #- PGUSER=${POSTGRES_USER:-colouringdresdendb_user}
+      - PGUSER=${POSTGRES_USER:-cluser}
+      - PGPASSWORD=${POSTGRES_PASS:-colouringdresdendb_user_pw}
+      #- PGHOST=db.${CITY:-default}.${COMPOSE_PROJECT_NAME:-colouring-cities}
+      - PGHOST=db.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+      - APP_COOKIE_SECRET=${APP_COOKIE_SECRET:-123456}
       - CLIENT_PUBLIC_PATH=${CLIENT_PUBLIC_PATH}
+      #- POSTGRES_INITDB_ARGS=${POSTGRES_INITDB_ARGS:---auth-host=scram-sha-256}
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      # - ../app/build:/app/build:ro
-      - app-build:/app/build:z
-
-      - ../app/map_styles:/app/map_styles:ro
-      - ../app/package.json:/app/package.json:ro
-      - ../app/package-lock.json:/app/package-lock.json:ro
-      - ../app/public:/app/public:ro
-      - ../app/razzle.config.js:/app/razzle.config.js:ro
-      - ../app/src:/app/src:ro
-      - ../app/tsconfig.json:/app/tsconfig.json:ro
     user: root
     networks:
       default:
         aliases:
-          - "${COMPOSE_PROJECT_NAME}.${INTERNAL_ROOT_DOMAIN:-cld-dev}"
+          - ${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+    volumes:
+      # - ../app/build:/app/build:ro
+      - app-build:/app/build:z
+      - ../app/map_styles:/app/map_styles:ro
+      - ../app/package.json:/app/package.json:ro
+      #- ../app/package-lock.json:/app/package-lock.json:ro
+      - ../app/public:/app/public:ro
+      - ../app/razzle.config.js:/app/razzle.config.js:ro
+      - ../app/src:/app/src:ro
+      - ../app/tsconfig.json:/app/tsconfig.json:ro
     command: |
       sh -c "\
         npm run start;\
       "
 
-  db:
+  db-setup:
     <<: *service-common
-    container_name: db.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}
-    image: docker.io/kartoza/postgis:${POSTGRES_MAJOR-15}
+    container_name: db-setup.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+    image: docker.io/postgis/postgis:${POSTGRES_MAJOR:-15}
     environment:
-      - POSTGRES_DBNAME=${POSTGRES_DBNAME-colouringdresdendb}
-      - POSTGRES_USER=${POSTGRES_USER-colouringdresdendb_user}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD-colouringdresdendb_user_pw}
-      # - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD-scram-sha-256}
-      - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD-md5}
-      - POSTGRES_MULTIPLE_EXTENSIONS=${POSTGRES_MULTIPLE_EXTENSIONS-hstore,postgis,pgcrypto,pg_trgm}
-      - PGDATA=/var/lib/postgresql/${POSTGRES_MAJOR-15}/main
-      - DB_PORT=5432
-      - DB_HOST=db.${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}
+      #- POSTGRES_DB=${POSTGRES_DB:-colouringdresdendb}
+      - POSTGRES_DB=${POSTGRES_DB:-dresdendb}
+      #- POSTGRES_USER=${POSTGRES_USER:-colouringdresdendb_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-colouringdresdendb_user_pw}
+      # - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD:-scram-sha-256}
+      - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD:-md5}
+      #- POSTGRES_MULTIPLE_EXTENSIONS=${POSTGRES_MULTIPLE_EXTENSIONS:-hstore,postgis,pgcrypto,pg_trgm}
+      - PGDATA=/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main
+      - DB_HOST=db.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+      #- POSTGRES_INITDB_ARGS=${POSTGRES_INITDB_ARGS:- --auth-host=scram-sha-256 --auth-local=trust}
+      #- POSTGRES_INITDB_ARGS=${POSTGRES_INITDB_ARGS:- --auth-host=md5 --auth-local=trust}
+      #
+      #- PG_RESTORE_USER=${POSTGRES_USER:-cluser}
     volumes:
-      - ./data/db/00-workaround_mapnik_libpq_pw_auth.sh:/docker-entrypoint-initdb.d/00-workaround_mapnik_libpq_pw_auth.sh
-      - ./data/db/10-migrations.sh:/docker-entrypoint-initdb.d/10-migrations.sh
-      # - ./data/db/99-stop_after_setup.sh:/docker-entrypoint-initdb.d/99-stop_after_setup.sh
+      #- ./data/db/00-workaround_mapnik_libpq_pw_auth.sh:/docker-entrypoint-initdb.d/00-workaround_mapnik_libpq_pw_auth.sh
+      #- ./data/db/00-workaround_mapnik_libpq_pw_auth.sh:/docker-entrypoint-initdb.d/20-workaround_mapnik_libpq_pw_auth.sh
+      - ./data/db/10-migrations.sh:/docker-entrypoint-initdb.d/20-migrations.sh
+      #- ./data/db/10-migrations.sh:/docker-entrypoint-initdb.d/21-migrations.sh
+      - ./data/db/00-workaround_mapnik_libpq_pw_auth.sh:/docker-entrypoint-initdb.d/98-workaround_mapnik_libpq_pw_auth.sh
+      #- ./data/db/99-stop_after_setup.sh:/docker-entrypoint-initdb.d/99-stop_after_setup.sh
       - ${MIGRATIONS_DIR_SRC:-../migrations}/:/docker-entrypoint-initdb.d/migrations/
       - db-data:/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main
+    security_opt:
+      - label=type:container_t
+    shm_size: 256mb
+    #restart: "no"
+    restart: "on-failure"
+    #command: ["postgres","--help"]
+    #command: ["postgres","--version"]
+    #command: ["postgres","--describe-config"]
+    #entrypoint: ["/bin/bash", "-c", "docker-entrypoint.sh; exit 0"]
+    user: postgres
+    entrypoint: >
+      /bin/bash -c "
+        echo check if no db-setup is run before;
+        if [ -f \"$$PGDATA/cld.db-setup\" ]; then echo db-setup already run, skipping; sleep 5; exit; else echo no db-setup run yet, starting setup; fi;
+        
+        echo start original docker-entrypoint.sh in background;
+        docker-entrypoint.sh postgres &
+        
+        echo wait db initial start;
+        until [ -f \"$$PGDATA/postmaster.pid\" ]; do echo -n .; sleep 0.1; done;
+        _LAST_START=\"$$(sed -n '3p' \"$$PGDATA/postmaster.pid\")\";
+        
+        echo db initial started, wait db migrations done;
+        until psql -h \"127.0.0.1\" -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\" -c \"SELECT 1 FROM information_schema.tables WHERE table_name = 'migration_status';\" | grep -q \"1\"; do echo -n .; sleep 0.1; done;
+        
+        echo migrations done, wait for db restart;
+        while [ \"$$_LAST_START\" == \"$$(sed -n '3p' \"$$PGDATA/postmaster.pid\")\" ]; do echo -n .; sleep 0.1; done;
+        
+        echo db is restarted, wait for db is ready;
+        until psql -h \"127.0.0.1\" -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\" -c \"SELECT 1 FROM information_schema.tables WHERE table_name = 'migration_status';\" | grep -q \"1\"; do echo -n .; sleep 0.1; done;
+        
+        echo db is ready, wait/check db process pid file;
+        until [ -f \"$$PGDATA/postmaster.pid\" ]; do echo -n .; sleep 0.1; done;
+        
+        echo db process has pid file, final stop db;
+        kill -INT \"$$(sed -n '1p' \"$$PGDATA/postmaster.pid\")\";
+        
+        echo wait db process has no pid file;
+        while [ -f \"$$PGDATA/postmaster.pid\" ]; do echo -n .; sleep 0.1; done;
+        
+        date +%s > \"$$PGDATA/cld.db-setup\";
+        
+        echo done db-setup;
+        sleep 5;"
+
+  #      echo workaround create \"$$PG_RESTORE_USER\";
+  #      psql -c \"CREATE ROLE $$PG_RESTORE_USER WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD '$$POSTGRES_PASSWORD';\" || true;
+  #      psql -c \"ALTER DATABASE $$POSTGRES_DB OWNER TO $$PG_RESTORE_USER;\";
+  #      psql -c \"GRANT ALL PRIVILEGES ON DATABASE $$POSTGRES_DB TO $$PG_RESTORE_USER;\";
+  #      psql -c \"GRANT ALL ON SCHEMA public TO $$PG_RESTORE_USER;\";
+  #      psql -c \"ALTER SCHEMA public OWNER TO $$PG_RESTORE_USER;\";
+
+
+  # #TODO:
+  # db-setup-basic-data:
+  # db-setup-demo-data:
+  #   TODO: building footprints for city
+  #   TODO: sync with app config: ./src/cc-config.json
+
+
+  db-restore:
+    <<: *service-common
+    container_name: db-restore.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+    image: docker.io/postgis/postgis:${POSTGRES_MAJOR:-15}
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-dresdendb}
+      #- POSTGRES_USER=${POSTGRES_USER:-colouringdresdendb_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-colouringdresdendb_user_pw}
+      #- POSTGRES_MULTIPLE_EXTENSIONS=${POSTGRES_MULTIPLE_EXTENSIONS:-hstore,postgis,pgcrypto,pg_trgm}
+      - PGDATA=/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main
+      - DB_HOST=db.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+      #
+      - PG_RESTORE_USER=${POSTGRES_USER:-cluser}
+      - PG_RESTORE_DIR_SRC=${PG_RESTORE_DIR_SRC:-../../cld_dumps}
+      - PG_RESTORE_FILE=${PG_RESTORE_FILE:-cld.pg_restore.dump}
+    volumes:
+      - "db-data:/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main"
+      - "db-dumps:/tmp/dumps"
+      #- "${PG_RESTORE_DIR_SRC:-../../cld_dumps}:/tmp/dumps"
+      - "${PG_RESTORE_DIR_SRC:-../../cld_dumps}/${PG_RESTORE_FILE:-cld.pg_restore.dump}:/tmp/dumps/${PG_RESTORE_FILE:-cld.pg_restore.dump}"
+    depends_on:
+      db-setup:
+        condition: service_completed_successfully
+        restart: false
+    security_opt:
+      - label=type:container_t
+    shm_size: 256mb
+    #restart: "no"
+    restart: "on-failure"
+    user: postgres
+    entrypoint: >
+      /bin/bash -c "
+        echo delete \"$$PGDATA/cld.no.db-restore\";
+        rm \"$$PGDATA/cld.no.db-restore\";
+        
+        echo wait for db-setup is done;
+        until [ -f \"$$PGDATA/cld.db-setup\" ]; do echo -n .; sleep 0.1; done;
+        
+        echo check if restore has already been done \"$$PGDATA/cld.db-restore\";
+        cat \"$$PGDATA/cld.db-restore\";
+        if [ -f \"$$PGDATA/cld.db-restore\" ] \
+        && [ \"$$(sed -n '1p' \"$$PGDATA/cld.db-restore\")\" == \"$$PG_RESTORE_USER\" ] \
+        && [ \"$$(sed -n '2p' \"$$PGDATA/cld.db-restore\")\" == \"$$PG_RESTORE_FILE\" ]; then
+          echo \"$$PG_RESTORE_USER\" \"$$PG_RESTORE_FILE\" is already restored, done db-restore;
+          sleep 5;
+          exit;
+        fi;
+        
+        echo check if restore file exists \"/tmp/dumps/$$PG_RESTORE_FILE\";
+        if [ -f \"/tmp/dumps/$$PG_RESTORE_FILE\" ] ; then
+          echo restore file provied \"/tmp/dumps/$$PG_RESTORE_FILE\";
+        else
+          echo no restore dump provided \"/tmp/dumps/$$PG_RESTORE_FILE\";
+          date +%s > \"$$PGDATA/cld.no.db-restore\";
+          echo nothing todo, done db-restore;
+          sleep 5;
+          exit;
+        fi;
+        rm \"$$PGDATA/cld.no.db-restore\" || true;
+        rm \"$$PGDATA/cld.db-restore\" || true;
+        
+        echo start original docker-entrypoint.sh in background;
+        docker-entrypoint.sh postgres &
+        
+        echo wait db start;
+        until [ -f \"$$PGDATA/postmaster.pid\" ]; do echo -n .; sleep 0.1; done;
+
+        echo wait db ready;
+        until psql -h \"127.0.0.1\" -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\" -c \"SELECT 1 FROM information_schema.tables WHERE table_name = 'migration_status';\" | grep -q \"1\"; do echo -n .; sleep 0.1; done;
+        
+        echo db initial started, restoring now with workarounds
+        echo drop db, drop public schema cascade, grant permissions on dresdendb, recreate db, create new admin hardcoded user cluser, restore db;
+        
+        psql -c \"CREATE ROLE $$PG_RESTORE_USER WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD '$$POSTGRES_PASSWORD';\" || true;
+        psql -c \"CREATE DATABASE $$POSTGRES_DB;\" || true;
+        psql -c \"ALTER DATABASE $$POSTGRES_DB OWNER TO $$PG_RESTORE_USER;\";
+        psql -c \"GRANT ALL PRIVILEGES ON DATABASE $$POSTGRES_DB TO $$PG_RESTORE_USER;\";
+        psql -c \"GRANT ALL ON SCHEMA public TO $$PG_RESTORE_USER;\";
+        psql -c \"ALTER SCHEMA public OWNER TO $$PG_RESTORE_USER;\";
+        echo wait db new user \"$$PG_RESTORE_USER\" is ready;
+        until psql -h \"127.0.0.1\" -U \"$$PG_RESTORE_USER\" -d \"$$POSTGRES_DB\" -c \"SELECT 1 FROM information_schema.tables WHERE table_name = 'migration_status';\" | grep -q \"1\"; do echo -n .; sleep 0.1; done;
+        _PG_RESTORE_FILE_BKP=\"/tmp/dumps/$$PG_RESTORE_FILE.before_db-restore.$$(date +%s)\";
+        echo create automatic backup before full restore \"$$_PG_RESTORE_FILE_BKP\";
+        pg_dump -U \"$$PG_RESTORE_USER\" -Fc -b -f \"$$_PG_RESTORE_FILE_BKP\" \"$$POSTGRES_DB\";
+        ls -la \"$$_PG_RESTORE_FILE_BKP\";
+        psql -c \"DROP SCHEMA IF EXISTS public CASCADE;\";
+        psql -c \"DROP DATABASE IF EXISTS $$POSTGRES_DB;\";
+        psql -c \"CREATE DATABASE $$POSTGRES_DB;\";
+        pg_restore -d \"$$POSTGRES_DB\" -U \"$$PG_RESTORE_USER\" -v --clean --if-exists \"/tmp/dumps/$$PG_RESTORE_FILE\";
+        psql -h \"127.0.0.1\" -U \"$$PG_RESTORE_USER\" -d \"$$POSTGRES_DB\" -c \"\\dt\";
+        
+        echo check db process pid file;
+        until [ -f \"$$PGDATA/postmaster.pid\" ]; do echo -n .; sleep 0.1; done;
+        
+        echo db process has pid file, final stop db;
+        kill -INT \"$$(sed -n '1p' \"$$PGDATA/postmaster.pid\")\";
+        
+        echo wait db process has no pid file;
+        while [ -f \"$$PGDATA/postmaster.pid\" ]; do echo -n .; sleep 0.1; done;
+        
+        echo \"$$PG_RESTORE_USER\" > \"$$PGDATA/cld.db-restore\";
+        echo \"$$PG_RESTORE_FILE\" >> \"$$PGDATA/cld.db-restore\";
+        ls -la \"/tmp/dumps/$$PG_RESTORE_FILE\" >> \"$$PGDATA/cld.db-restore\";
+        date +%s >> \"$$PGDATA/cld.db-restore\";
+        
+        echo done db-restore;
+        sleep 5;"
+
+  #      pg_dump -U \"$$PG_RESTORE_USER\" -v -Fc -b -f \"/tmp/dumps/$$PG_RESTORE_FILE.before_db-restore.$$(date +%s)\" \"$$POSTGRES_DB\";
+  #      psql -c \"CREATE ROLE $$PG_RESTORE_USER WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD '$$POSTGRES_PASSWORD';\" || true;
+  #      psql -c \"DROP SCHEMA IF EXISTS public CASCADE;\";
+  #      psql -c \"DROP DATABASE IF EXISTS $$POSTGRES_DB;\";
+  #      psql -c \"CREATE DATABASE $$POSTGRES_DB;\";
+  #      psql -c \"ALTER DATABASE $$POSTGRES_DB OWNER TO $$PG_RESTORE_USER;\";
+  #      psql -c \"GRANT ALL PRIVILEGES ON DATABASE $$POSTGRES_DB TO $$PG_RESTORE_USER;\";
+  #      psql -c \"GRANT ALL ON SCHEMA public TO $$PG_RESTORE_USER;\";
+  #      psql -c \"ALTER SCHEMA public OWNER TO $$PG_RESTORE_USER;\";
+
+
+  db:
+    <<: *service-common
+    container_name: db.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+    image: docker.io/postgis/postgis:${POSTGRES_MAJOR:-15}
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-dresdendb}
+      #- POSTGRES_USER=${POSTGRES_USER:-colouringdresdendb_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-colouringdresdendb_user_pw}
+      #- POSTGRES_MULTIPLE_EXTENSIONS=${POSTGRES_MULTIPLE_EXTENSIONS:-hstore,postgis,pgcrypto,pg_trgm}
+      - PGDATA=/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main
+      - DB_HOST=db.${COMPOSE_PROJECT_NAME:-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-colouring-cities}
+    volumes:
+      - db-data:/var/lib/postgresql/${POSTGRES_MAJOR:-15}/main
+    depends_on:
+      #db-setup:
+      db-restore:
+        condition: service_completed_successfully
+        restart: false
     healthcheck:
-      test: ["CMD", "su", "-", "postgres", "-c", "pg_isready"]
+      #test: ["CMD", "su", "-", "postgres", "-c", "pg_isready"]
+      test: ["CMD", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5
     security_opt:
       - label=type:container_t
+    shm_size: 256mb
+    restart: on-failure
+    user: postgres
+    entrypoint: >
+      /bin/bash -c "
+        echo wait for db-restore is done;
+        until [ -f \"$$PGDATA/cld.db-restore\" ] || [ -f \"$$PGDATA/cld.no-db-restore\" ]; do echo -n .; sleep 0.1; done;
+        
+        echo db-setup is run, start original docker-entrypoint.sh;
+        docker-entrypoint.sh postgres;"
+
+    #    until [[ \( -f \"$$PGDATA/cld.db-restore\" \) || \( -f \"$$PGDATA/cld.no-db-restore\" \) ]]; do echo -n .; sleep 0.1; done;
 
 volumes:
   db-data:
-    name: "${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld-dev}--vol-db-data"
+  db-dumps:
   app-build:
-    name: "${COMPOSE_PROJECT_NAME-colouring-dresden}.${INTERNAL_ROOT_DOMAIN:-cld-dev}-vol-app-build"
-
 networks:
   default:
-    name: ${COMPOSE_PROJECT_NAME-colouring-dresden-dev}.${INTERNAL_ROOT_DOMAIN:-cld-dev}-net
+    name: ${COMPOSE_PROJECT_NAME:-colouring-dresden}-net
     # external: true

@@ -88,7 +88,6 @@ DELETE FROM public.buildings;
 -- DELETE FROM public.geometries;
 
 
-
 --COMMIT TRANSACTION;
 
 -- ---------------------------------------------
@@ -416,3 +415,5 @@ CREATE INDEX IF NOT EXISTS building_toid_idx ON buildings ( ref_toid );
 -- SELECT * FROM public.logs WHERE building_id=155876;
 
 -- CREATE TABLE public.mapping_table AS SELECT * FROM public.temp_bld_b_to_a;
+
+

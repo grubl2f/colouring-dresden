@@ -17,14 +17,14 @@ USER node
 # from node v17+ [node v17, OpenSSL 3.0](https://nodejs.org/en/blog/release/v17.0.0)
 ARG NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 RUN npm cache clean --force
-RUN npm install
+RUN npm install --verbose
 RUN npm install cors --save-dev --legacy-peer-deps
 RUN npm run build -- --noninteractive
 ###############################################################################
 
 
 ###############################################################################
-FROM node:${NODE_IMAGE_VERSION} AS colouring-dresden
+FROM node:${NODE_IMAGE_VERSION} AS colouring-cities
 ###############################################################################
 RUN apt-get -y update && apt-get -y upgrade \
     && apt-get -y clean \
@@ -40,15 +40,14 @@ RUN chown node:node .
 COPY --chown=node:node --from=builder ${APP_DIR} .
 USER node
 
-# #TODO:FIX: bad defaults
-ENV PGDATABASE=colouringdresdendb
-ENV PGUSER=colouringdresdendb_user
-ENV PGPASSWORD=colouringdresdendb_user_pw
+ENV PGDATABASE=colouring-cities
+ENV PGUSER=colouring-cities-user
+ENV PGPASSWORD=
 ENV PGHOST=localhost
 ENV PGPORT=5432
-ENV APP_COOKIE_SECRET=123456
+ENV APP_COOKIE_SECRET=colouring-cities
 
-#ENV NODE_OPTIONS="--max-old-space-size=4096" # before node v18
+# ENV NODE_OPTIONS="--max-old-space-size=4096" # before node v18
 ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 
 CMD ["npm", "run", "start:prod"]

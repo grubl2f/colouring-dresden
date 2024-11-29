@@ -16,15 +16,15 @@ CREATE TABLE IF NOT EXISTS public.temp_bld_b_to_a (
 );
 
 -- also db tables for transformed geometries into WGS84 / epsg: 4326
---DROP TABLE IF EXISTS public.temp_geometries_4326;
---CREATE TABLE IF NOT EXISTS public.temp_geometries_4326
---AS SELECT geometry_id, source_id, ST_Transform(geometry, 4326) AS "geometry" 
---FROM public.temp_geometries;
+-- DROP TABLE IF EXISTS public.temp_geometries_4326;
+-- CREATE TABLE IF NOT EXISTS public.temp_geometries_4326
+-- AS SELECT geometry_id, source_id, ST_Transform(geometry, 4326) AS "geometry" 
+-- FROM public.temp_geometries;
 
---DROP TABLE IF EXISTS public.geometries_4326;
---CREATE TABLE IF NOT EXISTS public.geometries_4326
---AS SELECT geometry_id, source_id, ST_Transform(geometry_geom, 4326) AS geometry_geom 
---FROM public.geometries;
+-- DROP TABLE IF EXISTS public.geometries_4326;
+-- CREATE TABLE IF NOT EXISTS public.geometries_4326
+-- AS SELECT geometry_id, source_id, ST_Transform(geometry_geom, 4326) AS geometry_geom 
+-- FROM public.geometries;
 
 -- #TODO:FIX:ADDED:
 DROP TABLE IF EXISTS public.temp_geometries;

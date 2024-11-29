@@ -177,4 +177,41 @@ podman volume rm colouring-dresden-test2.cld-vol-db-data
 
 # REMOVE DANGLING VOLUMES
 podman volume prune
+
+
+# 29.11:
+
+
+############
+# DEPLOY (WITH BACKUP RESTORE!)
+############
+cd ./ops
+CLD_PRJ=colouring-test2
+env \
+  APP_CONTAINER_IMAGE=localhost/colouring-cities-dresden \
+  INTERNAL_ROOT_DOMAIN=cld \
+  NODE_IMAGE_VERSION=20-slim \
+  POSTGRES_MAJOR=17 \
+  COMPOSE_PROJECT_NAME=${CLD_PRJ} \
+  PG_RESTORE_USER=cluser \
+  PG_RESTORE_DIR_SRC="../../cld_dumps" \
+  PG_RESTORE_FILE="colouring_pgdump-custom_dresdendb.binary_20241127_1732678201" \
+    podman-compose --file=./compose.yaml \
+      up -d -t 0 --always-recreate-deps --renew-anon-volumes
+
+############
+# UNDEPLOY (TO DELETE ALL DATA - SEE VOLUMES LINES)
+############
+cd ./ops
+CLD_PRJ=colouring-test2
+env \
+  COMPOSE_PROJECT_NAME=${CLD_PRJ} \
+  INTERNAL_ROOT_DOMAIN=cld \
+    podman-compose --file=./compose.yaml \
+      down -t 0
+#podman volume rm ${CLD_PRJ}_db-data
+#podman volume rm ${CLD_PRJ}_db-dumps
+#podman volume prune
+podman pod rm pod_${CLD_PRJ}
+
 ```

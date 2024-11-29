@@ -29,3 +29,5 @@ CREATE TABLE IF NOT EXISTS search_locations (
 -- Docs suggest the '<->' query will perform better than the 'similarity', when only a small
 -- number of closest matches are desired, if combined with a GIST index,
 CREATE INDEX trgm_gist_idx_search_str ON search_locations USING GIST (search_str gist_trgm_ops);
+-- CREATE INDEX trgm_gist_idx_search_str ON search_locations USING GIN (search_str gist_trgm_ops);
+-- CREATE INDEX trgm_gist_idx_search_str ON search_locations USING GIN (search_str gin_trgm_ops);
