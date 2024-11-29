@@ -40,7 +40,7 @@ export const MultiSelectDataEntry: React.FunctionComponent<MultiSelectDataEntryP
         }
             {
                 props.options.map(o => (
-                    <label>
+                    <label key={`${o.key}`}>
                         <input
                             type="checkbox"
                             disabled={props.mode === 'view' || props.disabled}

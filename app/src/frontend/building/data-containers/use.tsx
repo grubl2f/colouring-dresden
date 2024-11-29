@@ -45,7 +45,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("is_domestic")}
                     user_verified_as={props.user_verified.is_domestic}
-                    verified_count={props.building.verified.is_domestic}
+                    verified_count={props.building.verified?.is_domestic}
                 />
                 {/* use_building_origin */}
 
@@ -68,7 +68,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("use_building_origin")}
                     user_verified_as={props.user_verified.use_building_origin}
-                    verified_count={props.building.verified.use_building_origin}
+                    verified_count={props.building.verified?.use_building_origin}
                 />
 
 
@@ -89,7 +89,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("use_building_origin_text")}
                     user_verified_as={props.user_verified.use_building_origin_text}
-                    verified_count={props.building.verified.use_building_origin_text}
+                    verified_count={props.building.verified?.use_building_origin_text}
                 />
 
 
@@ -116,7 +116,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("use_building_current")}
                     user_verified_as={props.user_verified.use_building_current}
-                    verified_count={props.building.verified.use_building_current}
+                    verified_count={props.building.verified?.use_building_current}
                 />
 
 
@@ -137,7 +137,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("use_building_current_text")}
                     user_verified_as={props.user_verified.use_building_current_text}
-                    verified_count={props.building.verified.use_building_current_text}
+                    verified_count={props.building.verified?.use_building_current_text}
                 />
 
             </DataEntryGroup>
@@ -164,7 +164,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                         onVerify={props.onVerify}
                         user_verified={props.user_verified.hasOwnProperty("basement_type")}
                         user_verified_as={props.user_verified.basement_type}
-                        verified_count={props.building.verified.basement_type}
+                        verified_count={props.building.verified?.basement_type}
                     />
 
 
@@ -185,7 +185,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                         onVerify={props.onVerify}
                         user_verified={props.user_verified.hasOwnProperty("basement_percentage")}
                         user_verified_as={props.user_verified.basement_percentage}
-                        verified_count={props.building.verified.basement_percentage}
+                        verified_count={props.building.verified?.basement_percentage}
                     />               
 
 
@@ -206,7 +206,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                         onVerify={props.onVerify}
                         user_verified={props.user_verified.hasOwnProperty("basement_use")}
                         user_verified_as={props.user_verified.basement_use}
-                        verified_count={props.building.verified.basement_use}
+                        verified_count={props.building.verified?.basement_use}
                     />
 
                     <DataEntry
@@ -225,7 +225,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                         onVerify={props.onVerify}
                         user_verified={props.user_verified.hasOwnProperty("basement_use_source")}
                         user_verified_as={props.user_verified.basement_use_source}
-                        verified_count={props.building.verified.basement_use_source}
+                        verified_count={props.building.verified?.basement_use_source}
                     />
 
 
@@ -249,7 +249,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("ground_storey_use")}
                     user_verified_as={props.user_verified.ground_storey_use}
-                    verified_count={props.building.verified.ground_storey_use}
+                    verified_count={props.building.verified?.ground_storey_use}
                 />
 
                 <DataEntry
@@ -268,7 +268,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("ground_storey_use_source")}
                     user_verified_as={props.user_verified.ground_storey_use_source}
-                    verified_count={props.building.verified.ground_storey_use_source}
+                    verified_count={props.building.verified?.ground_storey_use_source}
                 />
 
 
@@ -292,7 +292,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("upper_storeys_use")}
                     user_verified_as={props.user_verified.upper_storeys_use}
-                    verified_count={props.building.verified.upper_storeys_use}
+                    verified_count={props.building.verified?.upper_storeys_use}
                 />
 
                 <DataEntry
@@ -311,7 +311,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("upper_storeys_use_source")}
                     user_verified_as={props.user_verified.upper_storeys_use_source}
-                    verified_count={props.building.verified.upper_storeys_use_source}
+                    verified_count={props.building.verified?.upper_storeys_use_source}
                 />
 
             </DataEntryGroup>
@@ -338,7 +338,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("use_number_residential_units")}
                     user_verified_as={props.user_verified.use_number_residential_units}
-                    verified_count={props.building.verified.use_number_residential_units}
+                    verified_count={props.building.verified?.use_number_residential_units}
                 />          
 
 
@@ -359,7 +359,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("use_number_businesses")}
                     user_verified_as={props.user_verified.use_number_businesses}
-                    verified_count={props.building.verified.use_number_businesses}
+                    verified_count={props.building.verified?.use_number_businesses}
                 />              
 
             </DataEntryGroup>
@@ -428,7 +428,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                   onVerify={props.onVerify}
                   user_verified={props.user_verified.hasOwnProperty("current_landuse_group")}
                   user_verified_as={props.user_verified.current_landuse_group && props.user_verified.current_landuse_group.join(", ")}
-                  verified_count={props.building.verified.current_landuse_group}
+                  verified_count={props.building.verified?.current_landuse_group}
                   /> */}
 {/*               {
                   props.mode != 'view' &&
@@ -461,7 +461,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                   onVerify={props.onVerify}
                   user_verified={props.user_verified.hasOwnProperty("current_landuse_source")}
                   user_verified_as={props.user_verified.current_landuse_source}
-                  verified_count={props.building.verified.current_landuse_source}
+                  verified_count={props.building.verified?.current_landuse_source}
                   />
         {(props.building.current_landuse_source == "Expert/personal knowledge of building" ||
             props.building.current_landuse_source == "Online streetview image" ||
@@ -484,7 +484,7 @@ const UseView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("current_landuse_link")}
                 user_verified_as={props.user_verified.current_landuse_link}
-                verified_count={props.building.verified.current_landuse_link}
+                verified_count={props.building.verified?.current_landuse_link}
                 />
             </>
         } */}

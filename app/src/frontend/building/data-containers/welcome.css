@@ -1,11 +1,11 @@
 /**
  * Welcome jumbotron
  */
-@media(min-width:735px) {
+/* @media(min-width:735px) {
     .welcome.section-body {
         padding-bottom: 0;
     }        
-}
+} */
 
 .background-welcome.section-header {
     background: linear-gradient(135deg,
@@ -23,9 +23,9 @@
         #a3916f 90%);
 }
 
-.welcome.section-body {
+/* .welcome.section-body {
     padding: 0.75rem 0.75em 4rem 0.75em;
-}
+} */
 
 .image-row {
     margin: 1em 1em;
@@ -62,4 +62,24 @@
 
 
 
+}
+
+#welcome .edit-history-first {
+    display: none;
+}
+
+#welcome .section-header .h2 {
+    flex-basis: 100%;
+    font-weight: bold;
+    text-align: center;
+}
+#welcome .section-header .section-header-actions {
+    display: none;
+    flex-basis: 0%;
+}
+
+@media (max-width: 734px) {
+    #welcome .section-header .h2 {
+        font-size: 1.5rem;
+    }
 }

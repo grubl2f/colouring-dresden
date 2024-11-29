@@ -6,7 +6,8 @@
 
 .edit-history-timestamp {
     font-size: 0.9em;
-    padding: 0;
+    padding: 0.25rem 0 0 0;
+    text-align: center;
 }
 
 .edit-history-username {

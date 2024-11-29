@@ -1,3 +1,7 @@
+import { CCConfig } from '../../cc-config';
+import rawConfig from '../../cc-config.json';
+const config: CCConfig = rawConfig as CCConfig;
+
 /**
  * An enumeration of all categories in the system.
  * The string value is also the category URL slug.
@@ -15,6 +19,7 @@ export enum Category {
     Sustainability = 'sustainability',
     Resilience = 'resilience',
     Community = 'community',
+    Welcome = 'welcome',
 }
 
 /**
@@ -118,5 +123,11 @@ export const categoriesConfig: {[key in Category]: CategoryDefinition} = {
         name: 'Resilienz',
         aboutUrl: 'https://colouring.dresden.ioer.info/kacheln#c776',
         intro: 'Wie gut sind Gebäude auf Extremwetterereignisse angepasst?'
+    },
+    [Category.Welcome]: {
+        slug: 'welcome',
+        name: `Willkommen bei Colouring ${config.cityName}!`,
+        aboutUrl: '',
+        intro: `Willkommen bei Colouring ${config.cityName}!`,
     },
 };

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useRef, useEffect, useCallback } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import Confetti from 'canvas-confetti';
 import _ from 'lodash';
@@ -22,14 +22,24 @@ import { dataFields } from '../config/data-fields-config'
 
 import { EditHistoryLatest } from './edit-history/edit-history-latest';
 
-import { InfoIconSimple } from '../components/icons';
+import {
+    InfoIconSimple,
+    InfoIcon,
+    EditHistoryIcon,
+} from '../components/icons';
 
 import SurveyModal from '../components/survey-modal';
 
 import { CCConfig } from '../../cc-config';
-let config: CCConfig = require('../../cc-config.json')
+import config from '../../cc-config.json';
 
 
+import { Category } from '../config/categories-config';
+
+import { useIsSsr } from '../hooks/use-is-ssr'
+import { useViewSize } from '../hooks/use-view-size'
+
+//import L from 'leaflet';
 
 interface DataContainerProps {
     title: string;
@@ -41,12 +51,17 @@ interface DataContainerProps {
     user?: User;
     mode: 'view' | 'edit';
     building?: Building;
-    user_verified?: any;
+    user_verified?: unknown;
     onBuildingUpdate: (buildingId: number, updatedData: Building) => void;
     onUserVerifiedUpdate: (buildingId: number, updatedData: UserVerified) => void;
 
     mapColourScale: BuildingMapTileset;
     onMapColourScale: (x: BuildingMapTileset) => void;
+
+    collapsed?: boolean;
+    setCollapsed?: (h: number) => void;
+    onMoveHeader?: (dX: number, dY: number) => void;
+    contentHeight?: number;
 }
 
 interface DataContainerState {
@@ -59,6 +74,16 @@ interface DataContainerState {
     mapColourScale: BuildingMapTileset;
     onMapColourScale: (x: BuildingMapTileset) => void;
     setShowSurveyModal: boolean;
+
+    height: number,
+    isDragging: boolean,
+    startY: number,
+    startHeight: number,
+}
+
+const getDefaultHeight = (h: number): number => {
+    if (h === undefined) return 300;
+    return Math.min(300, screen.height * 0.5)
 }
 
 export type DataContainerType = React.ComponentType<DataContainerProps>;
@@ -71,69 +96,59 @@ export type DataContainerType = React.ComponentType<DataContainerProps>;
  *
  * @param WrappedComponent
  */
-const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContainerType = (WrappedComponent: React.ComponentType<CategoryViewProps>) => {
-    return class DataContainer extends React.Component<DataContainerProps, DataContainerState> {
-        constructor(props) {
-            super(props);
+const withCopyEditFc = (WrappedComponent: React.ComponentType<CategoryViewProps>): React.FC<DataContainerProps> => {
 
-            this.state = {
-                error: undefined,
-                copying: false,
-                keys_to_copy: {},
-                buildingEdits: {},
-                currentBuildingId: undefined,
-                currentBuildingRevisionId: undefined,
-                mapColourScale: undefined,
-                onMapColourScale: undefined,
-                setShowSurveyModal: false
-            };
+    const DataContainer: React.FC<DataContainerProps> = (props) => {
+        const isSsr = useIsSsr()
+        const screen = useViewSize()
 
-            this.handleChange = this.handleChange.bind(this);
-            this.handleReset = this.handleReset.bind(this);
-            this.handleSubmit = this.handleSubmit.bind(this);
-            this.handleVerify = this.handleVerify.bind(this);
-            this.handleSaveAdd = this.handleSaveAdd.bind(this);
-            this.handleSaveChange = this.handleSaveChange.bind(this);
-
-            this.toggleCopying = this.toggleCopying.bind(this);
-            this.toggleCopyAttribute = this.toggleCopyAttribute.bind(this);
-        }
-
-        static getDerivedStateFromProps(props, state): DataContainerState {
+        // DataContainerState
+        const [error, setError] = useState<Error | undefined>(undefined)
+        const [copying, setCopying] = useState<boolean>(false)
+        const [keys_to_copy, setKeys_to_copy] = useState({})
+        const [buildingEdits, setBuildingEdits] = useState({})
+        const [currentBuildingId, setCurrentBuildingId] = useState(undefined)
+        const [currentBuildingRevisionId, setCurrentBuildingRevisionId] = useState(undefined)
+        const mapColourScale = props.mapColourScale
+        const onMapColourScale = props.onMapColourScale
+        const [setShowSurveyModal, setSetShowSurveyModal] = useState(false)
+        
+        useEffect(() => {
             const newBuildingId = props.building == undefined ? undefined : props.building.building_id;
             const newBuildingRevisionId = props.building == undefined ? undefined : props.building.revision_id;
 
             const categoryKeys = {};
-            const blackListedKeys = ['current_landuse_order',
-                                     'current_landuse_verified',
-                                     'planning_list_grade',
-                                     'likes_total',
-                                     'community_type_worth_keeping_total',
-                                     'community_local_significance_total',
-                                     'community_expected_planning_application_total',
-                                     'thermal_stress_objective',
-                                     'thermal_stress_subjective',
-                                     'direction_of_windows',
-                                     'heat_adaption_measure',
-                                     'rain_flood_preventive_measures1',
-                                     'rain_flood_preventive_measures2',
-                                     'rain_flood_preventive_measures3',
-                                     'rain_flood_historic_incidents',
-                                     'size_height_apex',
-                                     'location_number',
-                                     'location_street',
-                                     'location_town',
-                                     'location_postcode',
-                                     'ref_toid',
-                                     'ref_osm_id',
-                                     'ref_osm_type',
-                                     'ref_land_parcel',
-                                     'location_latitude',
-                                     'location_longitude',
-                                     'planning_data'
-                                    ]
-            for (let key in dataFields) {  
-                let fieldName = props.building == undefined ? undefined : props.building[key];    
+            const blackListedKeys = [
+                'current_landuse_order',
+                'current_landuse_verified',
+                'planning_list_grade',
+                'likes_total',
+                'community_type_worth_keeping_total',
+                'community_local_significance_total',
+                'community_expected_planning_application_total',
+                'thermal_stress_objective',
+                'thermal_stress_subjective',
+                'direction_of_windows',
+                'heat_adaption_measure',
+                'rain_flood_preventive_measures1',
+                'rain_flood_preventive_measures2',
+                'rain_flood_preventive_measures3',
+                'rain_flood_historic_incidents',
+                'size_height_apex',
+                'location_number',
+                'location_street',
+                'location_town',
+                'location_postcode',
+                'ref_toid',
+                'ref_osm_id',
+                'ref_osm_type',
+                'ref_land_parcel',
+                'location_latitude',
+                'location_longitude',
+                'planning_data'
+            ]
+            for (const key in dataFields) {  
+                const fieldName = props.building == undefined ? undefined : props.building[key];    
                 if (dataFields[key].category == props.cat && fieldName != null && !blackListedKeys.includes(key)){
                     categoryKeys[key] = true;
                 }
@@ -141,77 +156,84 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                     categoryKeys[key] = true;
                 }
             }
-            if(newBuildingId !== state.currentBuildingId || newBuildingRevisionId > state.currentBuildingRevisionId) {
-                return {
-                    error: undefined,
-                    copying: false,
-                    keys_to_copy: categoryKeys,
-                    buildingEdits: {},
-                    currentBuildingId: newBuildingId,
-                    currentBuildingRevisionId: newBuildingRevisionId,
-                    mapColourScale: props.mapColourScale,
-                    onMapColourScale: props.onMapColourScale, 
-                    setShowSurveyModal: false
-                };
+
+            if(newBuildingId !== currentBuildingId || newBuildingRevisionId > currentBuildingRevisionId) {
+                setError(undefined)
+                setCopying(false)
+                setKeys_to_copy(categoryKeys)
+                setBuildingEdits({})
+                setCurrentBuildingId(newBuildingId)
+                setCurrentBuildingRevisionId(newBuildingRevisionId)
+                setSetShowSurveyModal(false)
             }
 
-            return null;
-        }
+        }, [
+            props.building,
+            props.cat,
+            currentBuildingId,
+            currentBuildingRevisionId,
+        ])
 
+
+        // handlers
         /**
          * Enter or exit "copying" state - allow user to select attributes to copy
          */
-        toggleCopying() {
-            this.setState({
-                copying: !this.state.copying
-            });
-        }
+        const toggleCopying = useCallback(() => {
+            setCopying((prevCopying) => !prevCopying)
+        }, [
+            // setCopying,
+        ])
 
         /**
          * Keep track of data to copy (accumulate while in "copying" state)
          *
          * @param {string} key
          */
-        toggleCopyAttribute(key: string) {
-            const keys = {...this.state.keys_to_copy};
-            if(this.state.keys_to_copy[key]){
+        const toggleCopyAttribute = useCallback((key: string) => {
+            const keys = {...keys_to_copy}
+            if(keys_to_copy[key]){
                 delete keys[key];
             } else {
                 keys[key] = true;
             }
-            this.setState({
-                keys_to_copy: keys
-            });
-        }
+            setKeys_to_copy(keys)
+        }, [
+            keys_to_copy,
+        ])
 
-        isEdited() {
-            // check if the edits object has any fields
-            return !_.isEmpty(this.state.buildingEdits);
-        }
+        const isEdited = useCallback(() => {
+            return !_.isEmpty(buildingEdits);
+        }, [
+            buildingEdits,
+        ])
 
-        clearEdits() {
-            this.setState({
-                buildingEdits: {}
-            });
-        }
+        const clearEdits = useCallback(() => {
+            setBuildingEdits({})
+        }, [
+        ])
 
-        getEditedBuilding() {
-            if(this.isEdited()) {
-                return Object.assign({}, this.props.building, this.state.buildingEdits);
+        const getEditedBuilding = useCallback(() => {
+            if(isEdited()) {
+                return Object.assign({}, props.building, buildingEdits);
             } else {
-                return {...this.props.building};
+                return {...props.building};
             }
-        }
+        }, [
+            props.building,
+            buildingEdits,
+            isEdited,
+        ])
 
-        updateBuildingState(key: string, value: any) {
-            const newBuilding = this.getEditedBuilding();
+        const updateBuildingState = useCallback((key: string, value: unknown) => {
+            const newBuilding = getEditedBuilding();
             newBuilding[key] = value;
-            const [forwardPatch] = compareObjects(this.props.building, newBuilding);
-
-            this.setState({
-                buildingEdits: forwardPatch
-            });
-        }
+            const [forwardPatch] = compareObjects(props.building, newBuilding);
+            setBuildingEdits(forwardPatch)
+        }, [
+            props.building,
+            getEditedBuilding,
+        ])
 
         /**
          * Handle update directly
@@ -220,105 +242,96 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
          * @param {String} name
          * @param {*} value
          */
-        handleChange(name: string, value: any) {
-            this.updateBuildingState(name, value);
-        }
+        const handleChange = useCallback((name: string, value: unknown) => {
+            updateBuildingState(name, value)
+        }, [
+            updateBuildingState,
+        ])
 
-        handleReset() {
-            this.clearEdits();
-        }
+        const handleReset = useCallback(() => {
+            clearEdits()
+        }, [
+            clearEdits,
+        ])
 
-
-
-
-
-        async getSurveyPopUpStatus(): Promise<void> {
+        const getSurveyPopUpStatus = useCallback(async (): Promise<void> => {
             /* depending on value in config file, API including SQL function will be triggered or not */
             if (config.enable_survey_popup == true){
                 try {
                     const user = await apiGet('/api/users/get_survey_popup_status');
                     if (user.error) {
-
-                        this.setState({
-                            setShowSurveyModal: false
-                        });
-            
+                        setSetShowSurveyModal(false)            
                     } else {
                         /* setUser(user); */
                         console.log(user[0].value);
                         /* convert API JSON response into boolean */
-                        var bool_value = false
+                        let bool_value = false
                         if ((user[0].value == "first") || (user[0].value == "second")){
                             bool_value = true;
                         }
                         /* var bool_value = user[0].value == "true" ? true : false; */
-                        
-                        /* console.log(bool_value); */
-                        /* console.log(typeof(bool_value)); */
-            
-                        this.setState({
-                            setShowSurveyModal: bool_value
-                        });
+                        setSetShowSurveyModal(bool_value)
             
                     }
                 } catch(err) {
                     /* setUserError('Error loading user info.'); */
-                    this.setState({
-                        setShowSurveyModal: false
-                    });
-            
+                    setSetShowSurveyModal(false)            
                 }
             }
-        };
+        }, [
+            config?.enable_survey_popup,
+        ])
 
-
-
-
-        async doSubmit(edits: Partial<Building & BuildingUserAttributes>) {
-            this.setState({error: undefined});
+        const doSubmit = useCallback(async (edits: Partial<Building & BuildingUserAttributes>) => {
+            setError(undefined)
             
             try {
-                const buildingUpdate = await sendBuildingUpdate(this.props.building.building_id, edits);
-                const updatedBuilding = Object.assign({}, this.props.building, buildingUpdate);
-                this.props.onBuildingUpdate(this.props.building.building_id, updatedBuilding);
+                const buildingUpdate = await sendBuildingUpdate(props.building.building_id, edits);
+                const updatedBuilding = Object.assign({}, props.building, buildingUpdate);
+                props.onBuildingUpdate(props.building.building_id, updatedBuilding);
 
                 /* trigger modal/popup show after saving changes */
-                this.getSurveyPopUpStatus();
-
-
+                getSurveyPopUpStatus();
             } catch(error) {
-                this.setState({ error });
+                setError(error)
             }
-        }
+        }, [
+            props.building,
+            props.building?.building_id,
+            getSurveyPopUpStatus,
+        ])
 
-        async handleSubmit(event) {
+        const handleSubmit = useCallback(async (event) => {
             event.preventDefault();
-            
-            this.doSubmit(this.state.buildingEdits);
-        }
+            doSubmit(buildingEdits);
+        }, [
+            buildingEdits,
+        ])
 
-        async handleSaveAdd(slug: string, newItem: any) {
-            if(this.props.building[slug] != undefined && !Array.isArray(this.props.building[slug])) {
-                this.setState({error: 'Unexpected error'});
-                console.error(`Sie versuchen ein neues Element dem Feld (${slug}) hinzuzufügen, welches keine Liste ist.`);
+        const handleSaveAdd = useCallback(async (slug: string, newItem: unknown) => {
+            if(props.building[slug] != undefined && !Array.isArray(props.building[slug])) {
+                setError(new Error('Unexpected error'));
+                console.error(new Error(`Sie versuchen ein neues Element dem Feld (${slug}) hinzuzufügen, welches keine Liste ist.`))
                 return;
             }
             
-            if(this.isEdited()) {
-                this.setState({error: 'Neuer Eintrag kann nicht gespeichert werden, da noch ungespeicherte Änderungen existieren.'});
+            if(isEdited()) {
+                setError(new Error('Neuer Eintrag kann nicht gespeichert werden, da noch ungespeicherte Änderungen existieren.'))
                 return;
             }
             
             const edits = {
-                [slug]: [...(this.props.building[slug] ?? []), newItem]
+                [slug]: [...(props.building[slug] ?? []), newItem]
             };
             
-            this.doSubmit(edits);
-        }
+            doSubmit(edits);
+        }, [
+            props.building,
+        ])
 
-        async handleSaveChange(slug: string, value: any) {
-            if(this.isEdited()) {
-                this.setState({ error: 'Wert kann nicht geändert werden, solange es ungesicherte Änderungen gibt. Speichern oder verwerfen Sie die Änderungen zuerst.'});
+        const handleSaveChange = useCallback(async (slug: string, value: unknown) => {
+            if(isEdited()) {
+                setError(new Error('Wert kann nicht geändert werden, solange es ungesicherte Änderungen gibt. Speichern oder verwerfen Sie die Änderungen zuerst.'));
                 return;
             }
 
@@ -326,25 +339,26 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                 [slug]: value
             };
 
-            this.doSubmit(edits);
-        }
+            doSubmit(edits);
+        }, [
+        ])
 
-        async handleVerify(slug: string, verify: boolean, x: number, y: number) {
+        const handleVerify = useCallback(async (slug: string, verify: boolean, x: number, y: number) => {
             const verifyPatch = {};
             if (verify) {
-                verifyPatch[slug] = this.props.building[slug];
+                verifyPatch[slug] = props.building[slug];
             } else {
                 verifyPatch[slug] = null;
             }
 
             try {
                 const data = await apiPost(
-                    `/api/buildings/${this.props.building.building_id}/verify.json`,
+                    `/api/buildings/${props.building.building_id}/verify.json`,
                     verifyPatch
                 );
 
                 if (data.error) {
-                    this.setState({error: data.error});
+                    setError(data.error);
                 } else {
                     if (verify) {
                         Confetti({
@@ -356,10 +370,10 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                             zIndex: 2000
                         });
                     }
-                    this.props.onUserVerifiedUpdate(this.props.building.building_id, data);
+                    props.onUserVerifiedUpdate(props.building.building_id, data);
                 }
             } catch(err) {
-                this.setState({error: err});
+                setError(err);
             }
             
             if (slug == 'current_landuse_group'){
@@ -367,67 +381,71 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                     'current_landuse_verified': true
                 };
 
-                this.doSubmit(edits);
+                doSubmit(edits);
             }
             console.log(slug + " verify button clicked")
+        }, [
+            props.building,
+            props.onUserVerifiedUpdate,
+        ])
+
+        const currentBuilding = getEditedBuilding();
+
+        const values_to_copy = {};
+        for (const key of Object.keys(keys_to_copy)) {
+            values_to_copy[key] = currentBuilding[key];
         }
+        const data_string = JSON.stringify(values_to_copy);
+        const copy: CopyProps = {
+            copying: copying,
+            toggleCopying: toggleCopying,
+            toggleCopyAttribute: toggleCopyAttribute,
+            copyingKey: (key: string) => keys_to_copy[key]
+        };
 
-        render() {
-            const currentBuilding = this.getEditedBuilding();
+        const headerBackLink = `/${props.mode}/categories${props.building != undefined ? `/${props.building.building_id}` : ''}`;
+        const edited = isEdited();
+        const isDragging = useRef(false)
+        const startY = useRef(0);
+        const startHeight = useRef(0)
 
-            const values_to_copy = {};
-            for (const key of Object.keys(this.state.keys_to_copy)) {
-                values_to_copy[key] = currentBuilding[key];
-            }
-            const data_string = JSON.stringify(values_to_copy);
-            const copy: CopyProps = {
-                copying: this.state.copying,
-                toggleCopying: this.toggleCopying,
-                toggleCopyAttribute: this.toggleCopyAttribute,
-                copyingKey: (key: string) => this.state.keys_to_copy[key]
-            };
-
-            const headerBackLink = `/${this.props.mode}/categories${this.props.building != undefined ? `/${this.props.building.building_id}` : ''}`;
-            const edited = this.isEdited();
-
-            return (
-                <section
-                    id={this.props.cat}
-                    className="data-section">
-
-
-
+        return (
+            <section
+                id={props.cat}
+                className="data-section"
+            >
                 <SurveyModal
-                    show={this.state.setShowSurveyModal}
+                    show={setShowSurveyModal}
                     title="Umfrage"
                     description="Wir brauchen deine Rückmeldung! Nur mit dir können wir die Webseite verbessern und Gebäude in Dresden erforschen. Jede Stimme zählt."
                     confirmButtonText="Schließen"
                     confirmButtonClass="btn-secondary"
-                    onConfirm={() => this.setState({setShowSurveyModal:false})}
-                    onCancel={() => this.setState({setShowSurveyModal:false})}
+                    onConfirm={() => setSetShowSurveyModal(false)}
+                    onCancel={() => setSetShowSurveyModal(false)}
                 />
-
-
                 <ContainerHeader
-                    cat={this.props.cat}
-                    title={this.props.title}
+                    cat={props.cat}
+                    title={props.title}
+                    onMove={props.onMoveHeader}
                 >
                 {
-                    this.props.help && !copy.copying?
+                    props.help && !copy.copying?
                         <a
                             className="icon-button help"
                             title="Mehr erfahren"
-                            href={this.props.help}
-                            target="_blank">
-                            <InfoIconSimple />
+                            href={props.help || '#'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <InfoIcon />
                         </a>
                     : null
                 }
                 {
-                    this.props.building != undefined && !this.props.inactive ?
+                    props.building != undefined && !props.inactive ?
                         <>
                             <CopyControl
-                                cat={this.props.cat}
+                                cat={props.cat}
                                 data_string={data_string}
                                 copying={copy.copying}
                                 toggleCopying={copy.toggleCopying}
@@ -437,12 +455,12 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                                 <>
                                     <NavLink
                                         className="icon-button history"
-                                        to={`/${this.props.mode}/${this.props.cat}/${this.props.building.building_id}/history`}
-                                    >Historie</NavLink>
+                                        to={`/${props.mode}/${props.cat}/${props.building.building_id}/history`}
+                                    ><EditHistoryIcon /></NavLink>
                                     <ViewEditControl
-                                        cat={this.props.cat}
-                                        mode={this.props.mode}
-                                        building={this.props.building}
+                                        cat={props.cat}
+                                        mode={props.mode}
+                                        building={props.building}
                                     />
                                 </>
                                 :
@@ -452,18 +470,20 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                     : null
                 }
                 </ContainerHeader>
-                <div className="section-body">
-                <EditHistoryLatest
-                    building={this.props.building}
-                />
-                {
-                    this.props.inactive ?
-                        <Fragment>
-                            <WrappedComponent
-                                intro={this.props.intro}
-                                building={this.props.building}
-                                mode={this.props.mode}
-                                edited={false}
+                <div className="section-body"
+                    style={(props.contentHeight !== undefined) ? {height: `${props.contentHeight}px`} : {}}
+                >
+                    <EditHistoryLatest
+                        building={props.building}
+                    />
+                    {
+                        props.inactive ?
+                            <Fragment>
+                                <WrappedComponent
+                                    intro={props.intro}
+                                    building={props.building}
+                                    mode={props.mode}
+                                    edited={false}
                                 copy={copy}
                                 onChange={undefined}
                                 onVerify={undefined}
@@ -474,74 +494,84 @@ const withCopyEdit: (wc: React.ComponentType<CategoryViewProps>) => DataContaine
                                 onMapColourScale={undefined}
                             />
                         </Fragment> :
-                        this.props.building != undefined ?
-                            <form
-                                action={`/edit/${this.props.cat}/${this.props.building.building_id}`}
-                                method="POST"
-                                onSubmit={this.handleSubmit}>
-                                    {/* this disabled button prevents form submission on enter - see https://stackoverflow.com/a/51507806/1478817 */}
-                                    <button type="submit" disabled style={{display: 'none'}}></button>
-                                {
-                                    (this.props.mode === 'edit' && !this.props.inactive) ?
-                                        <div className='edit-bar'>
-                                            <ErrorBox msg={this.state.error} />
-                                            {
-                                                this.props.cat !== 'like' && // special-case for likes
-                                                    <div className="buttons-container with-space">
-                                                        <button
-                                                            type="submit"
-                                                            className="btn btn-primary"
-                                                            disabled={!edited}
-                                                            aria-disabled={!edited}
-                                                        >
-                                                            Änderungen speichern
-                                                        </button>
-                                                        {
-                                                            edited ?
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-warning"
-                                                                    onClick={this.handleReset}
-                                                                    >
-                                                                    Änderungen verwerfen
-                                                                </button> :
-                                                                null
-                                                        }
-                                                    </div>
-                                            }
-                                        </div>
-                                        : null
-                                }
-                                <WrappedComponent
-                                    intro={this.props.intro}
+                        (props.cat == Category.Welcome)
+                            ? <WrappedComponent
+                                    intro={props.intro}
                                     building={currentBuilding}
-                                    mode={this.props.mode}
+                                    mode={props.mode}
                                     edited={edited}
                                     copy={copy}
-                                    onChange={this.handleChange}
-                                    onVerify={this.handleVerify}
-                                    onSaveAdd={this.handleSaveAdd}
-                                    onSaveChange={this.handleSaveChange}
-                                    user_verified={this.props.user_verified}
-                                    user={this.props.user}
-                                    mapColourScale={this.props.mapColourScale}
-                                    onMapColourScale={this.props.onMapColourScale}
+                                    onChange={handleChange}
+                                    onVerify={handleVerify}
+                                    onSaveAdd={handleSaveAdd}
+                                    onSaveChange={handleSaveChange}
+                                    user_verified={props.user_verified}
+                                    user={props.user}
+                                    mapColourScale={props.mapColourScale}
+                                    onMapColourScale={props.onMapColourScale}
                                 />
-                            </form> :
-                            <InfoBox msg="Wählen Sie ein Gebäude aus um die Daten zu sehen."></InfoBox>
+                            : (props.building != undefined)
+                                ? <form
+                                        action={`/edit/${props.cat}/${props.building.building_id}`}
+                                        method="POST"
+                                        onSubmit={handleSubmit}>
+                                            {/* this disabled button prevents form submission on enter - see https://stackoverflow.com/a/51507806/1478817 */}
+                                            <button type="submit" disabled style={{display: 'none'}}></button>
+                                        {
+                                            (props.mode === 'edit' && !props.inactive) ?
+                                                <div className='edit-bar'>
+                                                    <ErrorBox msg={error?.message} />
+                                                    {
+                                                        props.cat !== 'like' && // special-case for likes
+                                                            <div className="buttons-container with-space">
+                                                                <button
+                                                                    type="submit"
+                                                                    className="btn btn-primary"
+                                                                    disabled={!edited}
+                                                                    aria-disabled={!edited}
+                                                                >
+                                                                    Änderungen speichern
+                                                                </button>
+                                                                {
+                                                                    edited ?
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-warning"
+                                                                            onClick={handleReset}
+                                                                            >
+                                                                            Änderungen verwerfen
+                                                                        </button> :
+                                                                        null
+                                                                }
+                                                            </div>
+                                                    }
+                                                </div>
+                                                : null
+                                        }
+                                        <WrappedComponent
+                                            intro={props.intro}
+                                            building={currentBuilding}
+                                            mode={props.mode}
+                                            edited={edited}
+                                            copy={copy}
+                                            onChange={handleChange}
+                                            onVerify={handleVerify}
+                                            onSaveAdd={handleSaveAdd}
+                                            onSaveChange={handleSaveChange}
+                                            user_verified={props.user_verified}
+                                            user={props.user}
+                                            mapColourScale={props.mapColourScale}
+                                            onMapColourScale={props.onMapColourScale}
+                                        />
+                                    </form>
+                                : <InfoBox msg="Wählen Sie ein Gebäude aus um die Daten zu sehen."></InfoBox>
                 }
                 </div>
+            </section>
+        )
+    }
 
+    return DataContainer
+}
 
-
-
-
-
-
-                </section>
-            );
-        }
-    };
-};
-
-export default withCopyEdit;
+export default withCopyEditFc;

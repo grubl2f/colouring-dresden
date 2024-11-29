@@ -219,7 +219,7 @@ const CommunityView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("community_public_ownership")}
                 user_verified_as={props.user_verified.community_public_ownership}
-                verified_count={props.building.verified.community_public_ownership}
+                verified_count={props.building.verified?.community_public_ownership}
                 />
         <MultiDataEntry
             slug='community_public_ownership_sources'
@@ -238,7 +238,7 @@ const CommunityView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("community_public_ownership_sources")}
                 user_verified_as={props.user_verified.community_public_ownership_sources}
-                verified_count={props.building.verified.community_public_ownership_sources}
+                verified_count={props.building.verified?.community_public_ownership_sources}
                 /> */}
 
 

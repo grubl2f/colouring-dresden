@@ -60,7 +60,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("roof_colour")}
                     user_verified_as={props.user_verified.roof_colour}
-                    verified_count={props.building.verified.roof_colour}
+                    verified_count={props.building.verified?.roof_colour}
                 />
 
                 <SelectDataEntry
@@ -80,7 +80,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("roof_colour_type")}
                     user_verified_as={props.user_verified.roof_colour_type}
-                    verified_count={props.building.verified.roof_colour_type}
+                    verified_count={props.building.verified?.roof_colour_type}
                 />
 
                 <SelectDataEntry
@@ -100,7 +100,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("facade_colour")}
                     user_verified_as={props.user_verified.facade_colour}
-                    verified_count={props.building.verified.facade_colour}
+                    verified_count={props.building.verified?.facade_colour}
                 />
 
                 {/* entry for facade window percentage */}
@@ -121,7 +121,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("facade_window_percentage")}
                     user_verified_as={props.user_verified.facade_window_percentage}
-                    verified_count={props.building.verified.facade_window_percentage}
+                    verified_count={props.building.verified?.facade_window_percentage}
                 />
 
 
@@ -251,7 +251,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("heat_adaption_measure_source")}
                     user_verified_as={props.user_verified.heat_adaption_measure_source}
-                    verified_count={props.building.verified.heat_adaption_measure_source}
+                    verified_count={props.building.verified?.heat_adaption_measure_source}
                 />
             </DataEntryGroup>
 
@@ -280,7 +280,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("terrain_connection_yesno")}
                     user_verified_as={props.user_verified.terrain_connection_yesno}
-                    verified_count={props.building.verified.terrain_connection_yesno}
+                    verified_count={props.building.verified?.terrain_connection_yesno}
                 />
 
                 {/* hide or show this builidng feature by condition */}
@@ -303,7 +303,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                         onVerify={props.onVerify}
                         user_verified={props.user_verified.hasOwnProperty("terrain_connection_difference")}
                         user_verified_as={props.user_verified.terrain_connection_difference}
-                        verified_count={props.building.verified.terrain_connection_difference}
+                        verified_count={props.building.verified?.terrain_connection_difference}
                     />
 
                     <SelectDataEntry
@@ -323,7 +323,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                         onVerify={props.onVerify}
                         user_verified={props.user_verified.hasOwnProperty("terrain_connection_difference_source")}
                         user_verified_as={props.user_verified.terrain_connection_difference_source}
-                        verified_count={props.building.verified.terrain_connection_difference_source}
+                        verified_count={props.building.verified?.terrain_connection_difference_source}
                     />
                     </>
                     : 
@@ -351,7 +351,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("basement_type")}
                     user_verified_as={props.user_verified.basement_type}
-                    verified_count={props.building.verified.basement_type}
+                    verified_count={props.building.verified?.basement_type}
                 />
 
 
@@ -372,7 +372,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("basement_percentage")}
                     user_verified_as={props.user_verified.basement_percentage}
-                    verified_count={props.building.verified.basement_percentage}
+                    verified_count={props.building.verified?.basement_percentage}
                 />               
 
 
@@ -393,7 +393,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("basement_use")}
                     user_verified_as={props.user_verified.basement_use}
-                    verified_count={props.building.verified.basement_use}
+                    verified_count={props.building.verified?.basement_use}
                 />
 
                 <DataEntry
@@ -412,7 +412,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("basement_use_source")}
                     user_verified_as={props.user_verified.basement_use_source}
-                    verified_count={props.building.verified.basement_use_source}
+                    verified_count={props.building.verified?.basement_use_source}
                 />
 
             </DataEntryGroup>
@@ -533,7 +533,7 @@ const ResilienceView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("rain_flood_preventive_measures_source")}
                     user_verified_as={props.user_verified.rain_flood_preventive_measures_source}
-                    verified_count={props.building.verified.rain_flood_preventive_measures_source}
+                    verified_count={props.building.verified?.rain_flood_preventive_measures_source}
                 />
 
             </DataEntryGroup>

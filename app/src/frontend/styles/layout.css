@@ -7,6 +7,14 @@ html, body, #root {
 body {
     margin: 0;
 }
+
+/**
+ * WORKAROUND DEV IFRAME:
+ */
+body > iframe {
+    display: none;
+}
+
 /**
  * Text pages
  */
@@ -42,11 +50,11 @@ article .color-block {
     padding-left: 1em;
     padding-right: 1em;
 }
-@media(min-width: 768px) {
+/* @media(min-width: 768px) {
     .main-col {
         min-width: 48em;
     }
-}
+} */
 hr {
     display: block;
     height: 1px;
@@ -55,4 +63,32 @@ hr {
     width: 100%;
     margin: 2em 0;
     padding: 0;
+}
+
+@media(max-width:734px) {
+    html,
+    body,
+    #root {
+        overflow: hidden;
+    }
+    #root {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    * {
+    /* html,
+    body,
+    #root,
+    label, input, textarea, select, button,
+    div, header, footer,
+    h1, h2, h3, h4, h5,
+    span { */
+        overscroll-behavior: none;
+    }
+}
+
+.disable-interactions {
+    pointer-events: none;
 }

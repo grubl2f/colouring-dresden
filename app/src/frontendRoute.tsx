@@ -117,7 +117,7 @@ function renderHTML(context, data, req, res) {
         <link rel="icon" sizes="192x192" href="icon-192x192.png">
 
         <title>Colouring ${config.cityName}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no, maximum-scale=1, minimum-scale=1">
         <style>
           @font-face {
             font-family: 'glacial_cl';

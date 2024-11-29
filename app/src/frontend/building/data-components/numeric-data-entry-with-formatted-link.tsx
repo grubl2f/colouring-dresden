@@ -49,7 +49,7 @@ const NumericDataEntryWithFormattedLink: React.FunctionComponent<NumericDataEntr
                     }
                 />
                 <div className="input-lookalike with-margin">
-                    {props.value == undefined ? <div></div> : <a className="with-margin" href={props.linkTargetFunction(props.value)} target="_blank">{props.linkDescriptionFunction(props.value)}</a>}
+                    {props.value == undefined ? <div></div> : <a className="with-margin" href={props.linkTargetFunction(props.value) || '#'} target="_blank" rel="noopener noreferrer">{props.linkDescriptionFunction(props.value)}</a>}
                 </div>
             </FieldRow>
         </Fragment>

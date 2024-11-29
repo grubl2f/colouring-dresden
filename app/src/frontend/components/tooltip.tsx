@@ -18,7 +18,7 @@ const linkRegex = /\[([^[]+?)\]\(([^(]+?)\)/;
 
 function markdownLinkToAnchor(link: string) {
     const m = link.match(linkRegex);
-        return (<a href={m[2]} target="_blank">{m[1]}</a>);
+        return (<a href={m[2] || '#'} target="_blank" rel="noopener noreferrer">{m[1]}</a>);
 }
 
 function interweave(arr1: any[], arr2: any[]): any[] {

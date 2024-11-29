@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '../auth-context';
 
 import { categoriesConfig, Category } from '../config/categories-config';
@@ -17,6 +17,11 @@ interface BuildingViewProps {
     onUserVerifiedUpdate: (buildingId: number, updatedData: UserVerified) => void;
     mapColourScale: BuildingMapTileset;
     onMapColourScale: (x: BuildingMapTileset) => void;
+
+    collapsed: boolean;
+    // setCollapsed: (collapsed: boolean | ((prevState: boolean) => boolean)) => void;
+    onResize: (dX: number, dY: number) => void;
+    contentHeight: number;
 }
 
 /**
@@ -41,6 +46,14 @@ const BuildingView: React.FunctionComponent<BuildingViewProps> = (props) => {
         inactive = false
     } = categoryConfig;
 
+    useEffect(() => {
+        console.debug("BuildingView: useEffect:", props)
+    }, [
+        props.contentHeight,
+        props.onResize,
+        props.collapsed,
+    ])
+
     return <DataContainer
         {...props}
         title={name}
@@ -50,6 +63,11 @@ const BuildingView: React.FunctionComponent<BuildingViewProps> = (props) => {
         user={user}
         mapColourScale={props.mapColourScale}
         onMapColourScale={props.onMapColourScale}
+
+        collapsed={props.collapsed}
+        // setCollapsed={props.setCollapsed}
+        onMoveHeader={props.onResize}
+        contentHeight={props.contentHeight}
     />; 
 };
 

@@ -61,7 +61,7 @@ const TypeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("building_attachment_form")}
                 user_verified_as={props.user_verified.building_attachment_form}
-                verified_count={props.building.verified.building_attachment_form}
+                verified_count={props.building.verified?.building_attachment_form}
             />
 
 
@@ -84,7 +84,7 @@ const TypeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_roof_shape")}
                 user_verified_as={props.user_verified.size_roof_shape}
-                verified_count={props.building.verified.size_roof_shape}
+                verified_count={props.building.verified?.size_roof_shape}
             />   
 
             <DataEntry
@@ -103,7 +103,7 @@ const TypeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_roof_shape_source")}
                 user_verified_as={props.user_verified.size_roof_shape_source}
-                verified_count={props.building.verified.size_roof_shape_source}
+                verified_count={props.building.verified?.size_roof_shape_source}
             />
 
 
@@ -136,7 +136,7 @@ const TypeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("building_owner")}
                 user_verified_as={props.user_verified.building_owner}
-                verified_count={props.building.verified.building_owner}
+                verified_count={props.building.verified?.building_owner}
             />
 
             <DataEntry
@@ -155,7 +155,7 @@ const TypeView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("building_owner_source")}
                 user_verified_as={props.user_verified.building_owner_source}
-                verified_count={props.building.verified.building_owner_source}
+                verified_count={props.building.verified?.building_owner_source}
             />
 
 

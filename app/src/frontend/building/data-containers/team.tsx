@@ -44,7 +44,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("landowner")}
               user_verified_as={props.user_verified.landowner}
-              verified_count={props.building.verified.landowner}
+              verified_count={props.building.verified?.landowner}
               />
           <MultiDataEntry
               title={dataFields.landowner_source_link.title}
@@ -64,7 +64,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("landowner_source_link")}
               user_verified_as={props.user_verified.landowner_source_link}
-              verified_count={props.building.verified.landowner_source_link}
+              verified_count={props.building.verified?.landowner_source_link}
               />
           <NumericDataEntry
               slug='date_year'
@@ -84,7 +84,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("date_year")}
               user_verified_as={props.user_verified.date_year}
-              verified_count={props.building.verified.date_year}
+              verified_count={props.building.verified?.date_year}
               />
           <LogicalDataEntry
               title={dataFields.has_extension.title}
@@ -115,7 +115,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("extension_year")}
                 user_verified_as={props.user_verified.extension_year}
-                verified_count={props.building.verified.extension_year}
+                verified_count={props.building.verified?.extension_year}
                 />
           </>
         ) : (null)}
@@ -134,7 +134,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("developer_type")}
               user_verified_as={props.user_verified.developer_type}
-              verified_count={props.building.verified.developer_type}
+              verified_count={props.building.verified?.developer_type}
               />
           <MultiDataEntry
               title={dataFields.developer_name.title}
@@ -153,7 +153,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("developer_name")}
               user_verified_as={props.user_verified.developer_name}
-              verified_count={props.building.verified.developer_name}
+              verified_count={props.building.verified?.developer_name}
               />
           <MultiDataEntry
               title={dataFields.developer_source_link.title}
@@ -173,7 +173,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("developer_source_link")}
               user_verified_as={props.user_verified.developer_source_link}
-              verified_count={props.building.verified.developer_source_link}
+              verified_count={props.building.verified?.developer_source_link}
               />
           <MultiDataEntry
               title={dataFields.designers.title}
@@ -192,7 +192,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("designers")}
               user_verified_as={props.user_verified.designers}
-              verified_count={props.building.verified.designers}
+              verified_count={props.building.verified?.designers}
               />
           <MultiDataEntry
               title={dataFields.designers_source_link.title}
@@ -212,7 +212,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("designers_source_link")}
               user_verified_as={props.user_verified.designers_source_link}
-              verified_count={props.building.verified.designers_source_link}
+              verified_count={props.building.verified?.designers_source_link}
               />
           <SelectDataEntry
               slug='lead_designer_type'
@@ -229,7 +229,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("lead_designer_type")}
               user_verified_as={props.user_verified.lead_designer_type}
-              verified_count={props.building.verified.lead_designer_type}
+              verified_count={props.building.verified?.lead_designer_type}
               />
           <LogicalDataEntryYesOnly
               slug='designer_awards'
@@ -246,7 +246,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("designer_awards")}
               user_verified_as={props.user_verified.designer_awards}
-              verified_count={props.building.verified.designer_awards}
+              verified_count={props.building.verified?.designer_awards}
               />
         {props.building.designer_awards ? (
           <>
@@ -268,7 +268,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
               onVerify={props.onVerify}
               user_verified={props.user_verified.hasOwnProperty("awards_source_link")}
               user_verified_as={props.user_verified.awards_source_link}
-              verified_count={props.building.verified.awards_source_link}
+              verified_count={props.building.verified?.awards_source_link}
               />
           </>
         ) : (null)
@@ -289,7 +289,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
            onVerify={props.onVerify}
            user_verified={props.user_verified.hasOwnProperty("builder")}
            user_verified_as={props.user_verified.builder}
-           verified_count={props.building.verified.builder}
+           verified_count={props.building.verified?.builder}
            />
        <MultiDataEntry
            title={dataFields.builder_source_link.title}
@@ -308,7 +308,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
            onVerify={props.onVerify}
            user_verified={props.user_verified.hasOwnProperty("builder_source_link")}
            user_verified_as={props.user_verified.builder_source_link}
-           verified_count={props.building.verified.builder_source_link}
+           verified_count={props.building.verified?.builder_source_link}
            />
        <MultiDataEntry
            title={dataFields.other_team.title}
@@ -326,7 +326,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
            onVerify={props.onVerify}
            user_verified={props.user_verified.hasOwnProperty("other_team")}
            user_verified_as={props.user_verified.other_team}
-           verified_count={props.building.verified.other_team}
+           verified_count={props.building.verified?.other_team}
            />
        <MultiDataEntry
            title={dataFields.other_team_source_link.title}
@@ -345,7 +345,7 @@ const TeamView: React.FunctionComponent<CategoryViewProps> = (props) => {
            onVerify={props.onVerify}
            user_verified={props.user_verified.hasOwnProperty("other_team_source_link")}
            user_verified_as={props.user_verified.other_team_source_link}
-           verified_count={props.building.verified.other_team_source_link}
+           verified_count={props.building.verified?.other_team_source_link}
            /> */}
      </form>
     );

@@ -14,10 +14,12 @@ import { CategoryViewProps } from './category-view-props';
 const locationNumberPattern = "[1-9]\\d*[a-z]?(-([1-9]\\d*))?"; ///[1-9]\d*[a-z]?(-([1-9]\d*))?/;
 
 function generate_osm_link(osm_id, osm_type) {
+    console.debug("generate_osm_link", {osm_id, osm_type})
     return "https://www.openstreetmap.org/"+ osm_type + "/" + osm_id.padStart(9, "0");
     }
 
 function generate_wikidata_link(wikidata_id) {
+    console.debug("generate_wikidata_link", {wikidata_id})
     return "https://www.wikidata.org/wiki/"+ wikidata_id;
     }
 
@@ -41,7 +43,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_name")}
             user_verified_as={props.user_verified.location_name}
-            verified_count={props.building.verified.location_name}
+            verified_count={props.building.verified?.location_name}
             />
 
 
@@ -63,7 +65,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_number")}
             user_verified_as={props.user_verified.location_number}
-            verified_count={props.building.verified.location_number}
+            verified_count={props.building.verified?.location_number}
             /> */}
 
         <DataEntry
@@ -82,7 +84,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_street")}
             user_verified_as={props.user_verified.location_street}
-            verified_count={props.building.verified.location_street}
+            verified_count={props.building.verified?.location_street}
             /> */}
 
 {/*         <DataEntry
@@ -101,7 +103,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_line_two")}
             user_verified_as={props.user_verified.location_line_two}
-            verified_count={props.building.verified.location_line_two}
+            verified_count={props.building.verified?.location_line_two}
             /> */}
         <DataEntry
             title={dataFields.location_town.title}
@@ -119,7 +121,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_town")}
             user_verified_as={props.user_verified.location_town}
-            verified_count={props.building.verified.location_town}
+            verified_count={props.building.verified?.location_town}
             /> */}
         <DataEntry
             title={dataFields.location_postcode.title}
@@ -139,7 +141,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_postcode")}
             user_verified_as={props.user_verified.location_postcode}
-            verified_count={props.building.verified.location_postcode}
+            verified_count={props.building.verified?.location_postcode}
             /> */}
         <DataEntry
             title={dataFields.ref_toid.title}
@@ -175,7 +177,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("ref_osm_id")}
             user_verified_as={props.user_verified.ref_osm_id}
-            verified_count={props.building.verified.ref_osm_id}
+            verified_count={props.building.verified?.ref_osm_id}
             /> */}
 
         <DataEntry
@@ -195,13 +197,13 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("ref_osm_type")}
             user_verified_as={props.user_verified.ref_osm_type}
-            verified_count={props.building.verified.ref_osm_type}
+            verified_count={props.building.verified?.ref_osm_type}
             /> */}
 
 
         {/* hide or show this link zu OSM . org  by condition */}
 
-        {(props.building.ref_osm_id !== null) ?
+        {((typeof props.building.ref_osm_id === 'string' && props.building.ref_osm_id.trim().length > 0) && (typeof props.building.ref_osm_type === 'string' && props.building.ref_osm_type.trim().length > 0)) ?
 
 
         <>
@@ -210,7 +212,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 <b>gehe zu OpenStreetMap: </b> 
             </p>
             <p>
-                <a href={generate_osm_link(props.building.ref_osm_id, props.building.ref_osm_type)} target="_blank">{generate_osm_link(props.building.ref_osm_id, props.building.ref_osm_type)}</a>
+                <a href={generate_osm_link(props.building.ref_osm_id, props.building.ref_osm_type) || '#'} target="_blank" rel="noopener noreferrer">{generate_osm_link(props.building.ref_osm_id, props.building.ref_osm_type)}</a>
             </p>
 
 
@@ -240,7 +242,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("ref_land_parcel")}
             user_verified_as={props.user_verified.ref_land_parcel}
-            verified_count={props.building.verified.ref_land_parcel}
+            verified_count={props.building.verified?.ref_land_parcel}
             /> */}
 
 
@@ -261,7 +263,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("ref_wikidata")}
             user_verified_as={props.user_verified.ref_wikidata}
-            verified_count={props.building.verified.ref_wikidata}
+            verified_count={props.building.verified?.ref_wikidata}
             />
 
 
@@ -274,7 +276,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 <b>gehe zu Wikidata: </b> 
             </p>
             <p>
-                <a href={generate_wikidata_link(props.building.ref_wikidata)} target="_blank">{generate_wikidata_link(props.building.ref_wikidata)}</a>
+                <a href={generate_wikidata_link(props.building.ref_wikidata) || '#'} target="_blank" rel="noopener noreferrer">{generate_wikidata_link(props.building.ref_wikidata)}</a>
             </p>
 
 
@@ -301,7 +303,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("ref_wikipedia")}
             user_verified_as={props.user_verified.ref_wikipedia}
-            verified_count={props.building.verified.ref_wikipedia}
+            verified_count={props.building.verified?.ref_wikipedia}
             />
 
 
@@ -314,7 +316,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 <b>gehe zu Wikipedia: </b> 
             </p>
             <p>
-                <a href={props.building.ref_wikipedia} target="_blank">{props.building.ref_wikipedia}</a>
+                <a href={props.building.ref_wikipedia || '#'} target="_blank" rel="noopener noreferrer">{props.building.ref_wikipedia}</a>
             </p>
 
 
@@ -345,7 +347,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_latitude")}
             user_verified_as={props.user_verified.location_latitude}
-            verified_count={props.building.verified.location_latitude}
+            verified_count={props.building.verified?.location_latitude}
             /> */}
         <NumericDataEntry
             title={dataFields.location_longitude.title}
@@ -366,7 +368,7 @@ const LocationView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("location_longitude")}
             user_verified_as={props.user_verified.location_longitude}
-            verified_count={props.building.verified.location_longitude}
+            verified_count={props.building.verified?.location_longitude}
             /> */}
     </Fragment>
 );

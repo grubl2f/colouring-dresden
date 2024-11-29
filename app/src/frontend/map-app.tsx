@@ -23,6 +23,7 @@ import { defaultMapCategory, categoryMapsConfig } from './config/category-maps-c
 import { useMultiEditData } from './hooks/use-multi-edit-data';
 import { useAuth } from './auth-context';
 import { sendBuildingUpdate } from './api-data/building-update';
+import { useViewSize } from './hooks/use-view-size';
 
 /**
  * Load and render ColouringMap component on client-side only.
@@ -74,9 +75,35 @@ export const MapApp: React.FC<MapAppProps> = props => {
     const [categoryUrlParam] = useUrlCategoryParam();
 
     const [currentCategory, setCategory] = useState<Category>();
+
+    const { width: screenWidth, height: screenHeight, isMobileWidth, wasMobileWidth } = useViewSize(0)
+
     useEffect(() => setCategory(unless(categoryUrlParam, 'categories')), [categoryUrlParam]);
+
+    const [collapsed, setCollapsed] = useState<boolean | undefined>(false);
+
+    const checkDefaultCollapsed = useCallback(() => {
+        const v = {
+            isMobileWidth,
+            isCurrentCategoryNotUndefined: currentCategory !== undefined,
+            isCurrentCategoryKnown: Object.values(Category).includes(currentCategory as Category),
+            isNotWelcomeCat: (currentCategory as Category) !== Category.Welcome,
+        }
+        console.debug("MapApp: checkDefaultCollapsed:", {...v, collapsed, isMobileWidth, currentCategory})
+        setTimeout(() => {
+            console.debug("MapApp: checkDefaultCollapsed: delayed:", {...v, collapsed, isMobileWidth, currentCategory});
+        }, 500);
+        return Object.values(v).every(v => v)
+    }, [
+        isMobileWidth,
+        currentCategory,
+    ])
     
     const displayCategory = useLastNotEmpty(currentCategory) ?? defaultMapCategory;
+    useEffect(() => {
+        console.debug("MapApp: init collapsed:", {collapsed, isMobileWidth, currentCategory, displayCategory })
+        setCollapsed(checkDefaultCollapsed());
+    }, []);
     
     const [selectedBuildingId, setSelectedBuildingId] = useUrlBuildingParam('view', displayCategory);
     
@@ -95,12 +122,14 @@ export const MapApp: React.FC<MapAppProps> = props => {
 
     const selectBuilding = useCallback((selectedBuilding: Building) => {
         const currentId = selectedBuildingId;
+        console.debug("selectBuilding:", {selectedBuildingId, building});
         updateBuilding(selectedBuilding);
         setSelectedBuildingId(setOrToggle(currentId, selectedBuilding?.building_id));
     }, [selectedBuildingId, setSelectedBuildingId, updateBuilding, building]);
 
     const colourBuilding = useCallback(async (building: Building) => {
         const buildingId = building?.building_id;
+        console.debug("colourBuilding:", {buildingId, building});
 
         if(buildingId != undefined && multiEditError == undefined) {
             try {
@@ -135,14 +164,52 @@ export const MapApp: React.FC<MapAppProps> = props => {
     const categoryMapDefinitions = useMemo(() => categoryMapsConfig[displayCategory], [displayCategory]);
     const availableMapStyles = useMemo(() => categoryMapDefinitions.map(x => x.mapStyle), [categoryMapDefinitions]);
     const [mapColourScale, setMapColourScale] = useStateWithOptions<BuildingMapTileset>(undefined, availableMapStyles);
+    const [sidebarContentHeight, setSidebarContentHeight] = useState(0);
+    const handleMoveHeader = useCallback((dX: number, dY: number) => {
+        console.debug("MapApp: handleMoveHeader:", {dX, dY, screenHeight, sidebarContentHeight})
+        setSidebarContentHeight((prevHeight) => {
+            const newHeight = Math.min(screenHeight, Math.max(0, prevHeight - dY));
+            console.debug("MapApp: handleMoveHeader: setSidebarContentHeight: newHeight:", {prevHeight, newHeight, dX, dY, screenHeight, max: Math.max(0, prevHeight - dY), min: Math.min(screenHeight, Math.max(0, prevHeight - dY))}, )
+            return newHeight;
+        });
+    }, [
+      screenHeight,
+   ]);
+//    }, []);
+
+    useEffect(() => {
+        console.debug("MapApp: useEffect: screenHeight, sidebarContentHeight:", {screenHeight, sidebarContentHeight})
+//        setScreenHeigh(window?.innerHeight);
+    }, [
+        screenHeight,
+        sidebarContentHeight,
+//        window,
+//        window?.innerHeight,
+    ]);
+
+
 
     return (
         <>
             <PrivateRoute path="/:mode(edit|multi-edit)" /> {/* empty private route to ensure auth for editing */}
-            <Sidebar>
+            <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} onResize={handleMoveHeader}>
                 <Switch>
                     <Route exact path="/">
-                        <Welcome />
+                        <Categories mode={'view'} building_id={selectedBuildingId} />
+                        <BuildingView
+                            mode={'view'}
+                            cat={Category.Welcome}
+                            building={building}
+                            user_verified={userVerified ?? {}}
+                            onBuildingUpdate={handleBuildingUpdate}
+                            onUserVerifiedUpdate={handleUserVerifiedUpdate}
+                            mapColourScale={mapColourScale}
+                            onMapColourScale={setMapColourScale}
+
+                            collapsed={collapsed}
+                            onResize={handleMoveHeader}
+                            contentHeight={sidebarContentHeight}
+                        />
                     </Route>
                     <Route exact path="/multi-edit/:cat">
                         <MultiEdit category={displayCategory} />
@@ -163,6 +230,10 @@ export const MapApp: React.FC<MapAppProps> = props => {
                                     onUserVerifiedUpdate={handleUserVerifiedUpdate}
                                     mapColourScale={mapColourScale}
                                     onMapColourScale={setMapColourScale}
+
+                                    collapsed={collapsed}
+                                    onResize={handleMoveHeader}
+                                    contentHeight={sidebarContentHeight}
                                 />
                             </Route>
                         </Switch>
@@ -180,6 +251,7 @@ export const MapApp: React.FC<MapAppProps> = props => {
                 mapColourScale={mapColourScale}
                 onMapColourScale={setMapColourScale}
                 categoryMapDefinitions={categoryMapDefinitions}
+                building={building}
             />
         </>
     );

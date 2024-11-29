@@ -60,7 +60,7 @@ function ShowIfAvailable(data) {
 }
 
 const LinkIfAvailable = (link) => {
-  return <>{link ? <a href={link.toString()} target="_blank">{link.toString()}</a> : MissingData }</>
+  return <>{link ? <a href={link.toString() || '#'} target="_blank" rel="noopener noreferrer">{link.toString()}</a> : MissingData }</>
 }
 
 const StatusInfo = ({status, statusBeforeAliasing}) => {
@@ -96,7 +96,7 @@ const PlanningDataOfficialDataEntry: React.FC<PlanningDataOfficialDataEntryProps
           <Disclaimer />
         </div>
         {data.map((item) => (
-        <Fragment>
+        <Fragment key={`building-${item.building_id}`}>
         <InfoBox type='success'>
             <Fragment>
                 <div><b>Planning application status for this site:</b> <StatusInfo

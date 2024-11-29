@@ -199,7 +199,7 @@ const InternalNavLink: React.FC<{to: string; onClick: () => void}> = ({ to, onCl
 );
 
 const ExternalNavLink: React.FC<{to: string}> = ({ to, children }) => (
-    <a className="nav-link" href={to}>
+    <a className="nav-link" href={to || '#'}>
         {children}
     </a>
 );
@@ -227,7 +227,6 @@ export const Header: React.FC<{
             </NavLink>
             <button className="navbar-toggler" type="button"
                 onClick={toggleCollapse} aria-expanded={!collapseMenu} aria-label="Toggle navigation">
-                Menü&nbsp;
                 {
                     collapseMenu ?
                         <span className="navbar-toggler-icon"></span>

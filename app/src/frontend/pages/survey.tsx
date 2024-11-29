@@ -36,7 +36,7 @@ const SurveyPage = () => {
                 /* setUser(user); */
                 console.log(user[0].value);
                 /* convert API JSON response into boolean */
-                var bool_value = user[0].value == "true" ? true : false;
+                const bool_value = user[0].value == "true" ? true : false;
                 
                 /* console.log(bool_value); */
                 /* console.log(typeof(bool_value)); */

@@ -85,7 +85,7 @@ export const App: React.FC<AppProps> = props => {
                     <Route exact path="/contact.html" component={ContactPage} />
                     <Route exact path="/code-of-conduct.html" component={CodeOfConductPage} />
                     <Route exact path="/leaderboard.html" component={LeaderboardPage} />
-                    <Route exact path="/survey.html" component={SurveyPage} />
+                    {/* <Route exact path="/survey.html" component={SurveyPage} /> */}
                     <Route exact path="/declaration-on-accessibility.html" component={DeclarationOfAccessibilityPage} />
                     <Route exact path="/history.html" component={ChangesPage} />
                     <Route exact path={mapAppPaths} >

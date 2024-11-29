@@ -47,7 +47,7 @@ const SustainabilityView: React.FunctionComponent<CategoryViewProps> = (props) =
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("sust_breeam_rating")}
                 user_verified_as={props.user_verified.sust_breeam_rating}
-                verified_count={props.building.verified.sust_breeam_rating}
+                verified_count={props.building.verified?.sust_breeam_rating}
                 />
 
             <SelectDataEntry
@@ -66,7 +66,7 @@ const SustainabilityView: React.FunctionComponent<CategoryViewProps> = (props) =
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("sust_dec")}
                 user_verified_as={props.user_verified.sust_dec}
-                verified_count={props.building.verified.sust_dec}
+                verified_count={props.building.verified?.sust_dec}
                 />
 
             <SelectDataEntry
@@ -99,7 +99,7 @@ const SustainabilityView: React.FunctionComponent<CategoryViewProps> = (props) =
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("sust_retrofit_date")}
                 user_verified_as={props.user_verified.sust_retrofit_date}
-                verified_count={props.building.verified.sust_retrofit_date}
+                verified_count={props.building.verified?.sust_retrofit_date}
                 />
             <InfoBox>
             Dieser Abschnitt ist noch in der Entwicklung.
@@ -116,7 +116,7 @@ const SustainabilityView: React.FunctionComponent<CategoryViewProps> = (props) =
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("date_link")}
                 user_verified_as={props.user_verified.date_link}
-                verified_count={props.building.verified.date_link}
+                verified_count={props.building.verified?.date_link}
                 />
             <DataEntry
                 title="Source"

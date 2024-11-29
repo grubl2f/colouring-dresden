@@ -1,19 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import InfoBox from '../../components/info-box';
+import { dataFields } from '../../config/data-fields-config';
+import SelectDataEntry from '../data-components/select-data-entry';
+import NumericDataEntry from '../data-components/numeric-data-entry';
+import Verification from '../data-components/verification';
+import { MultiDataEntry } from '../data-components/multi-data-entry/multi-data-entry';
+import { LogicalDataEntry, LogicalDataEntryYesOnly } from '../data-components/logical-data-entry/logical-data-entry';
+import { DataEntryGroup } from '../data-components/data-entry-group';
 
-import { CCConfig } from '../../cc-config';
-import rawConfig from '../../cc-config.json';
+import withCopyEdit from '../data-container';
+
+import { CategoryViewProps } from './category-view-props';
+
+import { CCConfig } from '../../../cc-config';
+import rawConfig from '../../../cc-config.json';
 const config: CCConfig = rawConfig as CCConfig;
 
 import './welcome.css';
 
+import { Link } from 'react-router-dom';
 
-const Welcome = () => (
-    <>
-    <header className="section-header welcome background-welcome">
-        <h1 className="h2">Willkommen bei Colouring {config.cityName}!</h1>
-    </header>
-    <div className="section-body welcome">
+/**
+* Welcome view/edit section
+*/
+const WelcomeView: React.FunctionComponent<CategoryViewProps> = (props) => {
+    const building = props.building;
+    // const currentYear = new Date().getFullYear();
+    // const currentBuildingConstructionYear = building.date_year || undefined;
+      return (
+       <form>
         <p>
             Wie alt sind die Gebäude Dresdens? Aus welchen Materialien wurden sie überwiegend erbaut? Und wie gut sind sie baulich vorbereitet, um mit extremen Ereignissen wie Starkregen, Hochwasser oder Hitze umgehen zu können?
         </p>
@@ -63,38 +78,39 @@ const Welcome = () => (
         </Link>
         <div className="image-row">
             <a href="https://ioer.de/" target="_blank">
-                <img className="cl-logo" src="images/logo-ioer-de.svg" alt="Leibniz-Institut für ökologische Raumentwicklung (IÖR) e.V."></img>
+                <img className="cl-logo" src="/images/logo-ioer-de.svg" alt="Leibniz-Institut für ökologische Raumentwicklung (IÖR) e.V."></img>
             </a>
             <a href="https://pages.colouring.london/colouring-cities" target="_blank">
-                <img className="cl-logo" src="images/logo-cc.jpg" alt="Colouring Cities Research Programme"></img>
+                <img className="cl-logo" src="/images/logo-cc.jpg" alt="Colouring Cities Research Programme"></img>
             </a>
             
         </div>
         <div className="image-row">
             <a href="https://www.citizenscience-wettbewerb.de/" target="_blank">
-                <img className="cl-logo" src="images/AdP Banner Wortmarke 560x300 300dpi (3) (1).png" alt="Auf die Plätze! Citizen Science in deiner Stadt."></img>
+                <img className="cl-logo" src="/images/AdP Banner Wortmarke 560x300 300dpi (3) (1).png" alt="Auf die Plätze! Citizen Science in deiner Stadt."></img>
             </a>
             <a href="https://www.wissenschaft-im-dialog.de/" target="_blank">
-                <img className="wid-logo" src="images/01_LOGO_WID-rgb.png" alt="Wissenschaft im Dialog"></img>
+                <img className="wid-logo" src="/images/01_LOGO_WID-rgb.png" alt="Wissenschaft im Dialog"></img>
             </a>
             <a href="https://www.museumfuernaturkunde.berlin/de" target="_blank">
-                <img className="cl-logo" src="images/02_mfn_logo_STANDARD_auf_weiss-kl.png" alt="Museum für Naturkunde Berlin/ Leibniz-Institut für Evolutions- und Biodiversitätsforschung"></img>
+                <img className="cl-logo" src="/images/02_mfn_logo_STANDARD_auf_weiss-kl.png" alt="Museum für Naturkunde Berlin/ Leibniz-Institut für Evolutions- und Biodiversitätsforschung"></img>
             </a>
 
         </div>
         <div className="image-row">
             <a href="https://www.buergerschaffenwissen.de/" target="_blank">
-                <img className="cl-logo" src="images/BsW_Logo-m-Claim-WEB-kl.png" alt="Bürger schaffen Wissen"></img>
+                <img className="cl-logo" src="/images/BsW_Logo-m-Claim-WEB-kl.png" alt="Bürger schaffen Wissen"></img>
             </a>
             <a href="https://www.bmbf.de/" target="_blank">
-                <img className="cl-logo" src="images/BMBF_gefoerdert_vom_deutsch_CMYK.png" alt="Bundesministerium für Bildung und Forschung"></img>
+                <img className="cl-logo" src="/images/BMBF_gefoerdert_vom_deutsch_CMYK.png" alt="Bundesministerium für Bildung und Forschung"></img>
             </a>
             <a href="https://www.bmbf.de/bmbf/de/ueber-uns/wissenschaftskommunikation-und-buergerbeteiligung/buergerbeteiligung/citizen-science/buergerforschung.html" target="_blank">
-                <img className="cl-logo" src="images/BForschung_Logo_web-kl.png" alt="Bürgerforschung Wissenschaft für alle"></img>
+                <img className="cl-logo" src="/images/BForschung_Logo_web-kl.png" alt="Bürgerforschung Wissenschaft für alle"></img>
             </a>
         </div>
-    </div>
-    </>
-);
+     </form>
+    );
+};
+const WelcomeContainer = withCopyEdit(WelcomeView);
 
-export default Welcome;
+export default WelcomeContainer;

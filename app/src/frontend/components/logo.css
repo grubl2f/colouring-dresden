@@ -13,7 +13,7 @@
 }
 .logo .logotype {
     font-size: 2rem;
-    margin: 0 0 -1px 3px;
+    margin: auto;
     display: inline-block;
     vertical-align: bottom;
 }
@@ -175,3 +175,21 @@
         background-color: #9c896d;
     }
 }
+
+
+
+@media(max-width:333px) {
+  .logo .logotype {
+    font-size: 1.25rem;
+    /* padding-bottom: 0.25rem; */
+  }
+  .logo .cell {
+    width: 9px;
+    height: 9px;
+    margin: 0 2px 0 0;
+  }
+  .logo .row {
+    margin: 0 0 2px 0;
+  }
+}
+    

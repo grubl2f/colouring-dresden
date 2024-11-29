@@ -251,6 +251,9 @@ services:
         echo check db process pid file;
         until [ -f \"$$PGDATA/postmaster.pid\" ]; do echo -n .; sleep 0.1; done;
         
+        echo WORKAROUND TODO sleep 15;
+        sleep 15;
+        
         echo db process has pid file, final stop db;
         kill -INT \"$$(sed -n '1p' \"$$PGDATA/postmaster.pid\")\";
         

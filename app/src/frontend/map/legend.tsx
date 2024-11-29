@@ -11,22 +11,40 @@ interface LegendProps {
     mapColourScaleDefinitions: CategoryMapDefinition[];
     mapColourScale: BuildingMapTileset;
     onMapColourScale: (x: BuildingMapTileset) => void;
+
+    // collapseList: boolean;
+    // setCollapseList: (x: boolean) => void;
+
+    collapseLegendList?: boolean;
+    showLegendCollapse?: boolean;
 }
 
 export const Legend : FC<LegendProps> = ({
     mapColourScaleDefinitions,
     mapColourScale,
-    onMapColourScale
+    onMapColourScale,
+
+    // collapseList,
+    // setCollapseList,
+
+    collapseLegendList,
+    showLegendCollapse,
 }) => {
-    const [collapseList, setCollapseList] = useState(false);
+    // const [collapseList, setCollapseList] = useState(false);
+    const [collapseList, setCollapseList] = useState(collapseLegendList || false);
 
     const handleToggle = useCallback(() => {
         setCollapseList(!collapseList);
     }, [collapseList]);
 
     const onResize = useCallback(({target}) => {
-        setCollapseList((target.outerHeight < 670 || target.outerWidth < 768))
-    }, []);
+        // setCollapseList((target.outerHeight < 670 || target.outerWidth < 768) && (!showLegendCollapse || collapseLegendList))
+        // setCollapseList((target.outerHeight < 670 || target.outerWidth < 768) && (!showLegendCollapse || collapseLegendList))
+        // setCollapseList((target.outerHeight < 670 || target.outerWidth < 768 || !showLegendCollapse) && collapseLegendList)
+        setCollapseList((target.outerHeight < 670 || target.outerWidth < 768 || !showLegendCollapse) && collapseList)
+    }, [showLegendCollapse, collapseList]);
+    // }, [showLegendCollapse, collapseLegendList]);
+    // }, []);
 
     useEffect(() => {
         window.addEventListener('resize', onResize);
@@ -67,7 +85,7 @@ export const Legend : FC<LegendProps> = ({
                     title && <h4 className="h4">{title}</h4>
             }
             {
-                elements.length > 0 &&
+                elements.length > 0 && showLegendCollapse &&
                     <button className="expander-button btn btn-outline-secondary btn-sm" type="button" onClick={handleToggle} >
                         {
                             collapseList ?
@@ -77,7 +95,7 @@ export const Legend : FC<LegendProps> = ({
                     </button>
             }
             {
-                description && <p>{description}</p>
+                description && !collapseList && <p>{description}</p>
             }
             {
                 elements.length === 0 ?

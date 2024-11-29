@@ -204,7 +204,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_glher_url")}
                 user_verified_as={props.user_verified.planning_glher_url}
-                verified_count={props.building.verified.planning_glher_url}
+                verified_count={props.building.verified?.planning_glher_url}
                 />
             */}
 {/*         </DataEntryGroup>
@@ -245,7 +245,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_list_id")}
                 user_verified_as={props.user_verified.planning_list_id}
-                verified_count={props.building.verified.planning_list_id}
+                verified_count={props.building.verified?.planning_list_id}
                 />
             <SelectDataEntry
                 title={dataFields.planning_list_grade.title}
@@ -268,7 +268,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_list_grade")}
                 user_verified_as={props.user_verified.planning_list_grade}
-                verified_count={props.building.verified.planning_list_grade}
+                verified_count={props.building.verified?.planning_list_grade}
                 />
             <DataEntry
                 title={dataFields.planning_heritage_at_risk_url.title}
@@ -286,7 +286,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_heritage_at_risk_url")}
                 user_verified_as={props.user_verified.planning_heritage_at_risk_url}
-                verified_count={props.building.verified.planning_heritage_at_risk_url}
+                verified_count={props.building.verified?.planning_heritage_at_risk_url}
                 />
             <NumericDataEntryWithFormattedLink
                 title={dataFields.planning_world_list_id.title}
@@ -305,7 +305,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_world_list_id")}
                 user_verified_as={props.user_verified.planning_world_list_id}
-                verified_count={props.building.verified.planning_world_list_id}
+                verified_count={props.building.verified?.planning_world_list_id}
                 />
             <DataEntry
                 title={dataFields.planning_local_list_url.title}
@@ -323,7 +323,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_local_list_url")}
                 user_verified_as={props.user_verified.planning_local_list_url}
-                verified_count={props.building.verified.planning_local_list_url}
+                verified_count={props.building.verified?.planning_local_list_url}
                 /> */}
 
             {/*
@@ -342,7 +342,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_in_conservation_area_id")}
                 user_verified_as={props.user_verified.planning_in_conservation_area_id}
-                verified_count={props.building.verified.planning_in_conservation_area_id}
+                verified_count={props.building.verified?.planning_in_conservation_area_id}
                 />
             */}
 {/*             <DataEntry
@@ -363,7 +363,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_in_conservation_area_url")}
                 user_verified_as={props.user_verified.planning_in_conservation_area_url}
-                verified_count={props.building.verified.planning_in_conservation_area_url}
+                verified_count={props.building.verified?.planning_in_conservation_area_url}
                 /> */}
             {/*
             <DataEntry
@@ -380,7 +380,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_conservation_area_name")}
                 user_verified_as={props.user_verified.planning_conservation_area_name}
-                verified_count={props.building.verified.planning_conservation_area_name}
+                verified_count={props.building.verified?.planning_conservation_area_name}
                 />
             */}
 {/*             <DataEntry
@@ -399,7 +399,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_historic_area_assessment_url")}
                 user_verified_as={props.user_verified.planning_historic_area_assessment_url}
-                verified_count={props.building.verified.planning_historic_area_assessment_url}
+                verified_count={props.building.verified?.planning_historic_area_assessment_url}
                 />
             <DataEntry
                 title={dataFields.planning_in_apa_url.title}
@@ -417,7 +417,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("planning_in_apa_url")}
                 user_verified_as={props.user_verified.planning_in_apa_url}
-                verified_count={props.building.verified.planning_in_apa_url}
+                verified_count={props.building.verified?.planning_in_apa_url}
                 />
         </DataEntryGroup>
         <DataEntryGroup name="Forthcoming data (sections to be activated)" collapsed={true} >        
@@ -453,7 +453,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("planning_crowdsourced_site_completion_year")}
                     user_verified_as={props.user_verified.planning_crowdsourced_site_completion_year}
-                    verified_count={props.building.verified.planning_crowdsourced_site_completion_year}
+                    verified_count={props.building.verified?.planning_crowdsourced_site_completion_year}
                     />
 
                 <DataEntry
@@ -471,7 +471,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                     onVerify={props.onVerify}
                     user_verified={props.user_verified.hasOwnProperty("planning_crowdsourced_planning_id")}
                     user_verified_as={props.user_verified.planning_crowdsourced_planning_id}
-                    verified_count={props.building.verified.planning_crowdsourced_planning_id}
+                    verified_count={props.building.verified?.planning_crowdsourced_planning_id}
                     />
 
                 <LogicalDataEntry
@@ -530,7 +530,7 @@ const PlanningView: React.FunctionComponent<CategoryViewProps> = (props) => {
                         onVerify={props.onVerify}
                         user_verified={props.user_verified.hasOwnProperty("community_public_ownership")}
                         user_verified_as={props.user_verified.community_public_ownership}
-                        verified_count={props.building.verified.community_public_ownership}
+                        verified_count={props.building.verified?.community_public_ownership}
                     />
                     */
                     }

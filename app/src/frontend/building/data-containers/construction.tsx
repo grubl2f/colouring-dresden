@@ -61,7 +61,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("construction_system_type")}
                 user_verified_as={props.user_verified.construction_system_type}
-                verified_count={props.building.verified.construction_system_type}
+                verified_count={props.building.verified?.construction_system_type}
             />
 
             <DataEntry
@@ -80,7 +80,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("construction_system_type_source")}
                 user_verified_as={props.user_verified.construction_system_type_source}
-                verified_count={props.building.verified.construction_system_type_source}
+                verified_count={props.building.verified?.construction_system_type_source}
             />
 
 
@@ -105,7 +105,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("construction_core_material")}
                 user_verified_as={props.user_verified.construction_core_material}
-                verified_count={props.building.verified.construction_core_material}
+                verified_count={props.building.verified?.construction_core_material}
                 />
             <SelectDataEntry
                 title={dataFields.construction_secondary_materials.title}
@@ -134,7 +134,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("construction_roof_covering")}
                 user_verified_as={props.user_verified.construction_roof_covering}
-                verified_count={props.building.verified.construction_roof_covering}
+                verified_count={props.building.verified?.construction_roof_covering}
                 />
 {/*             <DataEntry
                 title="Construction system type"
@@ -164,7 +164,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("building_status")}
                 user_verified_as={props.user_verified.building_status}
-                verified_count={props.building.verified.building_status}
+                verified_count={props.building.verified?.building_status}
             />
 
             <DataEntry
@@ -183,7 +183,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("building_status_source")}
                 user_verified_as={props.user_verified.building_status_source}
-                verified_count={props.building.verified.building_status_source}
+                verified_count={props.building.verified?.building_status_source}
             />
 
 
@@ -210,7 +210,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("last_renovation")}
                 user_verified_as={props.user_verified.last_renovation}
-                verified_count={props.building.verified.last_renovation}
+                verified_count={props.building.verified?.last_renovation}
             />   
 
             <DataEntry
@@ -229,7 +229,7 @@ const ConstructionView: React.FunctionComponent<CategoryViewProps> = (props) => 
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("last_renovation_source")}
                 user_verified_as={props.user_verified.last_renovation_source}
-                verified_count={props.building.verified.last_renovation_source}
+                verified_count={props.building.verified?.last_renovation_source}
             />
 
 

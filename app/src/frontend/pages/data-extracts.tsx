@@ -81,7 +81,7 @@ export default class DataExtracts extends React.Component<{}, DataExtractsState>
                                 <ul>
                                 {
                                     this.state.previousExtracts.map(e =>
-                                        <li>
+                                        <li key='previous_extracts'>
                                             <ExtractDownloadLink {...e} />
                                         </li>
                                     )

@@ -15,7 +15,6 @@
     .main-header {
         width: 470px;
     }
-
     .nav-header {
         border-right: 1px solid #000;
     }
@@ -37,6 +36,10 @@
 }
 .navbar .navbar-toggler {
     padding: .5rem .75rem .5rem .75rem;
+    width: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .navbar .navbar-toggler-icon {
     width: 1em;
@@ -80,4 +83,24 @@
     font-size: 70%;
     font-weight: bold;
     color: #777;
+}
+
+@media(max-width:734px) {
+    .main-header {
+        /* position: relative; */
+        position: unset;
+        order: 1;
+    }
+}
+
+@media(max-width:333px){
+    .main-header {
+        height: 49px;
+    }
+    .nav-header {
+        padding: 0.5rem;
+    }
+    .navbar .navbar-toggler {
+        padding: .25rem .25rem .25rem .25rem;
+    }
 }

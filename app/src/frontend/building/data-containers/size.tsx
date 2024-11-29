@@ -33,7 +33,7 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_storeys_core")}
                 user_verified_as={props.user_verified.size_storeys_core}
-                verified_count={props.building.verified.size_storeys_core}
+                verified_count={props.building.verified?.size_storeys_core}
                 />
 
             <NumericDataEntry
@@ -53,7 +53,7 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_storeys_attic")}
                 user_verified_as={props.user_verified.size_storeys_attic}
-                verified_count={props.building.verified.size_storeys_attic}
+                verified_count={props.building.verified?.size_storeys_attic}
                 />
 
             <NumericDataEntry
@@ -73,7 +73,7 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_storeys_basement")}
                 user_verified_as={props.user_verified.size_storeys_basement}
-                verified_count={props.building.verified.size_storeys_basement}
+                verified_count={props.building.verified?.size_storeys_basement}
                 />
 
         </DataEntryGroup>
@@ -94,7 +94,7 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_height_apex")}
                 user_verified_as={props.user_verified.size_height_apex}
-                verified_count={props.building.verified.size_height_apex}
+                verified_count={props.building.verified?.size_height_apex}
                 />
 
             <NumericDataEntry
@@ -126,7 +126,7 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_floor_area_ground")}
                 user_verified_as={props.user_verified.size_floor_area_ground}
-                verified_count={props.building.verified.size_floor_area_ground}
+                verified_count={props.building.verified?.size_floor_area_ground}
                 />
 
             <NumericDataEntry
@@ -146,7 +146,7 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
                 onVerify={props.onVerify}
                 user_verified={props.user_verified.hasOwnProperty("size_floor_area_total")}
                 user_verified_as={props.user_verified.size_floor_area_total}
-                verified_count={props.building.verified.size_floor_area_total}
+                verified_count={props.building.verified?.size_floor_area_total}
                 />
 
         </DataEntryGroup>
@@ -166,7 +166,7 @@ const SizeView: React.FunctionComponent<CategoryViewProps> = (props) => (
             onVerify={props.onVerify}
             user_verified={props.user_verified.hasOwnProperty("size_width_frontage")}
             user_verified_as={props.user_verified.size_width_frontage}
-            verified_count={props.building.verified.size_width_frontage}
+            verified_count={props.building.verified?.size_width_frontage}
             />
 
 {/*         <DataEntry

@@ -11,8 +11,8 @@ interface CategoryEditSummaryProps {
     category: keyof typeof Category; // https://github.com/microsoft/TypeScript/issues/14106
     fields: {
         title: string;
-        value: any;
-        oldValue: any;
+        value: unknown;
+        oldValue: unknown;
     }[];
     hyperlinkCategory: boolean;
     hyperlinkTemplate?: string;
